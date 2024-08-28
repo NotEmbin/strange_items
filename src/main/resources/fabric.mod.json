@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "strangeitems",
+	"version": "1.0.0",
+	"name": "Strange Items",
+	"description": "Adds Strangified items to Minecraft, like from Team Fortress 2.",
+	"authors": [
+		"Embin"
+	],
+	"contact": {
+		"sources": "https://github.com/NotEmbin/strange_items"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/strangeitems/icon.png",
+	"accessWidener": "strangeitems.aw",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"embin.strangeitems.StrangeItems"
+		],
+		"client": [
+			"embin.strangeitems.StrangeItemsClient"
+		]
+	},
+	"mixins": [
+		"strangeitems.mixins.json",
+		{
+			"config": "strangeitems.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": ">=1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
