@@ -6,6 +6,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.text.Text;
+import net.minecraft.util.Rarity;
 
 import java.util.List;
 
@@ -28,5 +29,47 @@ public class ComponentTracker {
                 stack.set(component, ++count);
             }
         }
+    }
+
+    public static ItemStack applyDefaultTrackers(ItemStack stack) {
+        stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
+        stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
+        stack.set(StrangeItemsComponents.MOBS_HIT, 0);
+        stack.set(DataComponentTypes.RARITY, Rarity.RARE);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultAxeTrackers(ItemStack stack) {
+        applyDefaultTrackers(stack);
+        stack.set(StrangeItemsComponents.LOGS_STRIPPED, 0);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultShovelTrackers(ItemStack stack) {
+        applyDefaultTrackers(stack);
+        stack.set(StrangeItemsComponents.PATHS_CREATED, 0);
+        stack.set(StrangeItemsComponents.CAMPFIRES_PUT_OUT, 0);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultHoeTrackers(ItemStack stack) {
+        applyDefaultTrackers(stack);
+        stack.set(StrangeItemsComponents.FARMLAND_CREATED, 0);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultElytraTrackers(ItemStack stack) {
+        stack.set(StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA, 0);
+        stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
+        stack.set(DataComponentTypes.RARITY, Rarity.RARE);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultBowTrackers(ItemStack stack) {
+        stack.set(StrangeItemsComponents.SHOTS_FIRED, 0);
+        stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
+        stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
+        stack.set(DataComponentTypes.RARITY, Rarity.RARE);
+        return stack;
     }
 }

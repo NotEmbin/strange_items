@@ -123,7 +123,7 @@ public class ModItems {
             .fireproof()
             .rarity(common_rarity));
     }
-
+    /*
     public static final Item DIAMOND_PICKAXE = register("diamond_pickaxe", newStrangePickaxe("diamond"));
     public static final Item NETHERITE_PICKAXE = register("netherite_pickaxe", newStrangePickaxe("netherite"));
     public static final Item GOLDEN_PICKAXE = register("golden_pickaxe", newStrangePickaxe("golden"));
@@ -154,6 +154,7 @@ public class ModItems {
     public static final Item IRON_HOE = register("iron_hoe", newStrangeHoe("iron"));
     public static final Item STONE_HOE = register("stone_hoe", newStrangeHoe("stone"));
     public static final Item WOODEN_HOE = register("wooden_hoe", newStrangeHoe("wooden"));
+    */
 
     public static final Item STRANGE_UPGRADE_SMITHING_TEMPLATE = register("strange_upgrade_smithing_template", new SmithingTemplateItem(UPGRADE_APPLIES_TO, UPGRADE_INGREDIENTS, UPGRADE_TEXT, UPGRADE_BASE_SLOT_DESC, UPGRADE_ADD_SLOT_DESC, getStrangeUpgradeBaseSlotTexture(), getStrangeUpgradeAddSlotTexture()));
 

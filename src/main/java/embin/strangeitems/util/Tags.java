@@ -3,6 +3,7 @@ package embin.strangeitems.util;
 import net.minecraft.block.Block;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 

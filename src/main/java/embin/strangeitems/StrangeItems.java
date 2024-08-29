@@ -1,6 +1,7 @@
 package embin.strangeitems;
 
 import embin.strangeitems.items.ModItems;
+import embin.strangeitems.util.ComponentTracker;
 import embin.strangeitems.util.ConvertNamespace;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.*;
@@ -8,6 +9,7 @@ import net.fabricmc.fabric.api.event.*;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
@@ -19,6 +21,7 @@ import org.slf4j.LoggerFactory;
 public class StrangeItems implements ModInitializer {
 	public static final String MOD_ID = "strangeitems";
 	static ConvertNamespace cn = new ConvertNamespace();
+	static ComponentTracker ct = new ComponentTracker();
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -27,34 +30,42 @@ public class StrangeItems implements ModInitializer {
 
 	public final class StrangeItemGroup {
 		public static final ItemGroup STRANGE_ITEMS_GROUP = FabricItemGroup.builder()
-			.icon(() -> new ItemStack(ModItems.GOLDEN_PICKAXE))
+			.icon(() -> new ItemStack(Items.GOLDEN_PICKAXE))
 			.displayName(Text.translatable("itemGroup.strangeitems.strange_items_group"))
 			.entries((context, entries) -> {
 				entries.add(ModItems.STRANGE_UPGRADE_SMITHING_TEMPLATE);
-				entries.add(ModItems.WOODEN_PICKAXE);
-				entries.add(ModItems.WOODEN_AXE);
-				entries.add(ModItems.WOODEN_SHOVEL);
-				entries.add(ModItems.WOODEN_HOE);
-				entries.add(ModItems.STONE_PICKAXE);
-				entries.add(ModItems.STONE_AXE);
-				entries.add(ModItems.STONE_SHOVEL);
-				entries.add(ModItems.STONE_HOE);
-				entries.add(ModItems.IRON_PICKAXE);
-				entries.add(ModItems.IRON_AXE);
-				entries.add(ModItems.IRON_SHOVEL);
-				entries.add(ModItems.IRON_HOE);
-				entries.add(ModItems.GOLDEN_PICKAXE);
-				entries.add(ModItems.GOLDEN_AXE);
-				entries.add(ModItems.GOLDEN_SHOVEL);
-				entries.add(ModItems.GOLDEN_HOE);
-				entries.add(ModItems.DIAMOND_PICKAXE);
-				entries.add(ModItems.DIAMOND_AXE);
-				entries.add(ModItems.DIAMOND_SHOVEL);
-				entries.add(ModItems.DIAMOND_HOE);
-				entries.add(ModItems.NETHERITE_PICKAXE);
-				entries.add(ModItems.NETHERITE_AXE);
-				entries.add(ModItems.NETHERITE_SHOVEL);
-				entries.add(ModItems.NETHERITE_HOE);
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.WOODEN_SWORD)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.WOODEN_PICKAXE)));
+				entries.add(ComponentTracker.applyDefaultAxeTrackers(new ItemStack(Items.WOODEN_AXE)));
+				entries.add(ComponentTracker.applyDefaultShovelTrackers(new ItemStack(Items.WOODEN_SHOVEL)));
+				entries.add(ComponentTracker.applyDefaultHoeTrackers(new ItemStack(Items.WOODEN_HOE)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.STONE_SWORD)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.STONE_PICKAXE)));
+				entries.add(ComponentTracker.applyDefaultAxeTrackers(new ItemStack(Items.STONE_AXE)));
+				entries.add(ComponentTracker.applyDefaultShovelTrackers(new ItemStack(Items.STONE_SHOVEL)));
+				entries.add(ComponentTracker.applyDefaultHoeTrackers(new ItemStack(Items.STONE_HOE)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.IRON_SWORD)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.IRON_PICKAXE)));
+				entries.add(ComponentTracker.applyDefaultAxeTrackers(new ItemStack(Items.IRON_AXE)));
+				entries.add(ComponentTracker.applyDefaultShovelTrackers(new ItemStack(Items.IRON_SHOVEL)));
+				entries.add(ComponentTracker.applyDefaultHoeTrackers(new ItemStack(Items.IRON_HOE)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.GOLDEN_SWORD)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.GOLDEN_PICKAXE)));
+				entries.add(ComponentTracker.applyDefaultAxeTrackers(new ItemStack(Items.GOLDEN_AXE)));
+				entries.add(ComponentTracker.applyDefaultShovelTrackers(new ItemStack(Items.GOLDEN_SHOVEL)));
+				entries.add(ComponentTracker.applyDefaultHoeTrackers(new ItemStack(Items.GOLDEN_HOE)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.DIAMOND_SWORD)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.DIAMOND_PICKAXE)));
+				entries.add(ComponentTracker.applyDefaultAxeTrackers(new ItemStack(Items.DIAMOND_AXE)));
+				entries.add(ComponentTracker.applyDefaultShovelTrackers(new ItemStack(Items.DIAMOND_SHOVEL)));
+				entries.add(ComponentTracker.applyDefaultHoeTrackers(new ItemStack(Items.DIAMOND_HOE)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.NETHERITE_SWORD)));
+				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.NETHERITE_PICKAXE)));
+				entries.add(ComponentTracker.applyDefaultAxeTrackers(new ItemStack(Items.NETHERITE_AXE)));
+				entries.add(ComponentTracker.applyDefaultShovelTrackers(new ItemStack(Items.NETHERITE_SHOVEL)));
+				entries.add(ComponentTracker.applyDefaultHoeTrackers(new ItemStack(Items.NETHERITE_HOE)));
+				entries.add(ComponentTracker.applyDefaultElytraTrackers(new ItemStack(Items.ELYTRA)));
+				entries.add(ComponentTracker.applyDefaultBowTrackers(new ItemStack(Items.BOW)));
 			})
 			.build();
 

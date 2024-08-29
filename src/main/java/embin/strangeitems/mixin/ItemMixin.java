@@ -28,6 +28,8 @@ public class ItemMixin {
     @Inject(at = @At("HEAD"), method = "appendTooltip")
     public void appendTooltipMixin(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
         new ComponentTracker().appendTrackerTooltip(stack, tooltip, StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA, "Time Spent Flying: ");
+        new ComponentTracker().appendTrackerTooltip(stack, tooltip, StrangeItemsComponents.SHOTS_FIRED, "Shots Fired: ");
+        new ComponentTracker().appendTrackerTooltip(stack, tooltip, StrangeItemsComponents.SHOT_HIT, "Shots Hit: ");
         new ComponentTracker().appendTrackerTooltip(stack, tooltip, StrangeItemsComponents.BLOCKS_MINED, "Blocks Mined: ");
         new ComponentTracker().appendTrackerTooltip(stack, tooltip, StrangeItemsComponents.MOBS_HIT, "Mobs Hit: ");
         new ComponentTracker().appendTrackerTooltip(stack, tooltip, StrangeItemsComponents.FARMLAND_CREATED, "Dirt Tilled: ");
