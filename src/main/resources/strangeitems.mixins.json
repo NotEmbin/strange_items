@@ -1,11 +1,16 @@
 {
-	"required": true,
-	"package": "embin.strangeitems.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ExampleMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "embin.strangeitems.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AbstractArrowMixin",
+    "ExampleMixin",
+    "ItemMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "ShovelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

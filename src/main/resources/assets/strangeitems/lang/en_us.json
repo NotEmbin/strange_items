@@ -42,9 +42,10 @@
 	"item.strangeitems.wooden_sword":"Strange Wooden Sword",
 	
 	"item.strangeitems.smithing_template.strange_upgrade.applies_to":"Tools",
-	"item.strangeitems.smithing_template.strange_upgrade.ingredients":"None",
+	"item.strangeitems.smithing_template.strange_upgrade.ingredients":"Netherite Scrap",
 	"item.strangeitems.smithing_template.strange_upgrade.base_slot_description":"Add Tool",
-	"item.strangeitems.smithing_template.strange_upgrade.additions_slot_description":"Leave empty",
+	"item.strangeitems.smithing_template.strange_upgrade.additions_slot_description":"Add Netherite Scrap",
 	"upgrade.strangeitems.strange_upgrade":"Tool Strangifier Upgrade",
-	"item.strangeitems.strange_upgrade_smithing_template":"Smithing Template"
+	"item.strangeitems.strange_upgrade_smithing_template":"Smithing Template",
+	"itemGroup.strangeitems.strange_items_group": "Strange Items"
 }

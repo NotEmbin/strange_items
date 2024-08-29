@@ -50,6 +50,24 @@ public class StrangeItemsComponents {
         ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
 
+    public static final ComponentType<Integer> TIMES_DROPPED = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("times_dropped"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
+    public static final ComponentType<Integer> TIME_FLOWN_WITH_ELYTRA = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("time_flown_with_elytra"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
+    public static final ComponentType<Integer> SHOT_HIT = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("shot_hit"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
     protected static void init() {
         StrangeItems.LOGGER.info("Loading components for Strange Items");
     }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "strangeitems:strange_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "minecraft:netherite_hoe"
+  },
+  "addition": {
+    "item":"minecraft:netherite_scrap"  
+  },
+  "result": {
+    "count": 1,
+    "id": "strangeitems:netherite_hoe"
+  }
+}
