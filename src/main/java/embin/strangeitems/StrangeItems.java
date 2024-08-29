@@ -5,6 +5,7 @@ import embin.strangeitems.util.ConvertNamespace;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.*;
 
+import net.minecraft.util.Rarity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +26,6 @@ public class StrangeItems implements ModInitializer {
 
 		StrangeItemsComponents.init();
 		ModItems.init();
-
-
 
 		LOGGER.info("Hello Fabric world!");
 	}

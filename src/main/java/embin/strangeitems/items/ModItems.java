@@ -3,18 +3,24 @@ package embin.strangeitems.items;
 import embin.strangeitems.StrangeItems;
 import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.util.ConvertNamespace;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import java.util.List;
 
 public class ModItems {
     private ModItems() {}
     static ConvertNamespace cn = new ConvertNamespace();
     static Rarity common_rarity = Rarity.RARE;
+    static Text UPGRADE_APPLIES_TO = Text.translatable("item.strangeitems.smithing_template.strange_upgrade.applies_to").formatted(Formatting.BLUE);
+    static Text UPGRADE_INGREDIENTS = Text.translatable("item.strangeitems.smithing_template.strange_upgrade.ingredients").formatted(Formatting.BLUE);
+    static Text UPGRADE_BASE_SLOT_DESC = Text.translatable("item.strangeitems.smithing_template.strange_upgrade.base_slot_description");
+    static Text UPGRADE_ADD_SLOT_DESC = Text.translatable("item.strangeitems.smithing_template.strange_upgrade.additions_slot_description");
+    static Text UPGRADE_TEXT = Text.translatable("upgrade.strangeitems.strange_upgrade").formatted(Formatting.GRAY);
 
     // .attributeModifiers(Items.DIAMOND_PICKAXE.getAttributeModifiers())
 
@@ -28,6 +34,14 @@ public class ModItems {
             case "netherite" -> ToolMaterials.NETHERITE;
             default -> ToolMaterials.DIAMOND;
         };
+    }
+
+    public static List<Identifier> getStrangeUpgradeBaseSlotTexture() {
+        return List.of();
+    }
+
+    public static List<Identifier> getStrangeUpgradeAddSlotTexture() {
+        return List.of();
     }
 
     public static net.minecraft.component.type.AttributeModifiersComponent pickaxeAttributes(String material) {
@@ -140,6 +154,8 @@ public class ModItems {
     public static final Item IRON_HOE = register("iron_hoe", newStrangeHoe("iron"));
     public static final Item STONE_HOE = register("stone_hoe", newStrangeHoe("stone"));
     public static final Item WOODEN_HOE = register("wooden_hoe", newStrangeHoe("wooden"));
+
+    public static final Item STRANGE_UPGRADE_SMITHING_TEMPLATE = register("strange_upgrade_smithing_template", new SmithingTemplateItem(UPGRADE_APPLIES_TO, UPGRADE_INGREDIENTS, UPGRADE_TEXT, UPGRADE_BASE_SLOT_DESC, UPGRADE_ADD_SLOT_DESC, getStrangeUpgradeBaseSlotTexture(), getStrangeUpgradeAddSlotTexture()));
 
 
     public static <T extends Item> T register(String path, T item) {
