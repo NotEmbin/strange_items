@@ -24,11 +24,11 @@ public class StrangeAxe extends AxeItem {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (stack.contains(StrangeItemsComponents.BLOCKS_MINED)) {
             int count = stack.getOrDefault(StrangeItemsComponents.BLOCKS_MINED, 0);
-            tooltip.add(Text.translatable("component.strangeitems.blocks_mined.info", count).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable("component.strangeitems.blocks_mined.info", count).withColor(13593138));
         }
         if (stack.contains(StrangeItemsComponents.LOGS_STRIPPED)) {
             int count = stack.getOrDefault(StrangeItemsComponents.LOGS_STRIPPED, 0);
-            tooltip.add(Text.translatable("component.strangeitems.logs_stripped.info", count).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable("component.strangeitems.logs_stripped.info", count).withColor(13593138));
         }
     }
 

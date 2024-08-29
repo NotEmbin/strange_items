@@ -28,15 +28,15 @@ public class StrangeShovel extends ShovelItem {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (stack.contains(StrangeItemsComponents.BLOCKS_MINED)) {
             int count = stack.getOrDefault(StrangeItemsComponents.BLOCKS_MINED, 0);
-            tooltip.add(Text.translatable("component.strangeitems.blocks_mined.info", count).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable("component.strangeitems.blocks_mined.info", count).withColor(13593138));
         }
         if (stack.contains(StrangeItemsComponents.PATHS_CREATED)) {
             int count = stack.getOrDefault(StrangeItemsComponents.PATHS_CREATED, 0);
-            tooltip.add(Text.translatable("component.strangeitems.paths_created.info", count).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable("component.strangeitems.paths_created.info", count).withColor(13593138));
         }
         if (stack.contains(StrangeItemsComponents.CAMPFIRES_PUT_OUT)) {
             int count = stack.getOrDefault(StrangeItemsComponents.CAMPFIRES_PUT_OUT, 0);
-            tooltip.add(Text.translatable("component.strangeitems.campfires_put_out.info", count).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable("component.strangeitems.campfires_put_out.info", count).withColor(13593138));
         }
     }
 

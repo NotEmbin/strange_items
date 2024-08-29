@@ -27,11 +27,11 @@ public class StrangeHoe extends HoeItem {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (stack.contains(StrangeItemsComponents.BLOCKS_MINED)) {
             int count = stack.getOrDefault(StrangeItemsComponents.BLOCKS_MINED, 0);
-            tooltip.add(Text.translatable("component.strangeitems.blocks_mined.info", count).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable("component.strangeitems.blocks_mined.info", count).withColor(13593138));
         }
         if (stack.contains(StrangeItemsComponents.FARMLAND_CREATED)) {
             int count = stack.getOrDefault(StrangeItemsComponents.FARMLAND_CREATED, 0);
-            tooltip.add(Text.translatable("component.strangeitems.farmland_created.info", count).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable("component.strangeitems.farmland_created.info", count).withColor(13593138));
         }
     }
 
