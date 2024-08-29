@@ -3,7 +3,7 @@
 	"id": "strangeitems",
 	"version": "1.0.0",
 	"name": "Strange Items",
-	"description": "Adds Strangified items to Minecraft, like from Team Fortress 2.",
+	"description": "Adds new Strange tools, which track certain stats. Inspired by Team Fortress 2.",
 	"authors": [
 		"Embin"
 	],

@@ -15,7 +15,6 @@ public class ModItems {
     private ModItems() {}
     static ConvertNamespace cn = new ConvertNamespace();
     static Rarity common_rarity = Rarity.RARE;
-    static Text test = Text.translatable("block.minecraft.campfire");
 
     // .attributeModifiers(Items.DIAMOND_PICKAXE.getAttributeModifiers())
 
@@ -71,10 +70,15 @@ public class ModItems {
         return HoeItem.createAttributeModifiers(convertMaterial(material), -3.0F, 0.0F); // diamond
     }
 
+    public static net.minecraft.component.type.AttributeModifiersComponent swordAttributes(String material) {
+        return SwordItem.createAttributeModifiers(convertMaterial(material), 3, -2.4F);
+    }
+
     public static StrangePickaxe newStrangePickaxe(String material) {
         return new StrangePickaxe(convertMaterial(material), new Item.Settings()
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)
             .attributeModifiers(pickaxeAttributes(material))
+            .fireproof()
             .rarity(common_rarity));
     }
 
@@ -83,6 +87,7 @@ public class ModItems {
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)
             .component(StrangeItemsComponents.LOGS_STRIPPED, 0)
             .attributeModifiers(axeAttributes(material))
+            .fireproof()
             .rarity(common_rarity));
     }
 
@@ -92,6 +97,7 @@ public class ModItems {
             .component(StrangeItemsComponents.PATHS_CREATED, 0)
             .component(StrangeItemsComponents.CAMPFIRES_PUT_OUT, 0)
             .attributeModifiers(shovelAttributes(material))
+            .fireproof()
             .rarity(common_rarity));
     }
 
@@ -100,6 +106,7 @@ public class ModItems {
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)
             .component(StrangeItemsComponents.FARMLAND_CREATED, 0)
             .attributeModifiers(hoeAttributes(material))
+            .fireproof()
             .rarity(common_rarity));
     }
 
@@ -110,6 +117,7 @@ public class ModItems {
     public static final Item STONE_PICKAXE = register("stone_pickaxe", newStrangePickaxe("stone"));
     public static final Item WOODEN_PICKAXE = register("wooden_pickaxe", newStrangePickaxe("wooden"));
 
+
     public static final Item NETHERITE_AXE = register("netherite_axe", newStrangeAxe("netherite"));
     public static final Item DIAMOND_AXE = register("diamond_axe", newStrangeAxe("diamond"));
     public static final Item GOLDEN_AXE = register("golden_axe", newStrangeAxe("golden"));
@@ -117,12 +125,14 @@ public class ModItems {
     public static final Item STONE_AXE = register("stone_axe", newStrangeAxe("stone"));
     public static final Item WOODEN_AXE = register("wooden_axe", newStrangeAxe("wooden"));
 
+
     public static final Item NETHERITE_SHOVEL = register("netherite_shovel", newStrangeShovel("netherite"));
     public static final Item DIAMOND_SHOVEL = register("diamond_shovel", newStrangeShovel("diamond"));
     public static final Item GOLDEN_SHOVEL = register("golden_shovel", newStrangeShovel("golden"));
     public static final Item IRON_SHOVEL = register("iron_shovel", newStrangeShovel("iron"));
     public static final Item STONE_SHOVEL = register("stone_shovel", newStrangeShovel("stone"));
     public static final Item WOODEN_SHOVEL = register("wooden_shovel", newStrangeShovel("wooden"));
+
 
     public static final Item NETHERITE_HOE = register("netherite_hoe", newStrangeHoe("netherite"));
     public static final Item DIAMOND_HOE = register("diamond_hoe", newStrangeHoe("diamond"));

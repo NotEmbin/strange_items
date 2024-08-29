@@ -38,6 +38,18 @@ public class StrangeItemsComponents {
         ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
 
+    public static final ComponentType<Integer> MOBS_HIT = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("mobs_hit"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
+    public static final ComponentType<Integer> MOBS_KILLED = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("mobs_killed"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
     protected static void init() {
         StrangeItems.LOGGER.info("Loading components for Strange Items");
     }

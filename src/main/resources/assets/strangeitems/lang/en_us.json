@@ -11,5 +11,33 @@
 	"item.strangeitems.netherite_pickaxe":"Strange Netherite Pickaxe",
 	"item.strangeitems.golden_pickaxe":"Strange Golden Pickaxe",
 	"item.strangeitems.stone_pickaxe":"Strange Stone Pickaxe",
-	"item.strangeitems.wooden_pickaxe":"Strange Wooden Pickaxe"
+	"item.strangeitems.wooden_pickaxe":"Strange Wooden Pickaxe",
+	
+	"item.strangeitems.netherite_axe":"Strange Netherite Axe",
+	"item.strangeitems.diamond_axe":"Strange Diamond Axe",
+	"item.strangeitems.golden_axe":"Strange Golden Axe",
+	"item.strangeitems.iron_axe":"Strange Iron Axe",
+	"item.strangeitems.stone_axe":"Strange Stone Axe",
+	"item.strangeitems.wooden_axe":"Strange Wooden Axe",
+	
+	"item.strangeitems.netherite_shovel":"Strange Netherite Shovel",
+	"item.strangeitems.diamond_shovel":"Strange Diamond Shovel",
+	"item.strangeitems.golden_shovel":"Strange Golden Shovel",
+	"item.strangeitems.iron_shovel":"Strange Iron Shovel",
+	"item.strangeitems.stone_shovel":"Strange Stone Shovel",
+	"item.strangeitems.wooden_shovel":"Strange Wooden Shovel",
+	
+	"item.strangeitems.netherite_hoe":"Strange Netherite Axe",
+	"item.strangeitems.diamond_hoe":"Strange Diamond Axe",
+	"item.strangeitems.golden_hoe":"Strange Golden Axe",
+	"item.strangeitems.iron_hoe":"Strange Iron Axe",
+	"item.strangeitems.stone_hoe":"Strange Stone Axe",
+	"item.strangeitems.wooden_hoe":"Strange Wooden Axe",
+	
+	"item.strangeitems.netherite_sword":"Strange Netherite Sword",
+	"item.strangeitems.diamond_sword":"Strange Diamond Sword",
+	"item.strangeitems.golden_sword":"Strange Golden Sword",
+	"item.strangeitems.iron_sword":"Strange Iron Sword",
+	"item.strangeitems.stone_sword":"Strange Stone Sword",
+	"item.strangeitems.wooden_sword":"Strange Wooden Sword"
 }
