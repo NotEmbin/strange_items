@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:chainmail_boots"
+  },
+  "addition": {
+    "item": "minecraft:chainmail_boots"
+  },
+  "result": {
+    "id": "minecraft:chainmail_boots",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

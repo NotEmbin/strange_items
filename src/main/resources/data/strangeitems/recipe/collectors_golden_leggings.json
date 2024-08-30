@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:golden_leggings"
+  },
+  "addition": {
+    "item": "minecraft:golden_leggings"
+  },
+  "result": {
+    "id": "minecraft:golden_leggings",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

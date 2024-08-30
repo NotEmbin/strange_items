@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:golden_helmet"
+  },
+  "addition": {
+    "item": "minecraft:golden_helmet"
+  },
+  "result": {
+    "id": "minecraft:golden_helmet",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

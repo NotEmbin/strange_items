@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:music_disc_far"
+  },
+  "addition": {
+    "item": "minecraft:music_disc_far"
+  },
+  "result": {
+    "id": "minecraft:music_disc_far",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

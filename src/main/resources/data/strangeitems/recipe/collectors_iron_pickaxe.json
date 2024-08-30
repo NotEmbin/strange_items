@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:iron_pickaxe"
+  },
+  "addition": {
+    "item": "minecraft:iron_pickaxe"
+  },
+  "result": {
+    "id": "minecraft:iron_pickaxe",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

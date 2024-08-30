@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:dragon_egg"
+  },
+  "addition": {
+    "item": "minecraft:dragon_egg"
+  },
+  "result": {
+    "id": "minecraft:dragon_egg",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:carrot_on_a_stick"
+  },
+  "addition": {
+    "item": "minecraft:carrot_on_a_stick"
+  },
+  "result": {
+    "id": "minecraft:carrot_on_a_stick",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

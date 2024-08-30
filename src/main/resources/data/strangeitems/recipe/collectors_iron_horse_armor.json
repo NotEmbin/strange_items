@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:iron_horse_armor"
+  },
+  "addition": {
+    "item": "minecraft:iron_horse_armor"
+  },
+  "result": {
+    "id": "minecraft:iron_horse_armor",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

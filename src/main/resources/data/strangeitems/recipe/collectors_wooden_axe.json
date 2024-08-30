@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:wooden_axe"
+  },
+  "addition": {
+    "item": "minecraft:wooden_axe"
+  },
+  "result": {
+    "id": "minecraft:wooden_axe",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

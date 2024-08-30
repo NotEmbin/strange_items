@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:elytra"
+  },
+  "addition": {
+    "item": "minecraft:elytra"
+  },
+  "result": {
+    "id": "minecraft:elytra",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:leather_leggings"
+  },
+  "addition": {
+    "item": "minecraft:leather_leggings"
+  },
+  "result": {
+    "id": "minecraft:leather_leggings",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

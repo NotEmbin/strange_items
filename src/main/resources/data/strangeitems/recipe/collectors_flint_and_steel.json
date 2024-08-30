@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:flint_and_steel"
+  },
+  "addition": {
+    "item": "minecraft:flint_and_steel"
+  },
+  "result": {
+    "id": "minecraft:flint_and_steel",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

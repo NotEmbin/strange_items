@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:music_disc_mellohi"
+  },
+  "addition": {
+    "item": "minecraft:music_disc_mellohi"
+  },
+  "result": {
+    "id": "minecraft:music_disc_mellohi",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

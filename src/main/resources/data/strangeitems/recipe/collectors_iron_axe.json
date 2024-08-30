@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:iron_axe"
+  },
+  "addition": {
+    "item": "minecraft:iron_axe"
+  },
+  "result": {
+    "id": "minecraft:iron_axe",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

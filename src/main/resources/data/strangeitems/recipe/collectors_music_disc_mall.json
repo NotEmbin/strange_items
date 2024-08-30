@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:music_disc_mall"
+  },
+  "addition": {
+    "item": "minecraft:music_disc_mall"
+  },
+  "result": {
+    "id": "minecraft:music_disc_mall",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:shield"
+  },
+  "addition": {
+    "item": "minecraft:shield"
+  },
+  "result": {
+    "id": "minecraft:shield",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:leather_helmet"
+  },
+  "addition": {
+    "item": "minecraft:leather_helmet"
+  },
+  "result": {
+    "id": "minecraft:leather_helmet",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

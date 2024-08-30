@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:bow"
+  },
+  "addition": {
+    "item": "minecraft:bow"
+  },
+  "result": {
+    "id": "minecraft:bow",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

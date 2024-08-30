@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:netherite_shovel"
+  },
+  "addition": {
+    "item": "minecraft:netherite_shovel"
+  },
+  "result": {
+    "id": "minecraft:netherite_shovel",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

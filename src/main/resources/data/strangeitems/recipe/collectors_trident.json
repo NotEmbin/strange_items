@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:trident"
+  },
+  "addition": {
+    "item": "minecraft:trident"
+  },
+  "result": {
+    "id": "minecraft:trident",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

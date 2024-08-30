@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:brush"
+  },
+  "addition": {
+    "item": "minecraft:brush"
+  },
+  "result": {
+    "id": "minecraft:brush",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

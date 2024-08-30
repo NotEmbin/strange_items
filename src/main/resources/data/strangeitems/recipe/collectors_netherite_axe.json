@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:netherite_axe"
+  },
+  "addition": {
+    "item": "minecraft:netherite_axe"
+  },
+  "result": {
+    "id": "minecraft:netherite_axe",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

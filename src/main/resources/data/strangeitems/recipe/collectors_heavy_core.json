@@ -1,0 +1,18 @@
+{
+  "type": "smithing_transform",
+  "template": {
+    "item": "minecraft:echo_shard"
+  },
+  "base": {
+    "item": "minecraft:heavy_core"
+  },
+  "addition": {
+    "item": "minecraft:heavy_core"
+  },
+  "result": {
+    "id": "minecraft:heavy_core",
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}
