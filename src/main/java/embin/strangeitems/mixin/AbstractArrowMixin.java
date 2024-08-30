@@ -19,6 +19,6 @@ public abstract class AbstractArrowMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;ceil(D)I", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD, method = "onEntityHit")
     public void onHitMixin(EntityHitResult entityHitResult, CallbackInfo ci, Entity entity2) {
         PersistentProjectileEntity ppe = (PersistentProjectileEntity)(Object) this;
-        new ComponentTracker().appendTracker(entity2.getWeaponStack(), StrangeItemsComponents.SHOT_HIT);
+        new ComponentTracker().appendTracker(ppe.getOwner().getWeaponStack(), StrangeItemsComponents.SHOT_HIT);
     }
 }

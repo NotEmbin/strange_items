@@ -4,8 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractArrowMixin",
+    "AxeMixin",
     "BowMixin",
     "ExampleMixin",
+    "HoeMixin",
     "ItemMixin",
     "LivingEntityMixin",
     "PlayerMixin",

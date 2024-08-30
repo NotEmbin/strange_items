@@ -69,6 +69,7 @@ public class ComponentTracker {
 
     public static ItemStack applyDefaultBowTrackers(ItemStack stack) {
         stack.set(StrangeItemsComponents.SHOTS_FIRED, 0);
+        stack.set(StrangeItemsComponents.SHOT_HIT, 0);
         stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
         stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
         stack.set(DataComponentTypes.RARITY, Rarity.RARE);
