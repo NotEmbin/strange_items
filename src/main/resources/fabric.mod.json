@@ -3,7 +3,7 @@
 	"id": "strangeitems",
 	"version": "1.0.0",
 	"name": "Strange Items",
-	"description": "Allows you to make your tools \"Strange\", which can track certain stats on the item.\n\nInspired by Team Fortress 2",
+	"description": "Allows you to make your tools \"Strange\", which can track certain stats on the item. Inspired by Team Fortress 2",
 	"authors": [
 		"Embin"
 	],
@@ -12,7 +12,6 @@
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/strangeitems/icon.png",
-	"accessWidener": "strangeitems.aw",
 	"environment": "*",
 	"entrypoints": {
 		"main": [

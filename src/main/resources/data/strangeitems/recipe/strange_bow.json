@@ -10,7 +10,7 @@
     "item": "minecraft:honeycomb"
   },
   "result": {
-    "id": "minecraft:wooden_sword",
+    "id": "minecraft:bow",
     "components": {
       "minecraft:rarity": "rare",
       "strangeitems:shots_fired": 0,

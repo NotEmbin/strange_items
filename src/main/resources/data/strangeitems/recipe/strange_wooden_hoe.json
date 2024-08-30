@@ -4,17 +4,19 @@
     "item": "minecraft:clock"
   },
   "base": {
-    "item": "minecraft:elytra"
+    "item": "minecraft:wooden_hoe"
   },
   "addition": {
     "item": "minecraft:honeycomb"
   },
   "result": {
-    "id": "minecraft:elytra",
+    "id": "minecraft:wooden_hoe",
     "components": {
       "minecraft:rarity": "rare",
-      "strangeitems:time_flown_with_elytra": 0,
-      "strangeitems:times_dropped": 0
+      "strangeitems:blocks_mined": 0,
+      "strangeitems:mobs_hit": 0,
+      "strangeitems:times_dropped": 0,
+      "strangeitems:farmland_created": 0
     }
   }
 }

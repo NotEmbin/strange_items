@@ -48,21 +48,6 @@ public class ModItems {
         return PickaxeItem.createAttributeModifiers(convertMaterial(material), 1.0F, -2.8F);
     }
 
-    public static net.minecraft.component.type.AttributeModifiersComponent axeAttributes(String material) {
-        if (material == "wooden") {
-            return AxeItem.createAttributeModifiers(convertMaterial(material), 6.0F, -3.2F);
-        }
-        if (material == "golden") {
-            return AxeItem.createAttributeModifiers(convertMaterial(material), 6.0F, -3.0F);
-        }
-        if (material == "stone") {
-            return AxeItem.createAttributeModifiers(convertMaterial(material), 7.0F, -3.2F);
-        }
-        if (material == "iron") {
-            return AxeItem.createAttributeModifiers(convertMaterial(material), 6.0F, -3.1F);
-        }
-        return AxeItem.createAttributeModifiers(convertMaterial(material), 5.0F, -3.0F);
-    }
 
     public static net.minecraft.component.type.AttributeModifiersComponent shovelAttributes(String material) {
         return ShovelItem.createAttributeModifiers(convertMaterial(material), 1.5F, -3.0F);
@@ -93,16 +78,6 @@ public class ModItems {
         return new StrangePickaxe(convertMaterial(material), new Item.Settings()
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)
             .attributeModifiers(pickaxeAttributes(material))
-            .fireproof()
-            .rarity(common_rarity));
-    }
-
-    @Deprecated
-    public static StrangeAxe newStrangeAxe(String material) {
-        return new StrangeAxe(convertMaterial(material), new Item.Settings()
-            .component(StrangeItemsComponents.BLOCKS_MINED, 0)
-            .component(StrangeItemsComponents.LOGS_STRIPPED, 0)
-            .attributeModifiers(axeAttributes(material))
             .fireproof()
             .rarity(common_rarity));
     }
