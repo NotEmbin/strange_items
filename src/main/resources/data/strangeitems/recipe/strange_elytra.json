@@ -4,17 +4,16 @@
     "item": "minecraft:clock"
   },
   "base": {
-    "item": "minecraft:netherite_pickaxe"
+    "item": "minecraft:elytra"
   },
   "addition": {
     "item": "minecraft:honeycomb"
   },
   "result": {
-    "id": "minecraft:netherite_pickaxe",
+    "id": "minecraft:wooden_sword",
     "components": {
       "minecraft:rarity": "rare",
-      "strangeitems:blocks_mined": 0,
-      "strangeitems:mobs_hit": 0,
+      "strangeitems:time_flown_with_elytra": 0,
       "strangeitems:times_dropped": 0
     }
   }

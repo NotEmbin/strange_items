@@ -4,13 +4,13 @@
     "item": "minecraft:clock"
   },
   "base": {
-    "item": "minecraft:netherite_shovel"
+    "item": "minecraft:iron_shovel"
   },
   "addition": {
     "item": "minecraft:honeycomb"
   },
   "result": {
-    "id": "minecraft:netherite_shovel",
+    "id": "minecraft:iron_shovel",
     "components": {
       "minecraft:rarity": "rare",
       "strangeitems:blocks_mined": 0,

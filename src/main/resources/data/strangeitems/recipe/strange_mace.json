@@ -4,20 +4,17 @@
     "item": "minecraft:clock"
   },
   "base": {
-    "item": "minecraft:netherite_shovel"
+    "item": "minecraft:mace"
   },
   "addition": {
     "item": "minecraft:honeycomb"
   },
   "result": {
-    "id": "minecraft:netherite_shovel",
+    "id": "minecraft:mace",
     "components": {
-      "minecraft:rarity": "rare",
       "strangeitems:blocks_mined": 0,
       "strangeitems:mobs_hit": 0,
-      "strangeitems:times_dropped": 0,
-      "strangeitems:paths_created": 0,
-      "strangeitems:campfires_put_out": 0
+      "strangeitems:times_dropped": 0
     }
   }
 }

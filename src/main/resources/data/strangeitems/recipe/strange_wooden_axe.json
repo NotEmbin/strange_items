@@ -4,20 +4,19 @@
     "item": "minecraft:clock"
   },
   "base": {
-    "item": "minecraft:netherite_shovel"
+    "item": "minecraft:wooden_axe"
   },
   "addition": {
     "item": "minecraft:honeycomb"
   },
   "result": {
-    "id": "minecraft:netherite_shovel",
+    "id": "minecraft:wooden_axe",
     "components": {
       "minecraft:rarity": "rare",
       "strangeitems:blocks_mined": 0,
       "strangeitems:mobs_hit": 0,
       "strangeitems:times_dropped": 0,
-      "strangeitems:paths_created": 0,
-      "strangeitems:campfires_put_out": 0
+      "strangeitems:logs_stripped": 0
     }
   }
 }

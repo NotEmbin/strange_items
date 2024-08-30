@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@Deprecated
 public class StrangeHoe extends HoeItem {
     public StrangeHoe(ToolMaterial material, Settings settings) {
         super(material, settings);

@@ -88,6 +88,7 @@ public class ModItems {
         return SwordItem.createAttributeModifiers(convertMaterial(material), 3, -2.4F);
     }
 
+    @Deprecated
     public static StrangePickaxe newStrangePickaxe(String material) {
         return new StrangePickaxe(convertMaterial(material), new Item.Settings()
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)
@@ -96,6 +97,7 @@ public class ModItems {
             .rarity(common_rarity));
     }
 
+    @Deprecated
     public static StrangeAxe newStrangeAxe(String material) {
         return new StrangeAxe(convertMaterial(material), new Item.Settings()
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)
@@ -105,6 +107,7 @@ public class ModItems {
             .rarity(common_rarity));
     }
 
+    @Deprecated
     public static StrangeShovel newStrangeShovel(String material) {
         return new StrangeShovel(convertMaterial(material), new Item.Settings()
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)
@@ -115,6 +118,7 @@ public class ModItems {
             .rarity(common_rarity));
     }
 
+    @Deprecated
     public static StrangeHoe newStrangeHoe(String material) {
         return new StrangeHoe(convertMaterial(material), new Item.Settings()
             .component(StrangeItemsComponents.BLOCKS_MINED, 0)

@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Optional;
 
+@Deprecated
 public class StrangeShovel extends ShovelItem {
     public StrangeShovel(ToolMaterial material, Settings settings) {
         super(material, settings);

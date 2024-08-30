@@ -47,5 +47,7 @@
 	"item.strangeitems.smithing_template.strange_upgrade.additions_slot_description":"Add Netherite Scrap",
 	"upgrade.strangeitems.strange_upgrade":"Tool Strangifier Upgrade",
 	"item.strangeitems.strange_upgrade_smithing_template":"Smithing Template",
-	"itemGroup.strangeitems.strange_items_group": "Strange Items"
+	"itemGroup.strangeitems.strange_items_group": "Strange Items",
+	"item.strangeitems.strange_tooltip":"Strange",
+	"item.strangeitems.collectors_item_tooltip": "Collector's"
 }

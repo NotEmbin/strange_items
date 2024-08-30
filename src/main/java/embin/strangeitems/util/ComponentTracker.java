@@ -6,6 +6,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Rarity;
 
 import java.util.List;
@@ -14,11 +15,12 @@ public class ComponentTracker {
     public void appendTrackerTooltip(ItemStack stack, List<Text> tooltip, ComponentType component, String string) {
         if (stack.contains(component)) {
             int count = stack.getOrDefault(component, 0);
-            String stg = string + StatFormatter.DEFAULT.format(count);
+            String stg = " " + string + StatFormatter.DEFAULT.format(count);
             if (component == StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA) {
-                stg = string + StatFormatter.TIME.format(count * 20);
+                stg = " " + string + StatFormatter.TIME.format(count * 20);
             }
-            tooltip.add(Text.literal(stg).withColor(13593138));
+            //tooltip.add(Text.literal(stg).withColor(13593138));
+            tooltip.add(Text.literal(stg).formatted(Formatting.GRAY));
         }
     }
 
@@ -70,6 +72,13 @@ public class ComponentTracker {
         stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
         stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
         stack.set(DataComponentTypes.RARITY, Rarity.RARE);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultMaceTrackers(ItemStack stack) {
+        stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
+        stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
+        stack.set(StrangeItemsComponents.MOBS_HIT, 0);
         return stack;
     }
 }

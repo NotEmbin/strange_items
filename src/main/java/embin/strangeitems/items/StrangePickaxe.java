@@ -13,12 +13,13 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+@Deprecated
 public class StrangePickaxe extends PickaxeItem {
     public StrangePickaxe(ToolMaterial material, Settings settings) {
         super(material, settings);
     }
 
-    public void appendTooltipp(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (stack.contains(StrangeItemsComponents.BLOCKS_MINED)) {
             int count = stack.getOrDefault(StrangeItemsComponents.BLOCKS_MINED, 0);
             tooltip.add(Text.translatable("component.strangeitems.blocks_mined.info", count).withColor(13593138));

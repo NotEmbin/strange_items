@@ -1,16 +1,23 @@
 {
-  "type": "minecraft:smithing_transform",
+  "type": "smithing_transform",
   "template": {
-    "item": "strangeitems:strange_upgrade_smithing_template"
+    "item": "minecraft:clock"
   },
   "base": {
     "item": "minecraft:diamond_shovel"
   },
   "addition": {
-    "item":"minecraft:netherite_scrap"  
+    "item": "minecraft:honeycomb"
   },
   "result": {
-    "count": 1,
-    "id": "strangeitems:diamond_shovel"
+    "id": "minecraft:diamond_shovel",
+    "components": {
+      "minecraft:rarity": "rare",
+      "strangeitems:blocks_mined": 0,
+      "strangeitems:mobs_hit": 0,
+      "strangeitems:times_dropped": 0,
+      "strangeitems:paths_created": 0,
+      "strangeitems:campfires_put_out": 0
+    }
   }
 }

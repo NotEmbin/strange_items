@@ -33,7 +33,7 @@ public class StrangeItems implements ModInitializer {
 			.icon(() -> new ItemStack(Items.GOLDEN_PICKAXE))
 			.displayName(Text.translatable("itemGroup.strangeitems.strange_items_group"))
 			.entries((context, entries) -> {
-				entries.add(ModItems.STRANGE_UPGRADE_SMITHING_TEMPLATE);
+				//entries.add(ModItems.STRANGE_UPGRADE_SMITHING_TEMPLATE);
 				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.WOODEN_SWORD)));
 				entries.add(ComponentTracker.applyDefaultTrackers(new ItemStack(Items.WOODEN_PICKAXE)));
 				entries.add(ComponentTracker.applyDefaultAxeTrackers(new ItemStack(Items.WOODEN_AXE)));
@@ -66,6 +66,7 @@ public class StrangeItems implements ModInitializer {
 				entries.add(ComponentTracker.applyDefaultHoeTrackers(new ItemStack(Items.NETHERITE_HOE)));
 				entries.add(ComponentTracker.applyDefaultElytraTrackers(new ItemStack(Items.ELYTRA)));
 				entries.add(ComponentTracker.applyDefaultBowTrackers(new ItemStack(Items.BOW)));
+				entries.add(ComponentTracker.applyDefaultMaceTrackers(new ItemStack(Items.MACE)));
 			})
 			.build();
 

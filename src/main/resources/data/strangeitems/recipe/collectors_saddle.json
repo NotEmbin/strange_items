@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sss",
+    "ses",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:saddle"
+    },
+    "e": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "result": {
+    "id": "minecraft:saddle",
+    "count": 1,
+    "components": {
+      "strangeitems:collectors_item": true
+    }
+  }
+}

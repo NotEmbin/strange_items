@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Optional;
 
+@Deprecated
 public class StrangeAxe extends AxeItem {
     public StrangeAxe(ToolMaterial material, Settings settings) {
         super(material, settings);
