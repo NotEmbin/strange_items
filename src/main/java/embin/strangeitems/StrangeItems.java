@@ -67,6 +67,8 @@ public class StrangeItems implements ModInitializer {
 				entries.add(ComponentTracker.applyDefaultElytraTrackers(new ItemStack(Items.ELYTRA)));
 				entries.add(ComponentTracker.applyDefaultBowTrackers(new ItemStack(Items.BOW)));
 				entries.add(ComponentTracker.applyDefaultMaceTrackers(new ItemStack(Items.MACE)));
+				entries.add(ComponentTracker.applyDefaultShearsTrackers(new ItemStack(Items.SHEARS)));
+				entries.add(ComponentTracker.applyDefaultFlintAndSteelTrackers(new ItemStack(Items.FLINT_AND_STEEL)));
 			})
 			.build();
 
@@ -86,6 +88,6 @@ public class StrangeItems implements ModInitializer {
 
 		StrangeItemGroup.init();
 
-		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("These items... they're strange...");
 	}
 }

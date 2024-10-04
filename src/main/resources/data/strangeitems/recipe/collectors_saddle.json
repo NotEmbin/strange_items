@@ -18,7 +18,7 @@
     "id": "minecraft:saddle",
     "count": 1,
     "components": {
-      "strangeitems:collectors_item": true
+      "strangeitems:collectors_item": {}
     }
   }
 }

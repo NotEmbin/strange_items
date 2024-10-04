@@ -11,6 +11,8 @@
   },
   "result": {
     "id": "minecraft:wooden_sword",
-    "components": {}
+    "components": {
+      "strangeitems:collectors_item": {}
+    }
   }
 }

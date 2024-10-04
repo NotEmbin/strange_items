@@ -6,11 +6,15 @@
     "AbstractArrowMixin",
     "AxeMixin",
     "BowMixin",
+    "EnchantmentMixin",
     "ExampleMixin",
+    "FlintAndSteelMixin",
     "HoeMixin",
     "ItemMixin",
     "LivingEntityMixin",
     "PlayerMixin",
+    "ShearsMixin",
+    "SheepMixin",
     "ShovelMixin"
   ],
   "injectors": {

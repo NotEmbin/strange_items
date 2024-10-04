@@ -4,18 +4,19 @@
     "item": "minecraft:clock"
   },
   "base": {
-    "item": "minecraft:netherite_hoe"
+    "item": "minecraft:flint_and_steel"
   },
   "addition": {
     "item": "minecraft:honeycomb"
   },
   "result": {
-    "id": "minecraft:netherite_hoe",
+    "id": "minecraft:flint_and_steel",
     "components": {
       "strangeitems:blocks_mined": 0,
       "strangeitems:mobs_hit": 0,
       "strangeitems:times_dropped": 0,
-      "strangeitems:farmland_created": 0
+      "strangeitems:fires_ignited": 0,
+      "strangeitems:campfires_lit": 0
     }
   }
 }

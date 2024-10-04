@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "strangeitems",
-	"version": "1.0.0-rc1",
+	"version": "1.0.0-rc.2",
 	"name": "Strange Items",
 	"description": "Allows you to make your tools \"Strange\", which can track certain stats on the item. Inspired by Team Fortress 2",
 	"authors": [
@@ -30,7 +30,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
-		"minecraft": ["1.21-rc1","1.21","1.21.1-rc1","1.21.1"],
+		"minecraft": ["1.21-rc.1","1.21","1.21.1-rc.1","1.21.1"],
 		"java": ">=21",
 		"fabric-api": "*"
 	},

@@ -1,10 +1,22 @@
 {
 	"component.strangeitems.blocks_mined":"Blocks Mined",
 	"component.strangeitems.blocks_mined.info":"Blocks Mined: %1$s",
-	"component.strangeitems.logs_stripped.info":"Blocks Stripped: %1$s",
-	"component.strangeitems.paths_created.info":"Paths Created: %1$s",
-	"component.strangeitems.campfires_put_out.info":"Campfires Put Out: %1$s",
-	"component.strangeitems.farmland_created.info":"Blocks Tilled: %1$s",
+	"component.strangeitems.logs_stripped":"Blocks Stripped",
+	"component.strangeitems.paths_created":"Paths Created",
+	"component.strangeitems.campfires_put_out":"Campfires Put Out",
+	"component.strangeitems.farmland_created":"Dirt Tilled",
+	"component.strangeitems.time_flown_with_elytra":"Time Spent Flying",
+	"component.strangeitems.shots_fired":"Shots Fired",
+	"component.strangeitems.shot_hit":"Shots Hit",
+	"component.strangeitems.times_dropped":"Times Dropped",
+	"component.strangeitems.mobs_hit":"Mobs Hit",
+	"component.strangeitems.sheep_sheared":"Sheep Sheared",
+	"component.strangeitems.plants_trimmed":"Plants Trimmed",
+	"component.strangeitems.fires_ignited":"Fires Ignited",
+	"component.strangeitems.campfires_lit":"Campfires Lit",
+
+	"tooltip.strangeitems.strange":"Strange",
+	"tooltip.strangeitems.collectors_item": "Collector's",
 	
 	"item.strangeitems.diamond_pickaxe":"Strange Diamond Pickaxe",
 	"item.strangeitems.iron_pickaxe":"Strange Iron Pickaxe",
@@ -48,6 +60,6 @@
 	"upgrade.strangeitems.strange_upgrade":"Tool Strangifier Upgrade",
 	"item.strangeitems.strange_upgrade_smithing_template":"Smithing Template",
 	"itemGroup.strangeitems.strange_items_group": "Strange Items",
-	"item.strangeitems.strange_tooltip":"Strange",
-	"item.strangeitems.collectors_item_tooltip": "Collector's"
+	"tooltip.strangeitems.strange_trackers": "Stats",
+	"tooltip.strangeitems.enchantments": "Enchantments"
 }

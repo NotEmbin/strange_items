@@ -5,6 +5,7 @@ import embin.strangeitems.util.ConvertNamespace;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Unit;
 
 public class StrangeItemsComponents {
     static ConvertNamespace cn = new ConvertNamespace();
@@ -74,10 +75,34 @@ public class StrangeItemsComponents {
         ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
 
-    public static final ComponentType<Boolean> COLLECTORS_ITEM = Registry.register(
+    public static final ComponentType<Unit> COLLECTORS_ITEM = Registry.register(
         Registries.DATA_COMPONENT_TYPE,
         cn.convertNamespace("collectors_item"),
-        ComponentType.<Boolean>builder().codec(Codec.BOOL).build()
+        ComponentType.<Unit>builder().codec(Unit.CODEC).build()
+    );
+
+    public static final ComponentType<Integer> PLANTS_TRIMMED = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("plants_trimmed"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
+    public static final ComponentType<Integer> SHEEP_SHEARED = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("sheep_sheared"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
+    public static final ComponentType<Integer> FIRES_IGNITED = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("fires_ignited"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
+    public static final ComponentType<Integer> CAMPFIRES_LIT = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("campfires_lit"),
+        ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
 
     protected static void init() {

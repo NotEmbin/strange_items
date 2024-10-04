@@ -12,7 +12,7 @@
   "result": {
     "id": "minecraft:turtle_helmet",
     "components": {
-      "strangeitems:collectors_item": true
+      "strangeitems:collectors_item": {}
     }
   }
 }

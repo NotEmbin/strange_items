@@ -12,7 +12,6 @@
   "result": {
     "id": "minecraft:bow",
     "components": {
-      "minecraft:rarity": "rare",
       "strangeitems:shots_fired": 0,
       "strangeitems:shot_hit": 0,
       "strangeitems:blocks_mined": 0,

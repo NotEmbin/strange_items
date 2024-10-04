@@ -12,7 +12,7 @@
   "result": {
     "id": "minecraft:golden_helmet",
     "components": {
-      "strangeitems:collectors_item": true
+      "strangeitems:collectors_item": {}
     }
   }
 }

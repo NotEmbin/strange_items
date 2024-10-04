@@ -12,9 +12,10 @@
   "result": {
     "id": "minecraft:elytra",
     "components": {
-      "minecraft:rarity": "rare",
       "strangeitems:time_flown_with_elytra": 0,
-      "strangeitems:times_dropped": 0
+      "strangeitems:times_dropped": 0,
+      "strangeitems:mobs_hit": 0,
+      "strangeitems:blocks_mined": 0
     }
   }
 }

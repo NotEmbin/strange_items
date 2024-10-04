@@ -12,7 +12,6 @@
   "result": {
     "id": "minecraft:diamond_hoe",
     "components": {
-      "minecraft:rarity": "rare",
       "strangeitems:blocks_mined": 0,
       "strangeitems:mobs_hit": 0,
       "strangeitems:times_dropped": 0,

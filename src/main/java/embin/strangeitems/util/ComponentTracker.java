@@ -6,25 +6,26 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Rarity;
+import net.minecraft.util.*;
 
 import java.util.List;
 
 public class ComponentTracker {
-    public void appendTrackerTooltip(ItemStack stack, List<Text> tooltip, ComponentType component, String string) {
+    public void appendTrackerTooltip(ItemStack stack, List<Text> tooltip, ComponentType component) {
         if (stack.contains(component)) {
             int count = stack.getOrDefault(component, 0);
-            String stg = " " + string + StatFormatter.DEFAULT.format(count);
+            String stat = StatFormatter.DEFAULT.format(count);
             if (component == StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA) {
-                stg = " " + string + StatFormatter.TIME.format(count * 20);
+                stat = StatFormatter.TIME.format(count * 20);
             }
-            //tooltip.add(Text.literal(stg).withColor(13593138));
-            tooltip.add(Text.literal(stg).formatted(Formatting.GRAY));
+            String component_translate_key = Util.createTranslationKey("component", Identifier.of(component.toString()));
+            Text stat_text = Text.literal(stat).formatted(Formatting.YELLOW);
+            Text tooltip_text = Text.translatable(component_translate_key).append(": ").formatted(Formatting.GRAY);
+            tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
         }
     }
 
-    public void appendTracker(ItemStack stack, ComponentType component) {
+    public void appendTracker(ItemStack stack, ComponentType<Integer> component) {
         if (component != null) {
             if (stack.contains(component)) {
                 int count = stack.getOrDefault(component, 0);
@@ -37,7 +38,6 @@ public class ComponentTracker {
         stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
         stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
         stack.set(StrangeItemsComponents.MOBS_HIT, 0);
-        stack.set(DataComponentTypes.RARITY, Rarity.RARE);
         return stack;
     }
 
@@ -61,9 +61,8 @@ public class ComponentTracker {
     }
 
     public static ItemStack applyDefaultElytraTrackers(ItemStack stack) {
+        applyDefaultTrackers(stack);
         stack.set(StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA, 0);
-        stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
-        stack.set(DataComponentTypes.RARITY, Rarity.RARE);
         return stack;
     }
 
@@ -72,7 +71,6 @@ public class ComponentTracker {
         stack.set(StrangeItemsComponents.SHOT_HIT, 0);
         stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
         stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
-        stack.set(DataComponentTypes.RARITY, Rarity.RARE);
         return stack;
     }
 
@@ -80,6 +78,20 @@ public class ComponentTracker {
         stack.set(StrangeItemsComponents.BLOCKS_MINED, 0);
         stack.set(StrangeItemsComponents.TIMES_DROPPED, 0);
         stack.set(StrangeItemsComponents.MOBS_HIT, 0);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultShearsTrackers(ItemStack stack) {
+        applyDefaultTrackers(stack);
+        stack.set(StrangeItemsComponents.SHEEP_SHEARED, 0);
+        stack.set(StrangeItemsComponents.PLANTS_TRIMMED, 0);
+        return stack;
+    }
+
+    public static ItemStack applyDefaultFlintAndSteelTrackers(ItemStack stack) {
+        applyDefaultTrackers(stack);
+        stack.set(StrangeItemsComponents.FIRES_IGNITED, 0);
+        stack.set(StrangeItemsComponents.CAMPFIRES_LIT, 0);
         return stack;
     }
 }
