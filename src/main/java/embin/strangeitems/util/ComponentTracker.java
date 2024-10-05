@@ -10,8 +10,9 @@ import net.minecraft.util.*;
 
 import java.util.List;
 
+@Deprecated
 public class ComponentTracker {
-    public void appendTrackerTooltip(ItemStack stack, List<Text> tooltip, ComponentType component) {
+    public void appendTrackerTooltip(ItemStack stack, List<Text> tooltip, ComponentType<Integer> component) {
         if (stack.contains(component)) {
             int count = stack.getOrDefault(component, 0);
             String stat = StatFormatter.DEFAULT.format(count);

@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
@@ -19,6 +20,6 @@ public class HoeMixin {
         locals = LocalCapture.CAPTURE_FAILHARD,
         method = "useOnBlock")
     public void tillDirtMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        new ComponentTracker().appendTracker(context.getStack(), StrangeItemsComponents.FARMLAND_CREATED);
+        Trackers.dirt_tilled.append_tracker(context.getStack());
     }
 }

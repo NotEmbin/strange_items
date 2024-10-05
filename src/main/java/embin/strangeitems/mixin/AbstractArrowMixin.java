@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -20,7 +21,9 @@ public abstract class AbstractArrowMixin {
     public void onHitMixin(EntityHitResult entityHitResult, CallbackInfo ci, Entity entity2) {
         PersistentProjectileEntity ppe = (PersistentProjectileEntity)(Object) this;
         if (ppe.getOwner() != null) {
-            new ComponentTracker().appendTracker(ppe.getOwner().getWeaponStack(), StrangeItemsComponents.SHOT_HIT);
+            if (ppe.getOwner().getWeaponStack() != null) {
+                Trackers.shots_hit.append_tracker(ppe.getOwner().getWeaponStack());
+            }
         }
     }
 }

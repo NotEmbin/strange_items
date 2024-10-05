@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.block.AbstractPlantStemBlock;
 import net.minecraft.block.Block;
@@ -24,12 +25,12 @@ public abstract class FlintAndSteelMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;damage(ILnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/EquipmentSlot;)V", ordinal = 1),
         method = "useOnBlock", locals = LocalCapture.CAPTURE_FAILHARD)
     public void igniteFireMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir, PlayerEntity playerEntity, World world, BlockPos blockPos, BlockState blockState) {
-        new ComponentTracker().appendTracker(context.getStack(), StrangeItemsComponents.FIRES_IGNITED);
+        Trackers.fires_lit.append_tracker(context.getStack());
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;damage(ILnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/EquipmentSlot;)V", ordinal = 0),
         method = "useOnBlock", locals = LocalCapture.CAPTURE_FAILHARD)
     public void igniteCampfireMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir, PlayerEntity playerEntity, World world, BlockPos blockPos, BlockState blockState) {
-        new ComponentTracker().appendTracker(context.getStack(), StrangeItemsComponents.CAMPFIRES_LIT);
+        Trackers.campfires_lit.append_tracker(context.getStack());
     }
 }

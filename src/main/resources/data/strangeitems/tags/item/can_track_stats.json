@@ -1,0 +1,16 @@
+{
+	"values":[
+		"#minecraft:swords",
+		"#minecraft:pickaxes",
+		"#minecraft:axes",
+		"#minecraft:shovels",
+		"#minecraft:hoes",
+		"minecraft:mace",
+		"minecraft:bow",
+		"minecraft:flint_and_steel",
+		"minecraft:shears",
+		"minecraft:elytra",
+		"minecraft:trident",
+		"minecraft:brush"
+	]
+}

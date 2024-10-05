@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +21,6 @@ public abstract class LivingEntityMixin {
         method = "tickFallFlying")
     public void elytraMixin(CallbackInfo ci) {
         LivingEntity livingentity = (LivingEntity)(Object) this;
-        new ComponentTracker().appendTracker(this.getEquippedStack(EquipmentSlot.CHEST), StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA);
+        Trackers.time_flown_with_elytra.append_tracker(this.getEquippedStack(EquipmentSlot.CHEST));
     }
 }

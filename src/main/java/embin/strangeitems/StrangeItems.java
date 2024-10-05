@@ -86,8 +86,6 @@ public class StrangeItems implements ModInitializer {
 		StrangeItemsComponents.init();
 		ModItems.init();
 
-		StrangeItemGroup.init();
-
 		LOGGER.info("These items... they're strange...");
 	}
 }

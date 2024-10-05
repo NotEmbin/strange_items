@@ -17,6 +17,9 @@
 
 	"tooltip.strangeitems.strange":"Strange",
 	"tooltip.strangeitems.collectors_item": "Collector's",
+
+	"tooltip.strangeitems.strange.item_name":"Strange %1$s",
+	"tooltip.strangeitems.collectors_item.item_name": "Collector's %1$s",
 	
 	"item.strangeitems.diamond_pickaxe":"Strange Diamond Pickaxe",
 	"item.strangeitems.iron_pickaxe":"Strange Iron Pickaxe",
@@ -61,5 +64,24 @@
 	"item.strangeitems.strange_upgrade_smithing_template":"Smithing Template",
 	"itemGroup.strangeitems.strange_items_group": "Strange Items",
 	"tooltip.strangeitems.strange_trackers": "Stats",
-	"tooltip.strangeitems.enchantments": "Enchantments"
+	"tooltip.strangeitems.enchantments": "Enchantments",
+
+	"tracker.strangeitems.blocks_mined":"Blocks Mined",
+	"tracker.strangeitems.logs_stripped":"Blocks Stripped",
+	"tracker.strangeitems.paths_created":"Paths Created",
+	"tracker.strangeitems.campfires_put_out":"Campfires Put Out",
+	"tracker.strangeitems.dirt_tilled":"Dirt Tilled",
+	"tracker.strangeitems.time_flown_with_elytra":"Time Spent Flying",
+	"tracker.strangeitems.shots_fired":"Shots Fired",
+	"tracker.strangeitems.shots_hit":"Shots Hit",
+	"tracker.strangeitems.times_dropped":"Times Dropped",
+	"tracker.strangeitems.mobs_hit":"Mobs Hit",
+	"tracker.strangeitems.sheep_sheared":"Sheep Sheared",
+	"tracker.strangeitems.plants_trimmed":"Plants Trimmed",
+	"tracker.strangeitems.fires_lit":"Fires Ignited",
+	"tracker.strangeitems.campfires_lit":"Campfires Lit",
+	"tracker.strangeitems.damage_dealt": "Damage Dealt",
+	"tracker.strangeitems.trident_thrown": "Times Thrown",
+	"tracker.strangeitems.blocks_brushed": "Blocks Brushed",
+	"tracker.strangeitems.armadillos_brushed": "Armadillos Brushed"
 }

@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
@@ -16,6 +17,6 @@ public abstract class BowMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;incrementStat(Lnet/minecraft/stat/Stat;)V"),
         method = "onStoppedUsing")
     public void bowMixin(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
-        new ComponentTracker().appendTracker(stack, StrangeItemsComponents.SHOTS_FIRED);
+        Trackers.shots_fired.append_tracker(stack);
     }
 }

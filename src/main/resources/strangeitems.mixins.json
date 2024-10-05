@@ -4,8 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractArrowMixin",
+    "ArmadilloMixin",
     "AxeMixin",
     "BowMixin",
+    "BrushMixin",
     "EnchantmentMixin",
     "ExampleMixin",
     "FlintAndSteelMixin",
@@ -15,7 +17,8 @@
     "PlayerMixin",
     "ShearsMixin",
     "SheepMixin",
-    "ShovelMixin"
+    "ShovelMixin",
+    "TridentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

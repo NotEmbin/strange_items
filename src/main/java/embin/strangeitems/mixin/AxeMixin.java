@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemUsageContext;
@@ -18,6 +19,6 @@ public class AxeMixin {
         locals = LocalCapture.CAPTURE_FAILHARD,
         method = "useOnBlock")
     public void blockStripMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        new ComponentTracker().appendTracker(context.getStack(), StrangeItemsComponents.LOGS_STRIPPED);
+        Trackers.logs_stripped.append_tracker(context.getStack());
     }
 }

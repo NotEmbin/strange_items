@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.ShovelItem;
@@ -16,13 +17,13 @@ public class ShovelMixin {
         target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"),
         method = "useOnBlock")
     public void pathCreationMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        new ComponentTracker().appendTracker(context.getStack(), StrangeItemsComponents.PATHS_CREATED);
+        Trackers.paths_created.append_tracker(context.getStack());
     }
 
     @Inject(at = @At(value = "INVOKE",
         target = "Lnet/minecraft/block/CampfireBlock;extinguish(Lnet/minecraft/entity/Entity;Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"),
         method = "useOnBlock")
     public void putOutCampfire(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        new ComponentTracker().appendTracker(context.getStack(), StrangeItemsComponents.CAMPFIRES_PUT_OUT);
+        Trackers.campfires_put_out.append_tracker(context.getStack());
     }
 }

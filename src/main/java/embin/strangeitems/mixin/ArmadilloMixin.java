@@ -1,9 +1,7 @@
 package embin.strangeitems.mixin;
 
-import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.tracker.Trackers;
-import embin.strangeitems.util.ComponentTracker;
-import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.ArmadilloEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -14,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-@Mixin(SheepEntity.class)
-public abstract class SheepMixin {
+@Mixin(ArmadilloEntity.class)
+public class ArmadilloMixin {
     @Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;damage(ILnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/EquipmentSlot;)V"),
-    locals = LocalCapture.CAPTURE_FAILHARD)
-    public void sheepShear(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir, ItemStack itemStack) {
-        Trackers.sheep_sheared.append_tracker(itemStack);
+        locals = LocalCapture.CAPTURE_FAILHARD)
+    public void armadilloBrush(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir, ItemStack itemStack) {
+        Trackers.armadillos_brushed.append_tracker(itemStack);
     }
 }

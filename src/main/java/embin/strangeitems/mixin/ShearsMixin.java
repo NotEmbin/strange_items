@@ -1,6 +1,7 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.block.AbstractPlantStemBlock;
 import net.minecraft.block.Block;
@@ -26,6 +27,6 @@ public abstract class ShearsMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;damage(ILnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/EquipmentSlot;)V"),
         method = "useOnBlock", locals = LocalCapture.CAPTURE_FAILHARD)
     public void shearMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir, World world, BlockPos blockPos, BlockState blockState, Block block, AbstractPlantStemBlock abstractPlantStemBlock, PlayerEntity playerEntity, ItemStack itemStack, BlockState blockState2) {
-        new ComponentTracker().appendTracker(itemStack, StrangeItemsComponents.PLANTS_TRIMMED);
+        Trackers.plants_trimmed.append_tracker(itemStack);
     }
 }
