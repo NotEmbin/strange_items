@@ -13,6 +13,9 @@ public class Trackers {
     public static Tracker register(String id, TagKey<Item> tag) {
         return new Tracker(cn.convertNamespace(id), tag);
     }
+    public static Tracker register(String id) {
+        return new Tracker(cn.convertNamespace(id));
+    }
 
     public static final Tracker blocks_mined = register("blocks_mined", TrackerTags.CAN_TRACK_STATS);
     public static final Tracker time_flown_with_elytra = register("time_flown_with_elytra", TrackerTags.TRACKER_TIME_FLOWN, StatFormatter.TIME, 20);
@@ -32,4 +35,5 @@ public class Trackers {
     public static final Tracker trident_thrown = register("trident_thrown", TrackerTags.TRACKER_TRIDENT_THROWN);
     public static final Tracker blocks_brushed = register("blocks_brushed", TrackerTags.TRACKER_BLOCKS_BRUSHED);
     public static final Tracker armadillos_brushed = register("armadillos_brushed", TrackerTags.TRACKER_ARMADILLOS_BRUSHED);
+    public static final Tracker blocks_mined_map = register("blocks_mined_map");
 }
