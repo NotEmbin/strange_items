@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "strangeitems",
-	"version": "1.0.0-rc.2",
+	"version": "1.0.0-rc.3",
 	"name": "Strange Items",
 	"description": "Allows you to make your tools \"Strange\", which can track certain stats on the item. Inspired by Team Fortress 2",
 	"authors": [
