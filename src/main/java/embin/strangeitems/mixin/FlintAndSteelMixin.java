@@ -1,16 +1,10 @@
 package embin.strangeitems.mixin;
 
-import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.tracker.Trackers;
-import embin.strangeitems.util.ComponentTracker;
-import net.minecraft.block.AbstractPlantStemBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FlintAndSteelItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.ShearsItem;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

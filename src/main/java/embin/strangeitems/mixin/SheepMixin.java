@@ -1,8 +1,6 @@
 package embin.strangeitems.mixin;
 
-import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.tracker.Trackers;
-import embin.strangeitems.util.ComponentTracker;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

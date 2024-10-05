@@ -129,5 +129,16 @@ public class ItemMixin {
         Trackers.blocks_mined.convert_legacy_tracker(stack, StrangeItemsComponents.BLOCKS_MINED);
         Trackers.times_dropped.convert_legacy_tracker(stack, StrangeItemsComponents.TIMES_DROPPED);
         Trackers.mobs_hit.convert_legacy_tracker(stack, StrangeItemsComponents.MOBS_HIT);
+        Trackers.time_flown_with_elytra.convert_legacy_tracker(stack, StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA);
+        Trackers.dirt_tilled.convert_legacy_tracker(stack, StrangeItemsComponents.FARMLAND_CREATED);
+        Trackers.logs_stripped.convert_legacy_tracker(stack, StrangeItemsComponents.LOGS_STRIPPED);
+        Trackers.paths_created.convert_legacy_tracker(stack, StrangeItemsComponents.PATHS_CREATED);
+        Trackers.campfires_put_out.convert_legacy_tracker(stack, StrangeItemsComponents.CAMPFIRES_PUT_OUT);
+        Trackers.sheep_sheared.convert_legacy_tracker(stack, StrangeItemsComponents.SHEEP_SHEARED);
+        Trackers.plants_trimmed.convert_legacy_tracker(stack, StrangeItemsComponents.PLANTS_TRIMMED);
+        Trackers.fires_lit.convert_legacy_tracker(stack, StrangeItemsComponents.FIRES_IGNITED);
+        Trackers.campfires_lit.convert_legacy_tracker(stack, StrangeItemsComponents.CAMPFIRES_LIT);
+        Trackers.shots_hit.convert_legacy_tracker(stack, StrangeItemsComponents.SHOT_HIT);
+        Trackers.shots_fired.convert_legacy_tracker(stack, StrangeItemsComponents.SHOTS_FIRED);
     }
 }

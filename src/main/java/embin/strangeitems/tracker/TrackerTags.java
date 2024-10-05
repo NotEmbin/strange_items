@@ -30,17 +30,4 @@ public class TrackerTags {
     public static final TagKey<Item> TRACKER_BLOCKS_BRUSHED = createTag("trackers/blocks_brushed");
     public static final TagKey<Item> TRACKER_ARMADILLOS_BRUSHED = createTag("trackers/armadillos_brushed");
 
-    public static class Blocks {
-        private static TagKey<Block> createTag(String name) {
-            return TagKey.of(RegistryKeys.BLOCK, cn.convertNamespace(name));
-        }
-
-    }
-
-    public static class Paintings {
-        //public static final TagKey<PaintingVariant> PENGUINMOD_PAINTINGS = createTag("penguinmod_paintings");
-        private static TagKey<PaintingVariant> createTag(String name) {
-            return TagKey.of(RegistryKeys.PAINTING_VARIANT, cn.convertNamespace(name));
-        }
-    }
 }

@@ -4,7 +4,6 @@ import embin.strangeitems.items.ModItems;
 import embin.strangeitems.util.ComponentTracker;
 import embin.strangeitems.util.ConvertNamespace;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.*;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -13,15 +12,12 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class StrangeItems implements ModInitializer {
 	public static final String MOD_ID = "strangeitems";
 	static ConvertNamespace cn = new ConvertNamespace();
-	static ComponentTracker ct = new ComponentTracker();
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
