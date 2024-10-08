@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "strangeitems",
-	"version": "1.0.0-rc.3",
+	"version": "${version}",
 	"name": "Strange Items",
 	"description": "Allows you to make your tools \"Strange\", which can track certain stats on the item. Inspired by Team Fortress 2",
 	"authors": [
@@ -14,19 +14,12 @@
 	"icon": "assets/strangeitems/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"embin.strangeitems.StrangeItems"
-		],
-		"client": [
-			"embin.strangeitems.StrangeItemsClient"
-		]
+		"main": ["embin.strangeitems.StrangeItems"],
+		"modmenu": ["embin.strangeitems.ModMenuIntegration"],
+		"client": ["embin.strangeitems.client.StrangeItemsClient"]
 	},
 	"mixins": [
-		"strangeitems.mixins.json",
-		{
-			"config": "strangeitems.client.mixins.json",
-			"environment": "client"
-		}
+		"strangeitems.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
@@ -35,6 +28,9 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"tooltipscroll": "*"
+	},
+	"recommends": {
+		"tooltipscroll": "*"
 	}
 }

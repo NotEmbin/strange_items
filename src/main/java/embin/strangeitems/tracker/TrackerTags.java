@@ -29,5 +29,6 @@ public class TrackerTags {
     public static final TagKey<Item> TRACKER_TRIDENT_THROWN = createTag("trackers/trident_thrown");
     public static final TagKey<Item> TRACKER_BLOCKS_BRUSHED = createTag("trackers/blocks_brushed");
     public static final TagKey<Item> TRACKER_ARMADILLOS_BRUSHED = createTag("trackers/armadillos_brushed");
+    public static final TagKey<Item> TRACKER_MOBS_KILLED = createTag("trackers/mobs_killed");
 
 }

@@ -65,6 +65,7 @@
 	"itemGroup.strangeitems.strange_items_group": "Strange Items",
 	"tooltip.strangeitems.strange_trackers": "Stats",
 	"tooltip.strangeitems.enchantments": "Enchantments",
+	"tooltip.strangeitems.map_cutoff": "...and %s more",
 
 	"tracker.strangeitems.blocks_mined":"Blocks Mined",
 	"tracker.strangeitems.logs_stripped":"Blocks Stripped",
@@ -83,5 +84,20 @@
 	"tracker.strangeitems.damage_dealt": "Damage Dealt",
 	"tracker.strangeitems.trident_thrown": "Times Thrown",
 	"tracker.strangeitems.blocks_brushed": "Blocks Brushed",
-	"tracker.strangeitems.armadillos_brushed": "Armadillos Brushed"
+	"tracker.strangeitems.armadillos_brushed": "Armadillos Brushed",
+	"tracker.strangeitems.blocks_mined_map":"Blocks",
+	"tracker.strangeitems.mobs_killed":"Mobs Killed",
+
+	"screens.strangeitems.config": "Strange Items Config",
+	"setting.strangeitems.in_depth_tracking": "In Depth Tracking",
+	"setting.strangeitems.in_depth_tracking.desc": "Whether or not the mod should track",
+	"setting.strangeitems.in_depth_tracking.desc2": "extra stuff, such as specific blocks broken.",
+	"setting.strangeitems.check_for_tooltipscroll_mod": "Check if \"Tooltip Scroll\" is Installed",
+	"setting.strangeitems.check_for_tooltipscroll_mod.desc": "If false, then the check for \"Tooltip Scroll\" will",
+	"setting.strangeitems.check_for_tooltipscroll_mod.desc2": "always return false, even if the mod is installed",
+	"setting.strangeitems.invert_tooltipscroll_check_value": "Invert \"Tooltip Scroll\" Check",
+	"setting.strangeitems.invert_tooltipscroll_check_value.desc": "Inverts the mod check, so if the mod is",
+	"setting.strangeitems.invert_tooltipscroll_check_value.desc2": "installed, it returns false, but if the",
+	"setting.strangeitems.invert_tooltipscroll_check_value.desc3": "mod is not installed, it returns true.",
+	"tooltip.strangeitems.unknown_value": "Unknown"
 }

@@ -36,4 +36,7 @@ public class Trackers {
     public static final Tracker blocks_brushed = register("blocks_brushed", TrackerTags.TRACKER_BLOCKS_BRUSHED);
     public static final Tracker armadillos_brushed = register("armadillos_brushed", TrackerTags.TRACKER_ARMADILLOS_BRUSHED);
     public static final Tracker blocks_mined_map = register("blocks_mined_map");
+    public static final Tracker times_dropped_map = register("times_dropped_map");
+    public static final Tracker mobs_killed = register("mobs_killed", TrackerTags.TRACKER_MOBS_KILLED);
+    public static final Tracker mobs_killed_map = register("mobs_killed_map", TrackerTags.TRACKER_MOBS_KILLED);
 }
