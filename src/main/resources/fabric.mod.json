@@ -3,14 +3,15 @@
 	"id": "strangeitems",
 	"version": "${version}",
 	"name": "Strange Items",
-	"description": "Allows you to make your tools \"Strange\", which can track certain stats on the item. Inspired by Team Fortress 2",
+	"description": "Allows tools and other items to track certain statistics on a per-stack basis.",
 	"authors": [
 		"Embin"
 	],
 	"contact": {
-		"sources": "https://github.com/NotEmbin/strange_items"
+		"sources": "https://github.com/NotEmbin/strange_items",
+		"issues": "https://github.com/NotEmbin/strange_items/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/strangeitems/icon.png",
 	"environment": "*",
 	"entrypoints": {
