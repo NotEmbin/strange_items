@@ -11,6 +11,11 @@
 		"minecraft:shears",
 		"minecraft:elytra",
 		"minecraft:trident",
-		"minecraft:brush"
+		"minecraft:brush",
+		"minecraft:fishing_rod",
+		"#minecraft:head_armor",
+		"#minecraft:chest_armor",
+		"#minecraft:leg_armor",
+		"#minecraft:foot_armor"
 	]
 }

@@ -2,11 +2,16 @@ package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItems;
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.tracker.TrackerTags;
+import embin.strangeitems.util.TrackerUtil;
+import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,16 +39,15 @@ public class ItemMixin {
     public void postMineMixin(World world, BlockState state, BlockPos pos, PlayerEntity miner, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
         Trackers.blocks_mined.append_tracker(stack);
-        Trackers.blocks_mined_map.append_tracker_nbt(stack, Registries.BLOCK.getId(state.getBlock()).toString(), 1);
+        Trackers.blocks_mined_map.append_tracker_nbt(stack, Registries.BLOCK.getId(state.getBlock()).toString(), 1, Trackers.blocks_mined);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
         ordinal = 0, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     public void appendTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, List<Text> list) {
         ItemStack stack = (ItemStack)(Object) this;
-        if (Trackers.blocks_mined_map.stack_has_tracker(stack) && Screen.hasAltDown() && StrangeConfig.in_depth_tracking) {
+        if (Trackers.blocks_mined_map.stack_has_tracker(stack) && TrackerUtil.is_key_down(StrangeItemsClient.show_blocks_mined) && StrangeConfig.in_depth_tracking) {
             Trackers.blocks_mined.append_tooltip_no_space(stack, list);
-            //list.add(Text.translatable("tracker.strangeitems.blocks_mined_map").append(":").formatted(Formatting.GRAY));
             Trackers.blocks_mined_map.append_map_tooltip(stack, list, "block");
             if (type.isAdvanced()) {
                 list.add(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
@@ -51,7 +55,7 @@ public class ItemMixin {
             cir.setReturnValue(list);
             return;
         }
-        if (Trackers.mobs_killed_map.stack_has_tracker(stack) && Screen.hasShiftDown() && StrangeConfig.in_depth_tracking) {
+        if (Trackers.mobs_killed_map.stack_has_tracker(stack) && TrackerUtil.is_key_down(StrangeItemsClient.show_mobs_killed) && StrangeConfig.in_depth_tracking) {
             Trackers.mobs_killed.append_tooltip_no_space(stack, list);
             Trackers.mobs_killed_map.append_map_tooltip(stack, list, "entity");
             if (type.isAdvanced()) {
@@ -60,7 +64,7 @@ public class ItemMixin {
             cir.setReturnValue(list);
             return;
         }
-        if (Trackers.times_dropped_map.stack_has_tracker(stack) && Screen.hasControlDown() && StrangeConfig.in_depth_tracking) {
+        if (Trackers.times_dropped_map.stack_has_tracker(stack) && TrackerUtil.is_key_down(StrangeItemsClient.show_times_dropped) && StrangeConfig.in_depth_tracking) {
             Trackers.times_dropped.append_tooltip_no_space(stack, list);
             Trackers.times_dropped_map.append_time_map_tooltip(stack, list, Trackers.times_dropped);
             if (type.isAdvanced()) {
@@ -69,7 +73,7 @@ public class ItemMixin {
             cir.setReturnValue(list);
             return;
         }
-        if (stack.isIn(TrackerTags.CAN_TRACK_STATS)) {
+        if (stack.isIn(TrackerTags.CAN_TRACK_STATS) || stack.getComponents().toString().contains("strangeitems:")) {
             list.add(Text.translatable("tooltip.strangeitems.strange_trackers").append(":").formatted(Formatting.GRAY));
             //tooltip.add(Text.literal("").withColor(13593138));
         }
@@ -79,19 +83,25 @@ public class ItemMixin {
         Trackers.fires_lit.append_tooltip(stack, list);
         Trackers.campfires_lit.append_tooltip(stack, list);
         Trackers.sheep_sheared.append_tooltip(stack, list);
+        Trackers.fish_caught.append_tooltip(stack, list);
+        Trackers.times_fishing_rod_caught_something.append_tooltip(stack, list);
+        Trackers.times_fishing_rod_cast.append_tooltip(stack, list);
+        Trackers.times_fishing_rod_reeled_in.append_tooltip(stack, list);
         Trackers.blocks_brushed.append_tooltip(stack, list);
         Trackers.armadillos_brushed.append_tooltip(stack, list);
+        Trackers.damage_taken.append_tooltip(stack, list);
+        Trackers.times_equipped.append_tooltip(stack, list);
         Trackers.damage_dealt.append_tooltip(stack, list);
-        Trackers.mobs_killed.append_tooltip(stack, list, "Shift");
+        Trackers.mobs_killed.append_tooltip(stack, list, StrangeItemsClient.show_mobs_killed.getBoundKeyLocalizedText());
         Trackers.trident_thrown.append_tooltip(stack, list);
-        Trackers.blocks_mined.append_tooltip(stack, list, "Alt");
+        Trackers.blocks_mined.append_tooltip(stack, list, StrangeItemsClient.show_blocks_mined.getBoundKeyLocalizedText());
         Trackers.mobs_hit.append_tooltip(stack, list);
         Trackers.dirt_tilled.append_tooltip(stack, list);
         Trackers.logs_stripped.append_tooltip(stack, list);
         Trackers.paths_created.append_tooltip(stack, list);
         Trackers.campfires_put_out.append_tooltip(stack, list);
         Trackers.plants_trimmed.append_tooltip(stack, list);
-        Trackers.times_dropped.append_tooltip(stack, list, "Ctrl");
+        Trackers.times_dropped.append_tooltip(stack, list, StrangeItemsClient.show_times_dropped.getBoundKeyLocalizedText());
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)

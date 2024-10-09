@@ -1,6 +1,7 @@
 package embin.strangeitems.tracker;
 
 import embin.strangeitems.StrangeItems;
+import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.component.ComponentType;
@@ -92,8 +93,19 @@ public class Tracker {
         return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.toString());
     }
 
+    public void append_tracker_nbt(ItemStack stack, String key, int add_amount, Tracker base_tracker) {
+        if (this.should_track(stack) || base_tracker.stack_has_tracker(stack)) {
+            if (StrangeConfig.in_depth_tracking) {
+                int tracker_count = this.get_tracker_value_nbt(stack).getInt(key) + add_amount;
+                NbtCompound nbt = this.get_tracker_value_nbt(stack).copy();
+                nbt.putInt(key, tracker_count);
+                this.set_tracker_value_nbt(stack, nbt);
+            }
+        }
+    }
+
     public void append_tracker_nbt(ItemStack stack, String key, int add_amount) {
-        if (stack.isIn(this.item_tag)) {
+        if (this.should_track(stack)) {
             if (StrangeConfig.in_depth_tracking) {
                 int tracker_count = this.get_tracker_value_nbt(stack).getInt(key) + add_amount;
                 NbtCompound nbt = this.get_tracker_value_nbt(stack).copy();
@@ -104,7 +116,7 @@ public class Tracker {
     }
 
     public void append_tracker_time(ItemStack stack, Tracker inherited_tracker) {
-        if (stack.isIn(this.item_tag)) {
+        if (this.should_track(stack) || inherited_tracker.stack_has_tracker(stack)) {
             if (StrangeConfig.in_depth_tracking) {
                 int base_value = inherited_tracker.get_tracker_value_int(stack);
                 NbtCompound nbt = this.get_tracker_value_nbt(stack).copy();
@@ -115,7 +127,7 @@ public class Tracker {
     }
 
     public void append_tracker(ItemStack stack, int add_amount) {
-        if (stack.isIn(this.item_tag)) {
+        if (this.should_track(stack)) {
             int tracker_count = this.get_tracker_value_int(stack) + add_amount;
             this.set_tracker_value_int(stack, tracker_count);
         }
@@ -134,19 +146,19 @@ public class Tracker {
     }
 
     public void append_tooltip(ItemStack stack, List<Text> tooltip) {
-        if (stack.isIn(this.item_tag)) {
+        if (this.should_track(stack)) {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
             Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
             tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
         }
     }
 
-    public void append_tooltip(ItemStack stack, List<Text> tooltip, String control) {
-        if (stack.isIn(this.item_tag)) {
+    public void append_tooltip(ItemStack stack, List<Text> tooltip, Text control) {
+        if (this.should_track(stack)) {
             if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking) {
                 Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
                 Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
-                Text control_text = Text.literal(" [" + control + "]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
+                Text control_text = Text.literal(" [").append(control).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
                 tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
             } else {
                 this.append_tooltip(stack, tooltip);
@@ -155,7 +167,7 @@ public class Tracker {
     }
 
     public void append_tooltip_no_space(ItemStack stack, List<Text> tooltip) {
-        if (stack.isIn(this.item_tag)) {
+        if (this.should_track(stack)) {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
             MutableText tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
             tooltip.add(tooltip_text.append(stat_text));
@@ -163,7 +175,7 @@ public class Tracker {
     }
 
     public void append_map_tooltip(ItemStack stack, List<Text> tooltip, String translate_prefix) {
-        if (stack.isIn(this.item_tag)) {
+        if (this.should_track(stack)) {
             NbtCompound nbtCompound = this.get_tracker_value_nbt(stack);
             int index = 1;
             for (String key : TrackerUtil.get_sorted_keys(nbtCompound)) {
@@ -181,7 +193,7 @@ public class Tracker {
     }
 
     public void append_time_map_tooltip(ItemStack stack, List<Text> tooltip, Tracker inherited_tracker) {
-        if (stack.isIn(this.item_tag)) {
+        if (this.should_track(stack)) {
             int size = inherited_tracker.get_tracker_value_int(stack) - 1;
             for (int i = size; i >= 0; i--) {
                 String key = String.valueOf(i + 1);
@@ -206,12 +218,12 @@ public class Tracker {
     public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component) {
         if (stack.contains(legacy_component)) {
             int legacy_data = stack.getOrDefault(legacy_component, 0);
-            this.set_tracker_value_int(stack, legacy_data);
+            this.set_tracker_value_int(stack, this.get_tracker_value_int(stack) + legacy_data);
             stack.remove(legacy_component);
         }
     }
 
-    public boolean is_tooltip_scroll_installed() {
+    public static boolean is_tooltip_scroll_installed() {
         boolean result = false;
         if (StrangeConfig.check_for_tooltipscroll) {
             result = StrangeItems.tooltipscroll_installed;
@@ -220,5 +232,9 @@ public class Tracker {
             return !result;
         }
         return result;
+    }
+
+    public boolean should_track(ItemStack stack) {
+        return stack.isIn(this.item_tag) || this.stack_has_tracker(stack) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS);
     }
 }

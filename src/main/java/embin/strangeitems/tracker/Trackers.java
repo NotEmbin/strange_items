@@ -39,4 +39,10 @@ public class Trackers {
     public static final Tracker times_dropped_map = register("times_dropped_map");
     public static final Tracker mobs_killed = register("mobs_killed", TrackerTags.TRACKER_MOBS_KILLED);
     public static final Tracker mobs_killed_map = register("mobs_killed_map", TrackerTags.TRACKER_MOBS_KILLED);
+    public static final Tracker fish_caught = register("fish_caught", TrackerTags.TRACKER_FISH_CAUGHT);
+    public static final Tracker damage_taken = register("damage_taken", TrackerTags.TRACKER_DAMAGE_TAKEN, StatFormatter.DIVIDE_BY_TEN, 1);
+    public static final Tracker times_equipped = register("times_equipped", TrackerTags.TRACKER_TIMES_EQUIPPED);
+    public static final Tracker times_fishing_rod_reeled_in = register("times_fishing_rod_reeled_in", TrackerTags.TRACKER_TIMES_FISHING_ROD_REELED_IN);
+    public static final Tracker times_fishing_rod_cast = register("times_fishing_rod_cast", TrackerTags.TRACKER_TIMES_FISHING_ROD_CAST);
+    public static final Tracker times_fishing_rod_caught_something = register("times_fishing_rod_caught_something", TrackerTags.TRACKER_TIMES_FISHING_CAUGHT_SOMETHING);
 }

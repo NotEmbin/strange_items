@@ -1,5 +1,9 @@
 package embin.strangeitems.util;
 
+import embin.strangeitems.mixin.KeyBindAccessor;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.nbt.NbtCompound;
 import java.util.List;
 
@@ -31,5 +35,11 @@ public class TrackerUtil {
            }
         }
         return sorted;
+    }
+
+    public static boolean is_key_down(KeyBinding key) {
+        long handle = MinecraftClient.getInstance().getWindow().getHandle();
+        int key_code = ((KeyBindAccessor)key).getBoundKey().getCode();
+        return InputUtil.isKeyPressed(handle, key_code);
     }
 }

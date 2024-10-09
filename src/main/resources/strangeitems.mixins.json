@@ -5,11 +5,15 @@
   "mixins": [
     "AbstractArrowMixin",
     "ArmadilloMixin",
+    "ArmorItemMixin",
     "AxeMixin",
     "BowMixin",
     "BrushMixin",
+    "ElytraItemMixin",
     "EnchantmentMixin",
     "ExampleMixin",
+    "FishingBobberMixin",
+    "FishingRodMixin",
     "FlintAndSteelMixin",
     "HoeMixin",
     "ItemMixin",
@@ -22,5 +26,8 @@
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  },
+  "client": [
+    "KeyBindAccessor"
+  ]
 }

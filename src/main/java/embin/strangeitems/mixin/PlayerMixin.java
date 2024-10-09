@@ -4,6 +4,7 @@ import embin.strangeitems.tracker.Trackers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -38,6 +39,16 @@ public abstract class PlayerMixin {
     @Inject(method = "onKilledOther", at = @At(value = "HEAD"))
     public void killOtherMobMixin(ServerWorld world, LivingEntity other, CallbackInfoReturnable<Boolean> cir) {
         Trackers.mobs_killed.append_tracker(this.getWeaponStack());
-        Trackers.mobs_killed_map.append_tracker_nbt(this.getWeaponStack(), Registries.ENTITY_TYPE.getId(other.getType()).toString(), 1);
+        Trackers.mobs_killed_map.append_tracker_nbt(this.getWeaponStack(), Registries.ENTITY_TYPE.getId(other.getType()).toString(), 1, Trackers.mobs_killed);
+    }
+
+    @Inject(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V", ordinal = 1))
+    public void damageMixin(DamageSource source, float amount, CallbackInfo ci) {
+        PlayerEntity player = (PlayerEntity)(Object) this;
+        for (ItemStack stack : player.getArmorItems()) {
+            if (!stack.isEmpty()) {
+                Trackers.damage_taken.append_tracker(stack, Math.round(amount * 10.0F));
+            }
+        }
     }
 }

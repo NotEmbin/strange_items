@@ -105,6 +105,12 @@ public class StrangeItemsComponents {
         ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
 
+    public static final ComponentType<Unit> HAS_ALL_TRACKERS = Registry.register(
+        Registries.DATA_COMPONENT_TYPE,
+        cn.convertNamespace("strangeitems:has_all_trackers"),
+        ComponentType.<Unit>builder().codec(Unit.CODEC).build()
+    );
+
     protected static void init() {
         StrangeItems.LOGGER.info("Loading components for Strange Items");
     }

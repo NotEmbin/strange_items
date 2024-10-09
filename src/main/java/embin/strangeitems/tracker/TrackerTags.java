@@ -30,5 +30,11 @@ public class TrackerTags {
     public static final TagKey<Item> TRACKER_BLOCKS_BRUSHED = createTag("trackers/blocks_brushed");
     public static final TagKey<Item> TRACKER_ARMADILLOS_BRUSHED = createTag("trackers/armadillos_brushed");
     public static final TagKey<Item> TRACKER_MOBS_KILLED = createTag("trackers/mobs_killed");
+    public static final TagKey<Item> TRACKER_FISH_CAUGHT = createTag("trackers/fish_caught");
+    public static final TagKey<Item> TRACKER_DAMAGE_TAKEN = createTag("trackers/damage_taken");
+    public static final TagKey<Item> TRACKER_TIMES_EQUIPPED = createTag("trackers/times_equipped");
+    public static final TagKey<Item> TRACKER_TIMES_FISHING_ROD_REELED_IN = createTag("trackers/times_fishing_rod_reeled_in");
+    public static final TagKey<Item> TRACKER_TIMES_FISHING_ROD_CAST = createTag("trackers/times_fishing_rod_cast");
+    public static final TagKey<Item> TRACKER_TIMES_FISHING_CAUGHT_SOMETHING = createTag("trackers/times_fishing_rod_caught_something");
 
 }
