@@ -38,13 +38,6 @@ public class Tracker {
     public int default_value = 0;
 
     /**
-     * Maximum number of entries that can be shown for in-depth trackers.
-     * Ignored if certain conditions are met.
-     * @see Tracker#is_tooltip_scroll_installed()
-     */
-    public int max_maps_shown = 8;
-
-    /**
      * The item tag that controls whether an item should have a certain tracker.
      */
     public TagKey<Item> item_tag = TrackerTags.CAN_TRACK_STATS;
@@ -92,6 +85,7 @@ public class Tracker {
     }
 
     /**
+     * Checks if the given stack has any tracker data on it.
      * @param stack The item stack to check for.
      * @return <code>true</code> if the stack has the tracker;
      * <code>false</code> if it doesn't
@@ -146,19 +140,6 @@ public class Tracker {
         }
     }
 
-    public void append_tooltip(ItemStack stack, List<Text> tooltip, Text control) {
-        if (this.should_track(stack)) {
-            if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking) {
-                Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
-                Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
-                Text control_text = Text.literal(" [").append(control).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
-                tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
-            } else {
-                this.append_tooltip(stack, tooltip);
-            }
-        }
-    }
-
     public void append_tooltip_no_space(ItemStack stack, List<Text> tooltip) {
         if (this.should_track(stack)) {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
@@ -167,6 +148,11 @@ public class Tracker {
         }
     }
 
+    /**
+     * Converts the data of a specified legacy tracker component to the new data format, if the specified stack has legacy data.
+     * @param stack Item stack to check for.
+     * @param legacy_component The tracker component to convert.
+     */
     public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component) {
         if (stack.contains(legacy_component)) {
             int legacy_data = stack.getOrDefault(legacy_component, 0);

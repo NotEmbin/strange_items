@@ -76,16 +76,16 @@ public abstract class ItemMixin {
         Trackers.damage_taken.append_tooltip(stack, list);
         Trackers.times_equipped.append_tooltip(stack, list);
         Trackers.damage_dealt.append_tooltip(stack, list);
-        Trackers.mobs_killed.append_tooltip(stack, list, StrangeItemsClient.show_mobs_killed.getBoundKeyLocalizedText());
+        Trackers.mobs_killed.append_tooltip(stack, list);
         Trackers.trident_thrown.append_tooltip(stack, list);
-        Trackers.blocks_mined.append_tooltip(stack, list, StrangeItemsClient.show_blocks_mined.getBoundKeyLocalizedText());
+        Trackers.blocks_mined.append_tooltip(stack, list);
         Trackers.mobs_hit.append_tooltip(stack, list);
         Trackers.dirt_tilled.append_tooltip(stack, list);
         Trackers.logs_stripped.append_tooltip(stack, list);
         Trackers.paths_created.append_tooltip(stack, list);
         Trackers.campfires_put_out.append_tooltip(stack, list);
         Trackers.plants_trimmed.append_tooltip(stack, list);
-        Trackers.times_dropped.append_tooltip(stack, list, StrangeItemsClient.show_times_dropped.getBoundKeyLocalizedText());
+        Trackers.times_dropped.append_tooltip(stack, list);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)

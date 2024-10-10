@@ -10,30 +10,6 @@ import net.minecraft.stat.StatFormatter;
 public class Trackers {
     private static final ConvertNamespace cn = new ConvertNamespace();
 
-    public static Tracker register(String id, TagKey<Item> tag, StatFormatter stat_formatter, int m) {
-        return new Tracker(cn.convertNamespace(id), tag, stat_formatter, m);
-    }
-
-    public static Tracker register(String id, TagKey<Item> tag) {
-        return new Tracker(cn.convertNamespace(id), tag);
-    }
-
-    public static Tracker register(String id) {
-        return new Tracker(cn.convertNamespace(id));
-    }
-
-    public static TimestampTracker registerTimestamp(String id, KeyBinding key) {
-        return new TimestampTracker(cn.convertNamespace(id), key);
-    }
-
-    public static MapTracker registerMap(String id, String prefix, KeyBinding key) {
-        return new MapTracker(cn.convertNamespace(id), prefix, key);
-    }
-
-    public static MapTracker registerMap(String id, String prefix, KeyBinding key, TagKey<Item> tag) {
-        return new MapTracker(cn.convertNamespace(id), prefix, key, tag);
-    }
-
     public static final MapTracker blocks_mined = registerMap("blocks_mined", "block", StrangeItemsClient.show_blocks_mined);
     public static final Tracker time_flown_with_elytra = register("time_flown_with_elytra", TrackerTags.TRACKER_TIME_FLOWN, StatFormatter.TIME, 20);
     public static final TimestampTracker times_dropped = registerTimestamp("times_dropped", StrangeItemsClient.show_times_dropped);
@@ -59,4 +35,28 @@ public class Trackers {
     public static final Tracker times_fishing_rod_reeled_in = register("times_fishing_rod_reeled_in", TrackerTags.TRACKER_TIMES_FISHING_ROD_REELED_IN);
     public static final Tracker times_fishing_rod_cast = register("times_fishing_rod_cast", TrackerTags.TRACKER_TIMES_FISHING_ROD_CAST);
     public static final Tracker times_fishing_rod_caught_something = register("times_fishing_rod_caught_something", TrackerTags.TRACKER_TIMES_FISHING_CAUGHT_SOMETHING);
+
+    public static Tracker register(String id) {
+        return new Tracker(cn.convertNamespace(id));
+    }
+
+    public static Tracker register(String id, TagKey<Item> tag) {
+        return new Tracker(cn.convertNamespace(id), tag);
+    }
+
+    public static Tracker register(String id, TagKey<Item> tag, StatFormatter stat_formatter, int m) {
+        return new Tracker(cn.convertNamespace(id), tag, stat_formatter, m);
+    }
+
+    public static TimestampTracker registerTimestamp(String id, KeyBinding key) {
+        return new TimestampTracker(cn.convertNamespace(id), key);
+    }
+
+    public static MapTracker registerMap(String id, String prefix, KeyBinding key) {
+        return new MapTracker(cn.convertNamespace(id), prefix, key);
+    }
+
+    public static MapTracker registerMap(String id, String prefix, KeyBinding key, TagKey<Item> tag) {
+        return new MapTracker(cn.convertNamespace(id), prefix, key, tag);
+    }
 }

@@ -5,12 +5,11 @@
   "mixins": [
     "AbstractArrowMixin",
     "ArmadilloMixin",
-    "ArmorItemMixin",
+    "EquipmentMixin",
     "AxeMixin",
     "BowMixin",
     "BrushMixin",
     "CrossbowItemMixin",
-    "ElytraItemMixin",
     "EnchantmentMixin",
     "ExampleMixin",
     "FishingBobberMixin",

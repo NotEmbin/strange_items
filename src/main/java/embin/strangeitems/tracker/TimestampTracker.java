@@ -74,7 +74,7 @@ public class TimestampTracker extends Tracker {
                 }
             }
             if (size >= (this.max_entries_shown + 1) && !is_tooltip_scroll_installed()) {
-                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", size - (this.max_maps_shown + 1)));
+                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", size - (this.max_entries_shown + 1)));
             }
             TrackerUtil.add_item_id_to_tooltip(stack, tooltip, type);
             cir.setReturnValue(tooltip);
@@ -83,10 +83,6 @@ public class TimestampTracker extends Tracker {
 
     public boolean should_show_tooltip(ItemStack stack) {
         return this.stack_has_tracker(stack) && TrackerUtil.is_key_down(this.key) && StrangeConfig.in_depth_tracking;
-    }
-
-    public boolean stack_has_tracker(ItemStack stack, String key) {
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).contains(key);
     }
 
     @Override

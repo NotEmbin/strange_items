@@ -4,12 +4,17 @@ import embin.strangeitems.mixin.KeyBindAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.component.EnchantmentEffectComponentTypes;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 
 import java.util.List;
 
@@ -63,6 +68,20 @@ public class TrackerUtil {
     public static void add_item_id_to_tooltip(ItemStack stack, List<Text> tooltip, TooltipType type) {
         if (type.isAdvanced()) {
             tooltip.add(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
+        }
+    }
+
+    public static boolean can_swap(PlayerEntity user, Hand hand) {
+        ItemStack stack = user.getStackInHand(hand);
+        EquipmentSlot slot = user.getPreferredEquipmentSlot(stack);
+        if (!user.canUseSlot(slot)) {
+            return false;
+        } else {
+            ItemStack stack2 = user.getEquippedStack(slot);
+            return (
+                !EnchantmentHelper.hasAnyEnchantmentsWith(stack2, EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE)
+                || user.isCreative()
+            ) && !ItemStack.areEqual(stack, stack2);
         }
     }
 }
