@@ -9,6 +9,7 @@
     "AxeMixin",
     "BowMixin",
     "BrushMixin",
+    "CrossbowItemMixin",
     "ElytraItemMixin",
     "EnchantmentMixin",
     "ExampleMixin",

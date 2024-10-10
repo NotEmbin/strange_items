@@ -1,17 +1,12 @@
 package embin.strangeitems.mixin;
 
-import embin.strangeitems.StrangeItems;
 import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.tracker.Trackers;
 import embin.strangeitems.tracker.TrackerTags;
 import embin.strangeitems.util.TrackerUtil;
-import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,12 +14,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,45 +29,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Mixin(ItemStack.class)
-public class ItemMixin {
+public abstract class ItemMixin {
+    @Shadow public abstract Stream<TagKey<Item>> streamTags();
+
     @Inject(at = @At(value = "HEAD"), method = "postMine")
     public void postMineMixin(World world, BlockState state, BlockPos pos, PlayerEntity miner, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
-        Trackers.blocks_mined.append_tracker(stack);
-        Trackers.blocks_mined_map.append_tracker_nbt(stack, Registries.BLOCK.getId(state.getBlock()).toString(), 1, Trackers.blocks_mined);
+        Trackers.blocks_mined.append_tracker(stack, Registries.BLOCK.getId(state.getBlock()).toString());
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
         ordinal = 0, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     public void appendTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, List<Text> list) {
         ItemStack stack = (ItemStack)(Object) this;
-        if (Trackers.blocks_mined_map.stack_has_tracker(stack) && TrackerUtil.is_key_down(StrangeItemsClient.show_blocks_mined) && StrangeConfig.in_depth_tracking) {
-            Trackers.blocks_mined.append_tooltip_no_space(stack, list);
-            Trackers.blocks_mined_map.append_map_tooltip(stack, list, "block");
-            if (type.isAdvanced()) {
-                list.add(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
-            }
-            cir.setReturnValue(list);
+        if (Trackers.blocks_mined.should_show_tooltip(stack)) {
+            Trackers.blocks_mined.append_tooltip_map(stack, list, cir, type);
             return;
         }
-        if (Trackers.mobs_killed_map.stack_has_tracker(stack) && TrackerUtil.is_key_down(StrangeItemsClient.show_mobs_killed) && StrangeConfig.in_depth_tracking) {
-            Trackers.mobs_killed.append_tooltip_no_space(stack, list);
-            Trackers.mobs_killed_map.append_map_tooltip(stack, list, "entity");
-            if (type.isAdvanced()) {
-                list.add(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
-            }
-            cir.setReturnValue(list);
+        if (Trackers.mobs_killed.should_show_tooltip(stack)) {
+            Trackers.mobs_killed.append_tooltip_map(stack, list, cir, type);
             return;
         }
-        if (Trackers.times_dropped_map.stack_has_tracker(stack) && TrackerUtil.is_key_down(StrangeItemsClient.show_times_dropped) && StrangeConfig.in_depth_tracking) {
-            Trackers.times_dropped.append_tooltip_no_space(stack, list);
-            Trackers.times_dropped_map.append_time_map_tooltip(stack, list, Trackers.times_dropped);
-            if (type.isAdvanced()) {
-                list.add(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
-            }
-            cir.setReturnValue(list);
+        if (Trackers.times_dropped.should_show_tooltip(stack)) {
+            Trackers.times_dropped.append_tooltip_map(stack, list, cir, type);
             return;
         }
         if (stack.isIn(TrackerTags.CAN_TRACK_STATS) || stack.getComponents().toString().contains("strangeitems:")) {

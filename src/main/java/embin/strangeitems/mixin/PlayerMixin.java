@@ -25,7 +25,6 @@ public abstract class PlayerMixin {
     @Inject(at = @At("RETURN"), method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")
     public void dropItemMixin(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
         Trackers.times_dropped.append_tracker(stack);
-        Trackers.times_dropped_map.append_tracker_time(stack, Trackers.times_dropped);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V"),
@@ -38,8 +37,7 @@ public abstract class PlayerMixin {
 
     @Inject(method = "onKilledOther", at = @At(value = "HEAD"))
     public void killOtherMobMixin(ServerWorld world, LivingEntity other, CallbackInfoReturnable<Boolean> cir) {
-        Trackers.mobs_killed.append_tracker(this.getWeaponStack());
-        Trackers.mobs_killed_map.append_tracker_nbt(this.getWeaponStack(), Registries.ENTITY_TYPE.getId(other.getType()).toString(), 1, Trackers.mobs_killed);
+        Trackers.mobs_killed.append_tracker(this.getWeaponStack(), Registries.ENTITY_TYPE.getId(other.getType()).toString());
     }
 
     @Inject(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V", ordinal = 1))

@@ -3,7 +3,6 @@ package embin.strangeitems.tracker;
 import embin.strangeitems.StrangeItems;
 import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.config.StrangeConfig;
-import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
@@ -11,8 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.text.MutableText;
@@ -20,19 +17,38 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * Base Tracker class
+ */
 public class Tracker {
     public Identifier id;
-    public StatFormatter stat_formatter= StatFormatter.DEFAULT;
+
+    /**
+     * The StatFormatter used when displaying a tracker's value in its tooltip.
+     * @see StatFormatter
+     */
+    public StatFormatter stat_formatter = StatFormatter.DEFAULT;
+
+    /**
+     * The multiplier applied to the value shown on the tracker tooltip.
+     */
     public int formatted_value_multiplier = 1;
     public int default_value = 0;
+
+    /**
+     * Maximum number of entries that can be shown for in-depth trackers.
+     * Ignored if certain conditions are met.
+     * @see Tracker#is_tooltip_scroll_installed()
+     */
     public int max_maps_shown = 8;
+
+    /**
+     * The item tag that controls whether an item should have a certain tracker.
+     */
     public TagKey<Item> item_tag = TrackerTags.CAN_TRACK_STATS;
+
     public Tracker(Identifier id, TagKey<Item> tag, StatFormatter stat_formatter, int formatted_value_multiplier) {
         this.id = id;
         this.stat_formatter = stat_formatter;
@@ -75,6 +91,11 @@ public class Tracker {
         return Util.createTranslationKey("tracker", this.id);
     }
 
+    /**
+     * @param stack The item stack to check for.
+     * @return <code>true</code> if the stack has the tracker;
+     * <code>false</code> if it doesn't
+     */
     public boolean stack_has_tracker(ItemStack stack) {
         return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).contains(this.toString());
     }
@@ -93,39 +114,11 @@ public class Tracker {
         return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.toString());
     }
 
-    public void append_tracker_nbt(ItemStack stack, String key, int add_amount, Tracker base_tracker) {
-        if (this.should_track(stack) || base_tracker.stack_has_tracker(stack)) {
-            if (StrangeConfig.in_depth_tracking) {
-                int tracker_count = this.get_tracker_value_nbt(stack).getInt(key) + add_amount;
-                NbtCompound nbt = this.get_tracker_value_nbt(stack).copy();
-                nbt.putInt(key, tracker_count);
-                this.set_tracker_value_nbt(stack, nbt);
-            }
-        }
-    }
-
-    public void append_tracker_nbt(ItemStack stack, String key, int add_amount) {
-        if (this.should_track(stack)) {
-            if (StrangeConfig.in_depth_tracking) {
-                int tracker_count = this.get_tracker_value_nbt(stack).getInt(key) + add_amount;
-                NbtCompound nbt = this.get_tracker_value_nbt(stack).copy();
-                nbt.putInt(key, tracker_count);
-                this.set_tracker_value_nbt(stack, nbt);
-            }
-        }
-    }
-
-    public void append_tracker_time(ItemStack stack, Tracker inherited_tracker) {
-        if (this.should_track(stack) || inherited_tracker.stack_has_tracker(stack)) {
-            if (StrangeConfig.in_depth_tracking) {
-                int base_value = inherited_tracker.get_tracker_value_int(stack);
-                NbtCompound nbt = this.get_tracker_value_nbt(stack).copy();
-                nbt.putLong(String.valueOf(base_value), Instant.now().getEpochSecond());
-                this.set_tracker_value_nbt(stack, nbt);
-            }
-        }
-    }
-
+    /**
+     * Increments the tracker for an item stack by a specified amount when called.
+     * @param stack Item stack to increment the tracker on.
+     * @param add_amount Amount to add.
+     */
     public void append_tracker(ItemStack stack, int add_amount) {
         if (this.should_track(stack)) {
             int tracker_count = this.get_tracker_value_int(stack) + add_amount;
@@ -133,16 +126,16 @@ public class Tracker {
         }
     }
 
+    /**
+     * Increments the tracker for an item stack by 1 when called.
+     * @param stack Item stack to increment the tracker on.
+     */
     public void append_tracker(ItemStack stack) {
         this.append_tracker(stack, 1);
     }
 
     public String get_formatted_tracker_value(ItemStack stack) {
         return this.get_stat_formatter().format(this.get_tracker_value_int(stack) * this.formatted_value_multiplier);
-    }
-
-    public String get_formatted_tracker_value_nbt(ItemStack stack, String key) {
-        return this.get_stat_formatter().format(this.get_tracker_value_nbt(stack).getInt(key) * this.formatted_value_multiplier);
     }
 
     public void append_tooltip(ItemStack stack, List<Text> tooltip) {
@@ -171,47 +164,6 @@ public class Tracker {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
             MutableText tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
             tooltip.add(tooltip_text.append(stat_text));
-        }
-    }
-
-    public void append_map_tooltip(ItemStack stack, List<Text> tooltip, String translate_prefix) {
-        if (this.should_track(stack)) {
-            NbtCompound nbtCompound = this.get_tracker_value_nbt(stack);
-            int index = 1;
-            for (String key : TrackerUtil.get_sorted_keys(nbtCompound)) {
-                if (index <= this.max_maps_shown || is_tooltip_scroll_installed()) {
-                    Text stat_text = Text.literal(this.get_formatted_tracker_value_nbt(stack, key)).formatted(Formatting.YELLOW);
-                    MutableText tooltip_text = Text.translatable(Identifier.of(key).toTranslationKey(translate_prefix)).append(": ").formatted(Formatting.GRAY);
-                    tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
-                }
-                index++;
-            }
-            if (index > (this.max_maps_shown + 1) && !is_tooltip_scroll_installed()) {
-                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)));
-            }
-        }
-    }
-
-    public void append_time_map_tooltip(ItemStack stack, List<Text> tooltip, Tracker inherited_tracker) {
-        if (this.should_track(stack)) {
-            int size = inherited_tracker.get_tracker_value_int(stack) - 1;
-            for (int i = size; i >= 0; i--) {
-                String key = String.valueOf(i + 1);
-                if ((size - this.max_maps_shown) <= i || is_tooltip_scroll_installed()) {
-                    Text stat_text = Text.translatable("tooltip.strangeitems.unknown_value").formatted(Formatting.DARK_GRAY);
-                    if (this.get_tracker_value_nbt(stack).contains(key)) {
-                        long tracker_value = this.get_tracker_value_nbt(stack).getLong(key);
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
-                        Instant time = Instant.ofEpochSecond(tracker_value);
-                        stat_text = Text.literal(format.format(Date.from(time))).formatted(Formatting.GRAY);
-                    }
-                    MutableText tooltip_text = Text.literal(key).append(": ").formatted(Formatting.YELLOW);
-                    tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
-                }
-            }
-            if (size >= (this.max_maps_shown + 1) && !is_tooltip_scroll_installed()) {
-                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", size - (this.max_maps_shown + 1)));
-            }
         }
     }
 
