@@ -128,6 +128,6 @@ public class StrangeItemsComponents {
     );
 
     protected static void init() {
-        StrangeItems.LOGGER.info("Loading components for Strange Items");
+        StrangeItems.LOGGER.info("Loading components and legacy components for Strange Items");
     }
 }

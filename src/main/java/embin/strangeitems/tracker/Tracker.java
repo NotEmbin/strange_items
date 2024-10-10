@@ -148,28 +148,24 @@ public class Tracker {
         }
     }
 
-    /**
-     * Converts the data of a specified legacy tracker component to the new data format, if the specified stack has legacy data.
-     * @param stack Item stack to check for.
-     * @param legacy_component The tracker component to convert.
-     */
-    public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component) {
+    public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component, boolean rarity_fix) {
         if (stack.contains(legacy_component)) {
+            if (rarity_fix) {
+                stack.set(DataComponentTypes.RARITY, stack.getItem().getComponents().get(DataComponentTypes.RARITY));
+            }
             int legacy_data = stack.getOrDefault(legacy_component, 0);
             this.set_tracker_value_int(stack, this.get_tracker_value_int(stack) + legacy_data);
             stack.remove(legacy_component);
         }
     }
 
-    public static boolean is_tooltip_scroll_installed() {
-        boolean result = false;
-        if (StrangeConfig.check_for_tooltipscroll) {
-            result = StrangeItems.tooltipscroll_installed;
-        }
-        if (StrangeConfig.invert_tooltipscroll_check_value) {
-            return !result;
-        }
-        return result;
+    /**
+     * Converts the data of a specified legacy tracker component to the new data format, if the specified stack has legacy data.
+     * @param stack Item stack to check for.
+     * @param legacy_component The tracker component to convert.
+     */
+    public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component) {
+        this.convert_legacy_tracker(stack, legacy_component, false);
     }
 
     public boolean should_track(ItemStack stack) {

@@ -1,5 +1,6 @@
 package embin.strangeitems.tracker;
 
+import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.client.option.KeyBinding;
@@ -18,30 +19,28 @@ import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MapTracker extends Tracker {
     public String map_id;
-    public KeyBinding key;
     public String translation_prefix;
 
     /**
      * Maximum number of entries that can be shown for in-depth trackers.
      * Ignored if certain conditions are met.
-     * @see Tracker#is_tooltip_scroll_installed()
+     * @see TrackerUtil#is_tooltip_scroll_installed()
      */
     public int max_maps_shown = 8;
 
-    public MapTracker(Identifier id, String translate_prefix, KeyBinding key, TagKey<Item> tag) {
+    public MapTracker(Identifier id, String translate_prefix, TagKey<Item> tag) {
         super(id, tag);
         this.map_id = this.get_id().toString() + "_map";
-        this.key = key;
         this.translation_prefix = translate_prefix;
     }
 
-    public MapTracker(Identifier id, String translate_prefix, KeyBinding key) {
+    public MapTracker(Identifier id, String translate_prefix) {
         super(id);
         this.map_id = this.get_id().toString() + "_map";
-        this.key = key;
         this.translation_prefix = translate_prefix;
     }
 
@@ -76,14 +75,14 @@ public class MapTracker extends Tracker {
             NbtCompound nbtCompound = this.get_tracker_value_nbt(stack);
             int index = 1;
             for (String key : TrackerUtil.get_sorted_keys(nbtCompound)) {
-                if (index <= this.max_maps_shown || is_tooltip_scroll_installed()) {
+                if (index <= this.max_maps_shown || TrackerUtil.is_tooltip_scroll_installed()) {
                     Text stat_text = Text.literal(this.get_formatted_tracker_value_nbt(stack, key)).formatted(Formatting.YELLOW);
                     MutableText tooltip_text = Text.translatable(Identifier.of(key).toTranslationKey(this.translation_prefix)).append(": ").formatted(Formatting.GRAY);
                     tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
                 }
                 index++;
             }
-            if (index > (this.max_maps_shown + 1) && !is_tooltip_scroll_installed()) {
+            if (index > (this.max_maps_shown + 1) && !TrackerUtil.is_tooltip_scroll_installed()) {
                 tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)));
             }
             TrackerUtil.add_item_id_to_tooltip(stack, tooltip, type);
@@ -96,20 +95,32 @@ public class MapTracker extends Tracker {
     }
 
     public boolean should_show_tooltip(ItemStack stack) {
-        return this.stack_has_tracker(stack) && TrackerUtil.is_key_down(this.key) && StrangeConfig.in_depth_tracking;
+        return this.stack_has_tracker(stack) && TrackerUtil.is_key_down(this.get_key()) && StrangeConfig.in_depth_tracking && this.stack_has_map_tracker(stack);
     }
 
     @Override
     public void append_tooltip(ItemStack stack, List<Text> tooltip) {
         if (this.should_track(stack)) {
-            if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking) {
+            if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking && this.stack_has_map_tracker(stack)) {
                 Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
                 Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
-                Text control_text = Text.literal(" [").append(this.key.getBoundKeyLocalizedText()).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
+                Text control_text = Text.literal(" [").append(this.get_key().getBoundKeyLocalizedText()).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
                 tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
             } else {
                 super.append_tooltip(stack, tooltip);
             }
+        }
+    }
+
+    public boolean stack_has_map_tracker(ItemStack stack) {
+        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).contains(this.map_id);
+    }
+
+    public KeyBinding get_key() {
+        if (Objects.equals(this.map_id, "strangeitems:blocks_mined_map")) {
+            return StrangeItemsClient.show_blocks_mined;
+        } else {
+            return StrangeItemsClient.show_mobs_killed;
         }
     }
 }

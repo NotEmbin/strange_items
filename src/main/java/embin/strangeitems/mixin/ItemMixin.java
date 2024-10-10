@@ -57,7 +57,7 @@ public abstract class ItemMixin {
             Trackers.times_dropped.append_tooltip_map(stack, list, cir, type);
             return;
         }
-        if (stack.isIn(TrackerTags.CAN_TRACK_STATS) || stack.getComponents().toString().contains("strangeitems:")) {
+        if (stack.isIn(TrackerTags.CAN_TRACK_STATS) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
             list.add(Text.translatable("tooltip.strangeitems.strange_trackers").append(":").formatted(Formatting.GRAY));
             //tooltip.add(Text.literal("").withColor(13593138));
         }
@@ -156,7 +156,7 @@ public abstract class ItemMixin {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.isIn(TrackerTags.CAN_TRACK_STATS)) {
             Trackers.blocks_mined.convert_legacy_tracker(stack, StrangeItemsComponents.BLOCKS_MINED);
-            Trackers.times_dropped.convert_legacy_tracker(stack, StrangeItemsComponents.TIMES_DROPPED);
+            Trackers.times_dropped.convert_legacy_tracker(stack, StrangeItemsComponents.TIMES_DROPPED, true);
             Trackers.mobs_hit.convert_legacy_tracker(stack, StrangeItemsComponents.MOBS_HIT);
             Trackers.time_flown_with_elytra.convert_legacy_tracker(stack, StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA);
             Trackers.dirt_tilled.convert_legacy_tracker(stack, StrangeItemsComponents.FARMLAND_CREATED);

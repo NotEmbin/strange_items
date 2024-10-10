@@ -19,9 +19,9 @@ public class StrangeItemsClient implements ClientModInitializer {
             "category.strangeitems.keys"
         ));
     }
-    public static KeyBinding show_blocks_mined = register_keybind("show_blocks_mined", GLFW.GLFW_KEY_LEFT_ALT);
+    public static KeyBinding show_blocks_mined = register_keybind("show_blocks_mined", GLFW.GLFW_KEY_Z);
     public static KeyBinding show_times_dropped = register_keybind("show_times_dropped", GLFW.GLFW_KEY_RIGHT_ALT);
-    public static KeyBinding show_mobs_killed = register_keybind("show_mobs_killed", GLFW.GLFW_KEY_LEFT_CONTROL);
+    public static KeyBinding show_mobs_killed = register_keybind("show_mobs_killed", GLFW.GLFW_KEY_LEFT_ALT);
     @Override
     public void onInitializeClient() {
         StrangeConfig.read_json();

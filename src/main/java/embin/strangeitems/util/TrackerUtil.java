@@ -1,5 +1,7 @@
 package embin.strangeitems.util;
 
+import embin.strangeitems.StrangeItems;
+import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.mixin.KeyBindAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -83,5 +85,16 @@ public class TrackerUtil {
                 || user.isCreative()
             ) && !ItemStack.areEqual(stack, stack2);
         }
+    }
+
+    public static boolean is_tooltip_scroll_installed() {
+        boolean result = false;
+        if (StrangeConfig.check_for_tooltipscroll) {
+            result = StrangeItems.tooltipscroll_installed;
+        }
+        if (StrangeConfig.invert_tooltipscroll_check_value) {
+            return !result;
+        }
+        return result;
     }
 }

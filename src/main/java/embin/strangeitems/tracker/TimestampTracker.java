@@ -1,5 +1,6 @@
 package embin.strangeitems.tracker;
 
+import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.client.option.KeyBinding;
@@ -25,16 +26,13 @@ import java.util.List;
 public class TimestampTracker extends Tracker {
     public String map_id;
     public int max_entries_shown = 8;
-    public KeyBinding key;
-    public TimestampTracker(Identifier id, KeyBinding key) {
+    public TimestampTracker(Identifier id) {
         super(id);
         this.map_id = this.get_id().toString() + "_map";
-        this.key = key;
     }
-    public TimestampTracker(Identifier id, KeyBinding key, TagKey<Item> tag) {
+    public TimestampTracker(Identifier id, TagKey<Item> tag) {
         super(id, tag);
         this.map_id = this.get_id().toString() + "_map";
-        this.key = key;
     }
 
     @Override
@@ -61,7 +59,7 @@ public class TimestampTracker extends Tracker {
             int size = this.get_tracker_value_int(stack) - 1;
             for (int i = size; i >= 0; i--) {
                 String key = String.valueOf(i + 1);
-                if ((size - this.max_entries_shown) <= i || is_tooltip_scroll_installed()) {
+                if ((size - this.max_entries_shown) <= i || TrackerUtil.is_tooltip_scroll_installed()) {
                     Text stat_text = Text.translatable("tooltip.strangeitems.unknown_value").formatted(Formatting.DARK_GRAY);
                     if (this.get_tracker_value_nbt(stack).contains(key)) {
                         long tracker_value = this.get_tracker_value_nbt(stack).getLong(key);
@@ -73,7 +71,7 @@ public class TimestampTracker extends Tracker {
                     tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
                 }
             }
-            if (size >= (this.max_entries_shown + 1) && !is_tooltip_scroll_installed()) {
+            if (size >= (this.max_entries_shown + 1) && !TrackerUtil.is_tooltip_scroll_installed()) {
                 tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", size - (this.max_entries_shown + 1)));
             }
             TrackerUtil.add_item_id_to_tooltip(stack, tooltip, type);
@@ -82,7 +80,7 @@ public class TimestampTracker extends Tracker {
     }
 
     public boolean should_show_tooltip(ItemStack stack) {
-        return this.stack_has_tracker(stack) && TrackerUtil.is_key_down(this.key) && StrangeConfig.in_depth_tracking;
+        return this.stack_has_tracker(stack) && TrackerUtil.is_key_down(this.get_key()) && StrangeConfig.in_depth_tracking && this.stack_has_map_tracker(stack);
     }
 
     @Override
@@ -91,5 +89,27 @@ public class TimestampTracker extends Tracker {
             return new NbtCompound();
         }
         return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.map_id);
+    }
+
+    public boolean stack_has_map_tracker(ItemStack stack) {
+        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).contains(this.map_id);
+    }
+
+    @Override
+    public void append_tooltip(ItemStack stack, List<Text> tooltip) {
+        if (this.should_track(stack)) {
+            if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking && this.stack_has_map_tracker(stack)) {
+                Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
+                Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
+                Text control_text = Text.literal(" [").append(this.get_key().getBoundKeyLocalizedText()).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
+                tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
+            } else {
+                super.append_tooltip(stack, tooltip);
+            }
+        }
+    }
+
+    public KeyBinding get_key() {
+        return StrangeItemsClient.show_times_dropped;
     }
 }
