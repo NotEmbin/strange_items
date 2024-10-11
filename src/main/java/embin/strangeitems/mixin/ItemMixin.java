@@ -8,6 +8,7 @@ import embin.strangeitems.tracker.TrackerTags;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -33,8 +34,6 @@ import java.util.stream.Stream;
 
 @Mixin(ItemStack.class)
 public abstract class ItemMixin {
-    @Shadow public abstract Stream<TagKey<Item>> streamTags();
-
     @Inject(at = @At(value = "HEAD"), method = "postMine")
     public void postMineMixin(World world, BlockState state, BlockPos pos, PlayerEntity miner, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
@@ -143,10 +142,10 @@ public abstract class ItemMixin {
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
-        ordinal = 3, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
+        ordinal = 2, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
     public void enchantTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, List<Text> list) {
         ItemStack stack = (ItemStack)(Object) this;
-        if (stack.hasEnchantments()) {
+        if (stack.hasEnchantments() || !stack.getOrDefault(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT).isEmpty()) {
             list.add(Text.translatable("tooltip.strangeitems.enchantments").append(":").formatted(Formatting.GRAY));
         }
     }

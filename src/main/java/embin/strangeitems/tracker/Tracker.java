@@ -1,8 +1,6 @@
 package embin.strangeitems.tracker;
 
-import embin.strangeitems.StrangeItems;
 import embin.strangeitems.StrangeItemsComponents;
-import embin.strangeitems.config.StrangeConfig;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
