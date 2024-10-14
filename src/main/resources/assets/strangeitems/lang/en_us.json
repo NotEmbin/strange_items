@@ -1,7 +1,7 @@
 {
 	"tooltip.strangeitems.strange_trackers": "Stats",
 	"tooltip.strangeitems.enchantments": "Enchantments",
-	"tooltip.strangeitems.map_cutoff": "...and %s more",
+	"tooltip.strangeitems.map_cutoff": "and %s more...",
 	"tooltip.strangeitems.collectors_item.item_name": "Collector's %1$s",
 	"tooltip.strangeitems.collectors_item": "Collector's",
 

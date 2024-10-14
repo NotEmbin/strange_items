@@ -72,7 +72,7 @@ public class TimestampTracker extends Tracker {
                 }
             }
             if (size >= (this.max_entries_shown + 1) && !TrackerUtil.is_tooltip_scroll_installed()) {
-                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", size - (this.max_entries_shown + 1)));
+                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", size - (this.max_entries_shown + 1)).formatted(Formatting.ITALIC));
             }
             TrackerUtil.add_item_id_to_tooltip(stack, tooltip, type);
             cir.setReturnValue(tooltip);

@@ -83,7 +83,7 @@ public class MapTracker extends Tracker {
                 index++;
             }
             if (index > (this.max_maps_shown + 1) && !TrackerUtil.is_tooltip_scroll_installed()) {
-                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)));
+                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)).formatted(Formatting.ITALIC));
             }
             TrackerUtil.add_item_id_to_tooltip(stack, tooltip, type);
             cir.setReturnValue(tooltip);
