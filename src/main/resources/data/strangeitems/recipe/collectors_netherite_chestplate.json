@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:netherite_chestplate"
-  },
-  "addition": {
-    "item": "minecraft:netherite_chestplate"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:netherite_chestplate",
+  "addition": "minecraft:netherite_chestplate",
   "result": {
     "id": "minecraft:netherite_chestplate",
     "components": {

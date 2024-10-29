@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:music_disc_13"
-  },
-  "addition": {
-    "item": "minecraft:music_disc_13"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:music_disc_13",
+  "addition": "minecraft:music_disc_13",
   "result": {
     "id": "minecraft:music_disc_13",
     "components": {

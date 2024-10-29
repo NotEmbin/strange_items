@@ -1,6 +1,5 @@
 package embin.strangeitems.tracker;
 
-import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.client.option.KeyBinding;
@@ -19,7 +18,6 @@ import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MapTracker extends Tracker {
     public String map_id;
@@ -117,10 +115,6 @@ public class MapTracker extends Tracker {
     }
 
     public KeyBinding get_key() {
-        if (Objects.equals(this.map_id, "strangeitems:blocks_mined_map")) {
-            return StrangeItemsClient.show_blocks_mined;
-        } else {
-            return StrangeItemsClient.show_mobs_killed;
-        }
+        return TrackerKeybindings.get_map_keybind(this);
     }
 }

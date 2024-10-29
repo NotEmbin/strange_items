@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:diamond_leggings"
-  },
-  "addition": {
-    "item": "minecraft:diamond_leggings"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:diamond_leggings",
+  "addition": "minecraft:diamond_leggings",
   "result": {
     "id": "minecraft:diamond_leggings",
     "components": {

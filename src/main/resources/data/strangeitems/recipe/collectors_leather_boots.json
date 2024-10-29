@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:leather_boots"
-  },
-  "addition": {
-    "item": "minecraft:leather_boots"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:leather_boots",
+  "addition": "minecraft:leather_boots",
   "result": {
     "id": "minecraft:leather_boots",
     "components": {

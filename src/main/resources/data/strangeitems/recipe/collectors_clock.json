@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:clock"
-  },
-  "addition": {
-    "item": "minecraft:clock"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:clock",
+  "addition": "minecraft:clock",
   "result": {
     "id": "minecraft:clock",
     "components": {

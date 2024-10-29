@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:netherite_hoe"
-  },
-  "addition": {
-    "item": "minecraft:netherite_hoe"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:netherite_hoe",
+  "addition": "minecraft:netherite_hoe",
   "result": {
     "id": "minecraft:netherite_hoe",
     "components": {

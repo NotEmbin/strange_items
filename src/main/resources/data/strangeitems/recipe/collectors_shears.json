@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:shears"
-  },
-  "addition": {
-    "item": "minecraft:shears"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:shears",
+  "addition": "minecraft:shears",
   "result": {
     "id": "minecraft:shears",
     "components": {

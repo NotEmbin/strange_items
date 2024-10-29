@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:golden_axe"
-  },
-  "addition": {
-    "item": "minecraft:golden_axe"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:golden_axe",
+  "addition": "minecraft:golden_axe",
   "result": {
     "id": "minecraft:golden_axe",
     "components": {

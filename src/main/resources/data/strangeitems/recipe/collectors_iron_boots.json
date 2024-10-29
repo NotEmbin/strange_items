@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:iron_boots"
-  },
-  "addition": {
-    "item": "minecraft:iron_boots"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:iron_boots",
+  "addition": "minecraft:iron_boots",
   "result": {
     "id": "minecraft:iron_boots",
     "components": {

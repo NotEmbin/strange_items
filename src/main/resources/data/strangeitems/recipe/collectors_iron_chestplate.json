@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:iron_chestplate"
-  },
-  "addition": {
-    "item": "minecraft:iron_chestplate"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:iron_chestplate",
+  "addition": "minecraft:iron_chestplate",
   "result": {
     "id": "minecraft:iron_chestplate",
     "components": {

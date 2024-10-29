@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:diamond_boots"
-  },
-  "addition": {
-    "item": "minecraft:diamond_boots"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:diamond_boots",
+  "addition": "minecraft:diamond_boots",
   "result": {
     "id": "minecraft:diamond_boots",
     "components": {

@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:goat_horn"
-  },
-  "addition": {
-    "item": "minecraft:goat_horn"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:goat_horn",
+  "addition": "minecraft:goat_horn",
   "result": {
     "id": "minecraft:goat_horn",
     "components": {

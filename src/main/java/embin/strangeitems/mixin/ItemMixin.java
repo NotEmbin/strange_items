@@ -112,7 +112,7 @@ public abstract class ItemMixin {
             if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
                 MutableText name2 = Text.empty();
                 name2.append(Text.translatable("tooltip.strangeitems.collectors_item")).append(" ");
-                name2.append(Text.translatable(stack.getTranslationKey()));
+                name2.append(stack.getName());
                 name2.formatted(Formatting.DARK_RED);
                 list.add(name2);
             }

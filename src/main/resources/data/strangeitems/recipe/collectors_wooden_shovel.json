@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:wooden_shovel"
-  },
-  "addition": {
-    "item": "minecraft:wooden_shovel"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:wooden_shovel",
+  "addition": "minecraft:wooden_shovel",
   "result": {
     "id": "minecraft:wooden_shovel",
     "components": {

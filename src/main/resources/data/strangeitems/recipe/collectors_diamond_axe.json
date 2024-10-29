@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:diamond_axe"
-  },
-  "addition": {
-    "item": "minecraft:diamond_axe"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:diamond_axe",
+  "addition": "minecraft:diamond_axe",
   "result": {
     "id": "minecraft:diamond_axe",
     "components": {

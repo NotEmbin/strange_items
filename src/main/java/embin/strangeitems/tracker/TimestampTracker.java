@@ -1,6 +1,5 @@
 package embin.strangeitems.tracker;
 
-import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.client.option.KeyBinding;
@@ -110,6 +109,6 @@ public class TimestampTracker extends Tracker {
     }
 
     public KeyBinding get_key() {
-        return StrangeItemsClient.show_times_dropped;
+        return TrackerKeybindings.get_timestamp_keybind(this);
     }
 }

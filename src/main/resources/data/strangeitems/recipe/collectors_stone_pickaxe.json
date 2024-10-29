@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:stone_pickaxe"
-  },
-  "addition": {
-    "item": "minecraft:stone_pickaxe"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:stone_pickaxe",
+  "addition": "minecraft:stone_pickaxe",
   "result": {
     "id": "minecraft:stone_pickaxe",
     "components": {

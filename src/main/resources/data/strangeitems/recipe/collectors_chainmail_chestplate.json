@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:chainmail_chestplate"
-  },
-  "addition": {
-    "item": "minecraft:chainmail_chestplate"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:chainmail_chestplate",
+  "addition": "minecraft:chainmail_chestplate",
   "result": {
     "id": "minecraft:chainmail_chestplate",
     "components": {

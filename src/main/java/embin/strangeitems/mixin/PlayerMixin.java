@@ -22,15 +22,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 public abstract class PlayerMixin {
     @Shadow @NotNull public abstract ItemStack getWeaponStack();
 
-    @Inject(at = @At("RETURN"), method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")
-    public void dropItemMixin(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
-        Trackers.times_dropped.append_tracker(stack);
-    }
-
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V"),
         method = "attack", locals = LocalCapture.CAPTURE_FAILHARD)
     public void hitMobMixin(Entity target, CallbackInfo ci, float n) {
-        PlayerEntity player = (PlayerEntity)(Object) this;
         Trackers.mobs_hit.append_tracker(this.getWeaponStack());
         Trackers.damage_dealt.append_tracker(this.getWeaponStack(), Math.round(n * 10.0F));
     }
@@ -41,7 +35,7 @@ public abstract class PlayerMixin {
     }
 
     @Inject(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V", ordinal = 1))
-    public void damageMixin(DamageSource source, float amount, CallbackInfo ci) {
+    public void damageMixin(ServerWorld world, DamageSource source, float amount, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object) this;
         for (ItemStack stack : player.getArmorItems()) {
             if (!stack.isEmpty()) {

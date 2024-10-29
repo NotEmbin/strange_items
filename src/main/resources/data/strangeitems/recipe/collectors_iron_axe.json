@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:iron_axe"
-  },
-  "addition": {
-    "item": "minecraft:iron_axe"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:iron_axe",
+  "addition": "minecraft:iron_axe",
   "result": {
     "id": "minecraft:iron_axe",
     "components": {
