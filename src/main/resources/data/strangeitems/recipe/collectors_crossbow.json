@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:crossbow"
-  },
-  "addition": {
-    "item": "minecraft:crossbow"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:crossbow",
+  "addition": "minecraft:crossbow",
   "result": {
     "id": "minecraft:crossbow",
     "components": {

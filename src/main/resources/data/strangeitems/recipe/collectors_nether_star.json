@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:nether_star"
-  },
-  "addition": {
-    "item": "minecraft:nether_star"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:nether_star",
+  "addition": "minecraft:nether_star",
   "result": {
     "id": "minecraft:nether_star",
     "components": {

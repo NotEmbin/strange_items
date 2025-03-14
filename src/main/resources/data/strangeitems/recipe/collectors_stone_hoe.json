@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:stone_hoe"
-  },
-  "addition": {
-    "item": "minecraft:stone_hoe"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:stone_hoe",
+  "addition": "minecraft:stone_hoe",
   "result": {
     "id": "minecraft:stone_hoe",
     "components": {

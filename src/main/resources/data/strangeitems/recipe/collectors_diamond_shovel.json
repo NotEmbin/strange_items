@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:diamond_shovel"
-  },
-  "addition": {
-    "item": "minecraft:diamond_shovel"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:diamond_shovel",
+  "addition": "minecraft:diamond_shovel",
   "result": {
     "id": "minecraft:diamond_shovel",
     "components": {

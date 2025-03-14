@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:recovery_compass"
-  },
-  "addition": {
-    "item": "minecraft:recovery_compass"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:recovery_compass",
+  "addition": "minecraft:recovery_compass",
   "result": {
     "id": "minecraft:recovery_compass",
     "components": {

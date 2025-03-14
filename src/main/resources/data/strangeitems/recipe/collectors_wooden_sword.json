@@ -1,18 +1,10 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:wooden_sword"
-  },
-  "addition": {
-    "item": "minecraft:wooden_sword"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:wooden_sword",
+  "addition": "minecraft:wooden_sword",
   "result": {
     "id": "minecraft:wooden_sword",
-    "components": {
-      "strangeitems:collectors_item": {}
-    }
+    "components": {}
   }
 }

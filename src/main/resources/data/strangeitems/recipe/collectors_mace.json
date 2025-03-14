@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:mace"
-  },
-  "addition": {
-    "item": "minecraft:mace"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:mace",
+  "addition": "minecraft:mace",
   "result": {
     "id": "minecraft:mace",
     "components": {

@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:netherite_pickaxe"
-  },
-  "addition": {
-    "item": "minecraft:netherite_pickaxe"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:netherite_pickaxe",
+  "addition": "minecraft:netherite_pickaxe",
   "result": {
     "id": "minecraft:netherite_pickaxe",
     "components": {

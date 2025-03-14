@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:wolf_armor"
-  },
-  "addition": {
-    "item": "minecraft:wolf_armor"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:wolf_armor",
+  "addition": "minecraft:wolf_armor",
   "result": {
     "id": "minecraft:wolf_armor",
     "components": {

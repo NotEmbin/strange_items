@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:music_disc_ward"
-  },
-  "addition": {
-    "item": "minecraft:music_disc_ward"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:music_disc_ward",
+  "addition": "minecraft:music_disc_ward",
   "result": {
     "id": "minecraft:music_disc_ward",
     "components": {

@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:fishing_rod"
-  },
-  "addition": {
-    "item": "minecraft:fishing_rod"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:fishing_rod",
+  "addition": "minecraft:fishing_rod",
   "result": {
     "id": "minecraft:fishing_rod",
     "components": {

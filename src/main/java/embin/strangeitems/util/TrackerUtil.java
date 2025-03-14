@@ -73,18 +73,11 @@ public class TrackerUtil {
         }
     }
 
-    public static boolean can_swap(PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-        EquipmentSlot slot = user.getPreferredEquipmentSlot(stack);
-        if (!user.canUseSlot(slot)) {
-            return false;
-        } else {
-            ItemStack stack2 = user.getEquippedStack(slot);
-            return (
-                !EnchantmentHelper.hasAnyEnchantmentsWith(stack2, EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE)
-                || user.isCreative()
-            ) && !ItemStack.areEqual(stack, stack2);
-        }
+    public static boolean can_swap(ItemStack stack, ItemStack stack_wearing, PlayerEntity player) {
+        return (
+        !EnchantmentHelper.hasAnyEnchantmentsWith(stack_wearing, EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE)
+            || player.isCreative()
+        ) && !ItemStack.areItemsAndComponentsEqual(stack, stack_wearing);
     }
 
     public static boolean is_tooltip_scroll_installed() {

@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:diamond_horse_armor"
-  },
-  "addition": {
-    "item": "minecraft:diamond_horse_armor"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:diamond_horse_armor",
+  "addition": "minecraft:diamond_horse_armor",
   "result": {
     "id": "minecraft:diamond_horse_armor",
     "components": {

@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:chainmail_leggings"
-  },
-  "addition": {
-    "item": "minecraft:chainmail_leggings"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:chainmail_leggings",
+  "addition": "minecraft:chainmail_leggings",
   "result": {
     "id": "minecraft:chainmail_leggings",
     "components": {

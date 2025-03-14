@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:diamond_helmet"
-  },
-  "addition": {
-    "item": "minecraft:diamond_helmet"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:diamond_helmet",
+  "addition": "minecraft:diamond_helmet",
   "result": {
     "id": "minecraft:diamond_helmet",
     "components": {

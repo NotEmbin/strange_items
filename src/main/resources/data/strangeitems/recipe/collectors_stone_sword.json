@@ -1,14 +1,8 @@
 {
   "type": "smithing_transform",
-  "template": {
-    "item": "minecraft:echo_shard"
-  },
-  "base": {
-    "item": "minecraft:stone_sword"
-  },
-  "addition": {
-    "item": "minecraft:stone_sword"
-  },
+  "template": "minecraft:echo_shard",
+  "base": "minecraft:stone_sword",
+  "addition": "minecraft:stone_sword",
   "result": {
     "id": "minecraft:stone_sword",
     "components": {
