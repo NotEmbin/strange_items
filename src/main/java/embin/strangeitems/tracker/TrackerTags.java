@@ -34,5 +34,10 @@ public class TrackerTags {
     public static final TagKey<Item> TRACKER_TIMES_FISHING_ROD_REELED_IN = createTag("trackers/times_fishing_rod_reeled_in");
     public static final TagKey<Item> TRACKER_TIMES_FISHING_ROD_CAST = createTag("trackers/times_fishing_rod_cast");
     public static final TagKey<Item> TRACKER_TIMES_FISHING_CAUGHT_SOMETHING = createTag("trackers/times_fishing_rod_caught_something");
+    public static final TagKey<Item> TRACKER_TIME_UNDERWATER = createTag("trackers/time_underwater");
+    public static final TagKey<Item> TRACKER_TIME_SNEAKING = createTag("trackers/time_sneaking");
+    public static final TagKey<Item> TRACKER_DISTANCE_FALLEN = createTag("trackers/distance_fallen");
+    public static final TagKey<Item> TRACKER_TIME_IN_LAVA = createTag("trackers/time_in_lava");
+    public static final TagKey<Item> TRACKER_TIME_IN_DIMENSIONS = createTag("trackers/time_in_dimensions");
 
 }

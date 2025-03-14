@@ -33,6 +33,11 @@ public class Trackers {
     public static final Tracker times_fishing_rod_reeled_in = register("times_fishing_rod_reeled_in", TrackerTags.TRACKER_TIMES_FISHING_ROD_REELED_IN);
     public static final Tracker times_fishing_rod_cast = register("times_fishing_rod_cast", TrackerTags.TRACKER_TIMES_FISHING_ROD_CAST);
     public static final Tracker times_fishing_rod_caught_something = register("times_fishing_rod_caught_something", TrackerTags.TRACKER_TIMES_FISHING_CAUGHT_SOMETHING);
+    public static final Tracker time_underwater = register("time_underwater", TrackerTags.TRACKER_TIME_UNDERWATER, StatFormatter.TIME, 1);
+    public static final Tracker time_sneaking = register("time_sneaking", TrackerTags.TRACKER_TIME_SNEAKING, StatFormatter.TIME, 1);
+    public static final Tracker distance_fallen = register("distance_fallen", TrackerTags.TRACKER_DISTANCE_FALLEN, StatFormatter.DISTANCE, 1);
+    public static final Tracker time_in_lava = register("time_in_lava", TrackerTags.TRACKER_TIME_IN_LAVA, StatFormatter.TIME, 1);
+    public static final MapTracker time_in_dimensions = registerMap("time_in_dimensions", "dimension", TrackerTags.TRACKER_TIME_IN_DIMENSIONS, StatFormatter.TIME);
 
     public static Tracker register(String id) {
         return new Tracker(cn.convertNamespace(id));
@@ -50,11 +55,19 @@ public class Trackers {
         return new TimestampTracker(cn.convertNamespace(id));
     }
 
+    public static TimestampTracker registerTimestamp(String id, TagKey<Item> tag) {
+        return new TimestampTracker(cn.convertNamespace(id), tag);
+    }
+
     public static MapTracker registerMap(String id, String prefix) {
         return new MapTracker(cn.convertNamespace(id), prefix);
     }
 
     public static MapTracker registerMap(String id, String prefix, TagKey<Item> tag) {
         return new MapTracker(cn.convertNamespace(id), prefix, tag);
+    }
+
+    public static MapTracker registerMap(String id, String prefix, TagKey<Item> tag, StatFormatter stat_formatter) {
+        return new MapTracker(cn.convertNamespace(id), prefix, tag, stat_formatter);
     }
 }

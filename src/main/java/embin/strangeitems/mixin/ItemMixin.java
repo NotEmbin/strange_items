@@ -22,6 +22,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @Mixin(ItemStack.class)
@@ -42,7 +44,7 @@ public abstract class ItemMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
         ordinal = 0, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-    public void appendTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, List<Text> list) {
+    public void appendTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, boolean bl, List<Text> list, Consumer consumer) {
         ItemStack stack = (ItemStack)(Object) this;
         if (Trackers.blocks_mined.should_show_tooltip(stack)) {
             Trackers.blocks_mined.append_tooltip_map(stack, list, cir, type);
@@ -54,6 +56,10 @@ public abstract class ItemMixin {
         }
         if (Trackers.times_dropped.should_show_tooltip(stack)) {
             Trackers.times_dropped.append_tooltip_map(stack, list, cir, type);
+            return;
+        }
+        if (Trackers.time_in_dimensions.should_show_tooltip(stack)) {
+            Trackers.time_in_dimensions.append_tooltip_map(stack, list, cir, type);
             return;
         }
         if (stack.isIn(TrackerTags.CAN_TRACK_STATS) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
@@ -73,7 +79,12 @@ public abstract class ItemMixin {
         Trackers.blocks_brushed.append_tooltip(stack, list);
         Trackers.armadillos_brushed.append_tooltip(stack, list);
         Trackers.damage_taken.append_tooltip(stack, list);
+        Trackers.time_in_lava.append_tooltip(stack, list);
+        Trackers.time_underwater.append_tooltip(stack, list);
+        Trackers.time_sneaking.append_tooltip(stack, list);
+        Trackers.distance_fallen.append_tooltip(stack, list);
         Trackers.times_equipped.append_tooltip(stack, list);
+        Trackers.time_in_dimensions.append_tooltip(stack, list);
         Trackers.damage_dealt.append_tooltip(stack, list);
         Trackers.mobs_killed.append_tooltip(stack, list);
         Trackers.trident_thrown.append_tooltip(stack, list);
@@ -88,31 +99,23 @@ public abstract class ItemMixin {
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
-    public void nameColorMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, List<Text> list) {
+    public void nameColorMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, boolean bl, List<Text> list) {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.contains(StrangeItemsComponents.COLLECTORS_ITEM)) {
             list.removeLast();
             MutableText item_name = (MutableText) stack.getName();
-            /*
-            if (type.isAdvanced()) {
-                item_name.append(" (#");
-                item_name.append(String.valueOf(Item.getRawId(stack.getItem())));
-                item_name.append(")");
-            }
-             */
             MutableText name = Text.empty();
+            name.append(item_name);
             if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
-                name.append(item_name);
                 name.formatted(Formatting.ITALIC);
-            } else {
-                name.append(Text.translatable("tooltip.strangeitems.collectors_item")).append(" ").append(item_name);
             }
             name.formatted(Formatting.DARK_RED);
             list.add(name);
             if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
-                MutableText name2 = Text.empty();
-                name2.append(Text.translatable("tooltip.strangeitems.collectors_item")).append(" ");
-                name2.append(stack.getName());
+                ItemStack stack2 = stack.copy();
+                stack2.remove(DataComponentTypes.CUSTOM_NAME);
+
+                MutableText name2 = Text.empty().append(stack2.getName());
                 name2.formatted(Formatting.DARK_RED);
                 list.add(name2);
             }
@@ -143,7 +146,7 @@ public abstract class ItemMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
         ordinal = 2, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
-    public void enchantTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, List<Text> list) {
+    public void enchantTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, boolean bl, List list, Consumer consumer) {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.hasEnchantments() || !stack.getOrDefault(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT).isEmpty()) {
             list.add(Text.translatable("tooltip.strangeitems.enchantments").append(":").formatted(Formatting.GRAY));
@@ -169,5 +172,23 @@ public abstract class ItemMixin {
             Trackers.shots_hit.convert_legacy_tracker(stack, StrangeItemsComponents.SHOT_HIT);
             Trackers.shots_fired.convert_legacy_tracker(stack, StrangeItemsComponents.SHOTS_FIRED);
         }
+    }
+
+    /**
+     * @author Embin
+     * @reason bleh
+     */
+    @Overwrite()
+    public Text getName() {
+        ItemStack stack = (ItemStack)(Object) this;
+
+        Text text = stack.getCustomName();
+        if (text != null) {
+            return text;
+        }
+        if (stack.contains(StrangeItemsComponents.COLLECTORS_ITEM)) {
+            return Text.translatable("tooltip.strangeitems.collectors_item.item_name", stack.getItemName());
+        }
+        return stack.getItemName();
     }
 }

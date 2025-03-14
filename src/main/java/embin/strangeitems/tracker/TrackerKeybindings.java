@@ -17,13 +17,15 @@ public class TrackerKeybindings {
         "key.strangeitems.unknown",
         InputUtil.Type.KEYSYM,
         GLFW.GLFW_KEY_UNKNOWN,
-        "category.strangeitems.keys");
+        "category.strangeitems.keys"
+    );
 
     public static final List<Tracker> warned_keybindings = new ArrayList<>(99);
 
     public static final Map<MapTracker, KeyBinding> map_tracker_keybindings = Util.make(Maps.newHashMap(), (map) -> {
         map.put(Trackers.blocks_mined, StrangeItemsClient.show_blocks_mined);
         map.put(Trackers.mobs_killed, StrangeItemsClient.show_mobs_killed);
+        map.put(Trackers.time_in_dimensions, StrangeItemsClient.show_time_in_dimensions);
     });
 
     public static final Map<TimestampTracker, KeyBinding> timestamp_tracker_keybindings = Util.make(Maps.newHashMap(), (map) -> {

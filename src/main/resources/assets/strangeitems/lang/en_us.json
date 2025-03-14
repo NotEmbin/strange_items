@@ -31,6 +31,11 @@
 	"tracker.strangeitems.times_fishing_rod_caught_something":"Items Caught",
 	"tracker.strangeitems.times_fishing_rod_cast":"Times Cast",
 	"tracker.strangeitems.times_fishing_rod_reeled_in":"Times Reeled In",
+	"tracker.strangeitems.time_underwater":"Time Spent Underwater",
+	"tracker.strangeitems.time_sneaking":"Time Spent Crouched",
+	"tracker.strangeitems.distance_fallen":"Distance Fallen",
+	"tracker.strangeitems.time_in_lava":"Time Spent in Lava",
+	"tracker.strangeitems.time_in_dimensions":"Time Spent in Dimensions",
 
 	"screens.strangeitems.config": "Strange Items Config",
 	"setting.strangeitems.in_depth_tracking": "In Depth Tracking",
@@ -47,5 +52,10 @@
 	"key.strangeitems.show_blocks_mined": "Show Blocks Mined (If Available)",
 	"key.strangeitems.show_times_dropped": "Show Times Dropped (If Available)",
 	"key.strangeitems.show_mobs_killed": "Show Mobs Killed (If Available)",
-	"category.strangeitems.keys": "In-Depth Item Tracker Controls"
+	"key.strangeitems.show_time_in_dimension": "Show Time Spent in Dimensions (If Available)",
+	"category.strangeitems.keys": "In-Depth Item Tracker Controls",
+
+	"dimension.minecraft.overworld": "Overworld",
+	"dimension.minecraft.the_nether": "The Nether",
+	"dimension.minecraft.the_end": "The End"
 }

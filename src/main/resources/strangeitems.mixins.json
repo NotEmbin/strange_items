@@ -8,6 +8,7 @@
     "AxeMixin",
     "BowMixin",
     "BrushMixin",
+    "CollectorsMixin",
     "CrossbowItemMixin",
     "EnchantmentMixin",
     "EquippableComponentMixin",
