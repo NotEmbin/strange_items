@@ -2,6 +2,8 @@ package embin.strangeitems.config;
 
 import com.google.gson.stream.JsonReader;
 import embin.strangeitems.client.StrangeItemsClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +20,11 @@ public class StrangeConfig {
     public static void save_json () {
         String json = "{\"in_depth_tracking\":" + in_depth_tracking +
             ", \"check_for_tooltipscroll_mod\":" + check_for_tooltipscroll +
-            ", \"invert_tooltipscroll_check_value\":" + invert_tooltipscroll_check_value + "}";
+            ", \"invert_tooltipscroll_check_value\":" + invert_tooltipscroll_check_value +
+            ", \"key.show_blocks_mined\":\""+ StrangeItemsClient.show_blocks_mined.getBoundKeyTranslationKey() +
+            "\", \"key.show_times_dropped\":\""+ StrangeItemsClient.show_times_dropped.getBoundKeyTranslationKey() +
+            "\", \"key.show_mobs_killed\":\""+ StrangeItemsClient.show_mobs_killed.getBoundKeyTranslationKey() +
+            "\", \"key.show_time_in_dimensions\":\""+ StrangeItemsClient.show_time_in_dimensions.getBoundKeyTranslationKey() + "\"}";
         try {
             FileWriter writer = new FileWriter("config/strange_items.json");
             writer.write(json);
@@ -43,6 +49,18 @@ public class StrangeConfig {
                 }
                 if (key.equals("invert_tooltipscroll_check_value")) {
                     invert_tooltipscroll_check_value = parser.nextBoolean();
+                }
+                if (key.equals("key.show_blocks_mined")) {
+                    StrangeItemsClient.show_blocks_mined.setBoundKey(InputUtil.fromTranslationKey(parser.nextString()));
+                }
+                if (key.equals("key.show_times_dropped")) {
+                    StrangeItemsClient.show_times_dropped.setBoundKey(InputUtil.fromTranslationKey(parser.nextString()));
+                }
+                if (key.equals("key.show_mobs_killed")) {
+                    StrangeItemsClient.show_mobs_killed.setBoundKey(InputUtil.fromTranslationKey(parser.nextString()));
+                }
+                if (key.equals("key.show_time_in_dimensions")) {
+                    StrangeItemsClient.show_time_in_dimensions.setBoundKey(InputUtil.fromTranslationKey(parser.nextString()));
                 }
             }
             parser.close();

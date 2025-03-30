@@ -17,9 +17,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class MapTracker extends Tracker {
     public String map_id;
@@ -32,21 +32,21 @@ public class MapTracker extends Tracker {
      */
     public int max_maps_shown = 8;
 
-    public MapTracker(Identifier id, String translate_prefix, TagKey<Item> tag, StatFormatter stat_formatter) {
+    public MapTracker(String id, String translate_prefix, TagKey<Item> tag, StatFormatter stat_formatter) {
         super(id, tag);
         this.map_id = this.get_id().toString() + "_map";
         this.translation_prefix = translate_prefix;
         this.stat_formatter = stat_formatter;
     }
 
-    public MapTracker(Identifier id, String translate_prefix, TagKey<Item> tag) {
+    public MapTracker(String id, String translate_prefix, TagKey<Item> tag) {
         super(id, tag);
         this.map_id = this.get_id().toString() + "_map";
         this.translation_prefix = translate_prefix;
     }
 
-    public MapTracker(Identifier id, String translate_prefix) {
-        super(id);
+    public MapTracker(String id, String translate_prefix) {
+        super(id, TrackerItemTags.CAN_TRACK_STATS);
         this.map_id = this.get_id().toString() + "_map";
         this.translation_prefix = translate_prefix;
     }
@@ -55,7 +55,7 @@ public class MapTracker extends Tracker {
         super.append_tracker(stack, 1);
         if (this.should_track(stack) || this.stack_has_tracker(stack)) {
             if (StrangeConfig.in_depth_tracking) {
-                int tracker_count = this.get_tracker_value_nbt(stack).getInt(key) + 1;
+                int tracker_count = this.get_tracker_value_nbt(stack).getInt(key).orElse(0) + 1;
                 NbtCompound nbt = this.get_tracker_value_nbt(stack).copy();
                 nbt.putInt(key, tracker_count);
                 this.set_tracker_value_nbt(stack, nbt);
@@ -73,10 +73,10 @@ public class MapTracker extends Tracker {
         if (!this.stack_has_tracker(stack)) {
             return new NbtCompound();
         }
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.map_id);
+        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.map_id).orElse(new NbtCompound());
     }
 
-    public void append_tooltip_map(ItemStack stack, List<Text> tooltip, CallbackInfoReturnable<List<Text>> cir, TooltipType type) {
+    public void append_tooltip_map(ItemStack stack, Consumer<Text> tooltip, CallbackInfo ci, TooltipType type) {
         if (this.should_track(stack) && should_show_tooltip(stack)) {
             this.append_tooltip_no_space(stack, tooltip);
             NbtCompound nbtCompound = this.get_tracker_value_nbt(stack);
@@ -90,20 +90,20 @@ public class MapTracker extends Tracker {
                         tooltip_text = Text.translatable(translation_key);
                     }
                     tooltip_text.append(": ").formatted(Formatting.GRAY);
-                    tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
+                    tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text));
                 }
                 index++;
             }
             if (index > (this.max_maps_shown + 1) && !TrackerUtil.is_tooltip_scroll_installed()) {
-                tooltip.add(Text.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)).formatted(Formatting.ITALIC));
+                tooltip.accept(Text.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)).formatted(Formatting.ITALIC));
             }
             TrackerUtil.add_item_id_to_tooltip(stack, tooltip, type);
-            cir.setReturnValue(tooltip);
+            ci.cancel();
         }
     }
 
     public String get_formatted_tracker_value_nbt(ItemStack stack, String key) {
-        return this.get_stat_formatter().format(this.get_tracker_value_nbt(stack).getInt(key) * this.formatted_value_multiplier);
+        return this.get_stat_formatter().format(this.get_tracker_value_nbt(stack).getInt(key).orElse(0) * this.formatted_value_multiplier);
     }
 
     public boolean should_show_tooltip(ItemStack stack) {
@@ -111,13 +111,13 @@ public class MapTracker extends Tracker {
     }
 
     @Override
-    public void append_tooltip(ItemStack stack, List<Text> tooltip) {
+    public void append_tooltip(ItemStack stack, Consumer<Text> tooltip) {
         if (this.should_track(stack)) {
             if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking && this.stack_has_map_tracker(stack)) {
                 Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
                 Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
                 Text control_text = Text.literal(" [").append(this.get_key().getBoundKeyLocalizedText()).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
-                tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
+                tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
             } else {
                 super.append_tooltip(stack, tooltip);
             }

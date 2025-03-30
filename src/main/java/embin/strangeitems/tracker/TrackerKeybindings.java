@@ -46,7 +46,7 @@ public class TrackerKeybindings {
             return map_tracker_keybindings.get(tracker);
         }
         if (!warned_keybindings.contains(tracker)) {
-            StrangeItems.LOGGER.warn("Tracker " + tracker.get_id().toString() + " does not have an assigned key!");
+            StrangeItems.LOGGER.warn("Tracker " + tracker.get_id().toString() + " does not have an assigned key binding!");
             warned_keybindings.add(tracker);
         }
         return unknown_keybinding;
@@ -57,7 +57,7 @@ public class TrackerKeybindings {
             return timestamp_tracker_keybindings.get(tracker);
         }
         if (!warned_keybindings.contains(tracker)) {
-            StrangeItems.LOGGER.warn("Tracker " + tracker.get_id().toString() + " does not have an assigned key!");
+            StrangeItems.LOGGER.warn("Tracker " + tracker.get_id().toString() + " does not have an assigned key binding!");
             warned_keybindings.add(tracker);
         }
         return unknown_keybinding;

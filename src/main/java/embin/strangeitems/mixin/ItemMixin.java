@@ -1,21 +1,19 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
-import embin.strangeitems.client.StrangeItemsClient;
-import embin.strangeitems.config.StrangeConfig;
-import embin.strangeitems.tracker.Trackers;
-import embin.strangeitems.tracker.TrackerTags;
+import embin.strangeitems.StrangeRegistryKeys;
+import embin.strangeitems.tracker.*;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.entity.Entity;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -23,7 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 @Mixin(ItemStack.class)
 public abstract class ItemMixin {
@@ -42,64 +38,31 @@ public abstract class ItemMixin {
         Trackers.blocks_mined.append_tracker(stack, Registries.BLOCK.getId(state.getBlock()).toString());
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
-        ordinal = 0, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-    public void appendTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, boolean bl, List<Text> list, Consumer consumer) {
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendComponentTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Lnet/minecraft/component/type/TooltipDisplayComponent;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
+        ordinal = 0, shift = At.Shift.BEFORE), method = "appendTooltip", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+    public void appendTooltipMixin(Item.TooltipContext context, TooltipDisplayComponent displayComponent, PlayerEntity player, TooltipType type, Consumer<Text> list, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
-        if (Trackers.blocks_mined.should_show_tooltip(stack)) {
-            Trackers.blocks_mined.append_tooltip_map(stack, list, cir, type);
-            return;
+        if (stack.isIn(TrackerItemTags.CAN_TRACK_STATS) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
+            for (RegistryEntry<Tracker> registryEntry : TrackerUtil.get_tooltip_order(context.getRegistryLookup(), StrangeRegistryKeys.TRACKER, TrackerTags.HAS_SPECIAL_TOOLTIP)) {
+                if (registryEntry.value() instanceof MapTracker mapTracker) {
+                    if (mapTracker.should_show_tooltip(stack)) {
+                        mapTracker.append_tooltip_map(stack, list, ci, type);
+                        return;
+                    }
+                }
+                if (registryEntry.value() instanceof TimestampTracker tsTracker) {
+                    if (tsTracker.should_show_tooltip(stack)) {
+                        tsTracker.append_tooltip_map(stack, list, ci, type);
+                        return;
+                    }
+                }
+            }
+            TrackerUtil.add_all_tracker_tooltips(context, list, stack);
         }
-        if (Trackers.mobs_killed.should_show_tooltip(stack)) {
-            Trackers.mobs_killed.append_tooltip_map(stack, list, cir, type);
-            return;
-        }
-        if (Trackers.times_dropped.should_show_tooltip(stack)) {
-            Trackers.times_dropped.append_tooltip_map(stack, list, cir, type);
-            return;
-        }
-        if (Trackers.time_in_dimensions.should_show_tooltip(stack)) {
-            Trackers.time_in_dimensions.append_tooltip_map(stack, list, cir, type);
-            return;
-        }
-        if (stack.isIn(TrackerTags.CAN_TRACK_STATS) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
-            list.add(Text.translatable("tooltip.strangeitems.strange_trackers").append(":").formatted(Formatting.GRAY));
-            //tooltip.add(Text.literal("").withColor(13593138));
-        }
-        Trackers.time_flown_with_elytra.append_tooltip(stack, list);
-        Trackers.shots_fired.append_tooltip(stack, list);
-        Trackers.shots_hit.append_tooltip(stack, list);
-        Trackers.fires_lit.append_tooltip(stack, list);
-        Trackers.campfires_lit.append_tooltip(stack, list);
-        Trackers.sheep_sheared.append_tooltip(stack, list);
-        Trackers.fish_caught.append_tooltip(stack, list);
-        Trackers.times_fishing_rod_caught_something.append_tooltip(stack, list);
-        Trackers.times_fishing_rod_cast.append_tooltip(stack, list);
-        Trackers.times_fishing_rod_reeled_in.append_tooltip(stack, list);
-        Trackers.blocks_brushed.append_tooltip(stack, list);
-        Trackers.armadillos_brushed.append_tooltip(stack, list);
-        Trackers.damage_taken.append_tooltip(stack, list);
-        Trackers.time_in_lava.append_tooltip(stack, list);
-        Trackers.time_underwater.append_tooltip(stack, list);
-        Trackers.time_sneaking.append_tooltip(stack, list);
-        Trackers.distance_fallen.append_tooltip(stack, list);
-        Trackers.times_equipped.append_tooltip(stack, list);
-        Trackers.time_in_dimensions.append_tooltip(stack, list);
-        Trackers.damage_dealt.append_tooltip(stack, list);
-        Trackers.mobs_killed.append_tooltip(stack, list);
-        Trackers.trident_thrown.append_tooltip(stack, list);
-        Trackers.blocks_mined.append_tooltip(stack, list);
-        Trackers.mobs_hit.append_tooltip(stack, list);
-        Trackers.dirt_tilled.append_tooltip(stack, list);
-        Trackers.logs_stripped.append_tooltip(stack, list);
-        Trackers.paths_created.append_tooltip(stack, list);
-        Trackers.campfires_put_out.append_tooltip(stack, list);
-        Trackers.plants_trimmed.append_tooltip(stack, list);
-        Trackers.times_dropped.append_tooltip(stack, list);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
-    public void nameColorMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, boolean bl, List<Text> list) {
+    public void nameColorMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, TooltipDisplayComponent tooltipDisplayComponent, List<Text> list) {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.contains(StrangeItemsComponents.COLLECTORS_ITEM)) {
             list.removeLast();
@@ -144,33 +107,12 @@ public abstract class ItemMixin {
         */
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
-        ordinal = 2, shift = At.Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
-    public void enchantTooltipMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, boolean bl, List list, Consumer consumer) {
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendComponentTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Lnet/minecraft/component/type/TooltipDisplayComponent;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
+        ordinal = 15, shift = At.Shift.BEFORE), method = "appendTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
+    public void enchantTooltipMixin(Item.TooltipContext context, TooltipDisplayComponent displayComponent, PlayerEntity player, TooltipType type, Consumer<Text> textConsumer, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.hasEnchantments() || !stack.getOrDefault(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT).isEmpty()) {
-            list.add(Text.translatable("tooltip.strangeitems.enchantments").append(":").formatted(Formatting.GRAY));
-        }
-    }
-
-    @Inject(method = "inventoryTick", at = @At(value = "HEAD"))
-    public void legacyTrackerFix(World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
-        ItemStack stack = (ItemStack)(Object) this;
-        if (stack.isIn(TrackerTags.CAN_TRACK_STATS)) {
-            Trackers.blocks_mined.convert_legacy_tracker(stack, StrangeItemsComponents.BLOCKS_MINED);
-            Trackers.times_dropped.convert_legacy_tracker(stack, StrangeItemsComponents.TIMES_DROPPED, true);
-            Trackers.mobs_hit.convert_legacy_tracker(stack, StrangeItemsComponents.MOBS_HIT);
-            Trackers.time_flown_with_elytra.convert_legacy_tracker(stack, StrangeItemsComponents.TIME_FLOWN_WITH_ELYTRA);
-            Trackers.dirt_tilled.convert_legacy_tracker(stack, StrangeItemsComponents.FARMLAND_CREATED);
-            Trackers.logs_stripped.convert_legacy_tracker(stack, StrangeItemsComponents.LOGS_STRIPPED);
-            Trackers.paths_created.convert_legacy_tracker(stack, StrangeItemsComponents.PATHS_CREATED);
-            Trackers.campfires_put_out.convert_legacy_tracker(stack, StrangeItemsComponents.CAMPFIRES_PUT_OUT);
-            Trackers.sheep_sheared.convert_legacy_tracker(stack, StrangeItemsComponents.SHEEP_SHEARED);
-            Trackers.plants_trimmed.convert_legacy_tracker(stack, StrangeItemsComponents.PLANTS_TRIMMED);
-            Trackers.fires_lit.convert_legacy_tracker(stack, StrangeItemsComponents.FIRES_IGNITED);
-            Trackers.campfires_lit.convert_legacy_tracker(stack, StrangeItemsComponents.CAMPFIRES_LIT);
-            Trackers.shots_hit.convert_legacy_tracker(stack, StrangeItemsComponents.SHOT_HIT);
-            Trackers.shots_fired.convert_legacy_tracker(stack, StrangeItemsComponents.SHOTS_FIRED);
+            textConsumer.accept(Text.translatable("tooltip.strangeitems.enchantments").append(":").formatted(Formatting.GRAY));
         }
     }
 

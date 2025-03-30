@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerMixin {
-    @Inject(method = "dropPlayerItem", at = @At(value = "RETURN"))
+    @Inject(method = "dropItem", at = @At(value = "RETURN"))
     public void dropItemMixin(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
         if (!stack.isEmpty()) {
             Trackers.times_dropped.append_tracker(stack);

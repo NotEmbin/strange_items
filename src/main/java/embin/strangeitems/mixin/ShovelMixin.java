@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ShovelItem.class)
 public class ShovelMixin {
     @Inject(at = @At(value = "INVOKE",
-        target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"),
+        target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"),
         method = "useOnBlock")
     public void pathCreationMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         Trackers.paths_created.append_tracker(context.getStack());

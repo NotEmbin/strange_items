@@ -19,6 +19,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.List;
+
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin {
     @Shadow @NotNull public abstract ItemStack getWeaponStack();
@@ -38,7 +40,13 @@ public abstract class PlayerMixin {
     @Inject(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V", ordinal = 1))
     public void damageMixin(ServerWorld world, DamageSource source, float amount, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object) this;
-        for (ItemStack stack : player.getArmorItems()) {
+        List<ItemStack> armorItems = List.of(
+                player.getEquippedStack(EquipmentSlot.HEAD),
+                player.getEquippedStack(EquipmentSlot.CHEST),
+                player.getEquippedStack(EquipmentSlot.LEGS),
+                player.getEquippedStack(EquipmentSlot.FEET)
+        );
+        for (ItemStack stack : armorItems) {
             if (!stack.isEmpty()) {
                 Trackers.damage_taken.append_tracker(stack, Math.round(amount * 10.0F));
             }
@@ -80,7 +88,7 @@ public abstract class PlayerMixin {
     }
 
     @Inject(method = "handleFallDamage", at = @At(value = "HEAD"))
-    public void whenFallen(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    public void whenFallen(double fallDistance, float damagePerDistance, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity player = (PlayerEntity)(Object) this;
         ItemStack feet_stack = player.getEquippedStack(EquipmentSlot.FEET);
         if (!feet_stack.isEmpty()) {

@@ -11,18 +11,21 @@ import org.slf4j.LoggerFactory;
 
 public class StrangeItemsClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("strangeitems/client");
-    private static KeyBinding register_keybind(String translation, int key) {
-        return KeyBindingHelper.registerKeyBinding(new KeyBinding(
+
+    private static KeyBinding keybind(String translation, int key) {
+        return new KeyBinding(
             "key.strangeitems." + translation,
             InputUtil.Type.KEYSYM,
             key,
             "category.strangeitems.keys"
-        ));
+        );
     }
-    public static KeyBinding show_blocks_mined = register_keybind("show_blocks_mined", GLFW.GLFW_KEY_Z);
-    public static KeyBinding show_times_dropped = register_keybind("show_times_dropped", GLFW.GLFW_KEY_RIGHT_ALT);
-    public static KeyBinding show_mobs_killed = register_keybind("show_mobs_killed", GLFW.GLFW_KEY_LEFT_ALT);
-    public static KeyBinding show_time_in_dimensions = register_keybind("show_time_in_dimension", GLFW.GLFW_KEY_GRAVE_ACCENT);
+
+    public static KeyBinding show_blocks_mined = keybind("show_blocks_mined", GLFW.GLFW_KEY_Z);
+    public static KeyBinding show_times_dropped = keybind("show_times_dropped", GLFW.GLFW_KEY_RIGHT_ALT);
+    public static KeyBinding show_mobs_killed = keybind("show_mobs_killed", GLFW.GLFW_KEY_LEFT_ALT);
+    public static KeyBinding show_time_in_dimensions = keybind("show_time_in_dimension", GLFW.GLFW_KEY_GRAVE_ACCENT);
+
     @Override
     public void onInitializeClient() {
         StrangeConfig.read_json();

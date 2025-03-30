@@ -1,13 +1,26 @@
 package embin.strangeitems.config;
 
+import embin.strangeitems.client.StrangeItemsClient;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 
 public class ConfigScreen {
     private ConfigScreen() {}
+
+    private static void add_keybinding(ConfigCategory configCategory, ConfigEntryBuilder entryBuilder, KeyBinding keyBinding) {
+        configCategory.addEntry(entryBuilder.fillKeybindingField(Text.translatable(keyBinding.getTranslationKey()), keyBinding)
+                .setAllowMouse(true)
+                .setAllowModifiers(true)
+                .setAllowKey(true)
+                .setDefaultValue(keyBinding.getDefaultKey())
+                .build()
+        );
+    }
 
     public static ConfigBuilder configBuilder(final Screen parent) {
         final ConfigBuilder builder = ConfigBuilder.create()
@@ -48,6 +61,11 @@ public class ConfigScreen {
             )
             .build()
         );
+
+        add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_blocks_mined);
+        add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_times_dropped);
+        add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_mobs_killed);
+        add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_time_in_dimensions);
 
         builder.transparentBackground();
         builder.setSavingRunnable(StrangeConfig::save_json);

@@ -1,6 +1,8 @@
 package embin.strangeitems.tracker;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.StrangeRegistries;
+import embin.strangeitems.util.ConvertNamespace;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
@@ -15,13 +17,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Base Tracker class
  */
 public class Tracker {
-    public Identifier id;
+    public String id;
 
     /**
      * The StatFormatter used when displaying a tracker's value in its tooltip.
@@ -38,20 +40,17 @@ public class Tracker {
     /**
      * The item tag that controls whether an item should have a certain tracker.
      */
-    public TagKey<Item> item_tag = TrackerTags.CAN_TRACK_STATS;
+    public TagKey<Item> item_tag;
 
-    public Tracker(Identifier id, TagKey<Item> tag, StatFormatter stat_formatter, int formatted_value_multiplier) {
-        this.id = id;
+    public Tracker(String id, TagKey<Item> tag, StatFormatter stat_formatter, int formatted_value_multiplier) {
         this.stat_formatter = stat_formatter;
         this.formatted_value_multiplier = formatted_value_multiplier;
         this.item_tag = tag;
+        this.id = ConvertNamespace.convert(id).toString();
     }
-    public Tracker(Identifier id, TagKey<Item> tag) {
-        this.id = id;
+    public Tracker(String id, TagKey<Item> tag) {
         this.item_tag = tag;
-    }
-    public Tracker(Identifier id) {
-        this.id = id;
+        this.id = ConvertNamespace.convert(id).toString();
     }
 
     public void set_tracker_value_int(ItemStack stack, int value) {
@@ -67,19 +66,21 @@ public class Tracker {
     }
 
     public String toString() {
-        return this.id.toString();
+        return this.get_id().toString();
     }
 
     public String to_string() {
-        return this.id.toString();
+        return this.get_id().toString();
     }
 
     public Identifier get_id() {
-        return this.id;
+        Identifier id = StrangeRegistries.TRACKER.getId(this);
+        if (id != null) return id;
+        return ConvertNamespace.convert(this.id);
     }
 
     public String get_translation_key() {
-        return Util.createTranslationKey("tracker", this.id);
+        return Util.createTranslationKey("tracker", this.get_id());
     }
 
     /**
@@ -96,14 +97,14 @@ public class Tracker {
         if (!this.stack_has_tracker(stack)) {
             return this.default_value;
         }
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getInt(this.toString());
+        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getInt(this.toString()).orElse(0);
     }
 
     public NbtCompound get_tracker_value_nbt(ItemStack stack) {
         if (!this.stack_has_tracker(stack)) {
             return new NbtCompound();
         }
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.toString());
+        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.toString()).orElse(new NbtCompound());
     }
 
     /**
@@ -130,22 +131,23 @@ public class Tracker {
         return this.get_stat_formatter().format(this.get_tracker_value_int(stack) * this.formatted_value_multiplier);
     }
 
-    public void append_tooltip(ItemStack stack, List<Text> tooltip) {
+    public void append_tooltip(ItemStack stack, Consumer<Text> tooltip) {
         if (this.should_track(stack)) {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
             Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
-            tooltip.add(Text.literal(" ").append(tooltip_text).append(stat_text));
+            tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text));
         }
     }
 
-    public void append_tooltip_no_space(ItemStack stack, List<Text> tooltip) {
+    public void append_tooltip_no_space(ItemStack stack, Consumer<Text> tooltip) {
         if (this.should_track(stack)) {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
             MutableText tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
-            tooltip.add(tooltip_text.append(stat_text));
+            tooltip.accept(tooltip_text.append(stat_text));
         }
     }
 
+    @Deprecated
     public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component, boolean rarity_fix) {
         if (stack.contains(legacy_component)) {
             if (rarity_fix) {
@@ -162,11 +164,16 @@ public class Tracker {
      * @param stack Item stack to check for.
      * @param legacy_component The tracker component to convert.
      */
+    @Deprecated
     public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component) {
         this.convert_legacy_tracker(stack, legacy_component, false);
     }
 
     public boolean should_track(ItemStack stack) {
         return stack.isIn(this.item_tag) || this.stack_has_tracker(stack) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS);
+    }
+
+    public boolean is_in(TagKey<Tracker> tag) {
+        return StrangeRegistries.TRACKER.getEntry(this).isIn(tag);
     }
 }

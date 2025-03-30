@@ -1,7 +1,7 @@
 package embin.strangeitems;
 
+import embin.strangeitems.tracker.Trackers;
 import net.fabricmc.api.ModInitializer;
-
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,9 @@ public class StrangeItems implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		StrangeRegistries.acknowledgeRegistries();
 		StrangeItemsComponents.init();
+		Trackers.init();
 
 		LOGGER.info("These items... they're strange...");
 	}

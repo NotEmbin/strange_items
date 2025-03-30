@@ -1,24 +1,37 @@
 package embin.strangeitems.util;
 
 import embin.strangeitems.StrangeItems;
+import embin.strangeitems.StrangeRegistries;
+import embin.strangeitems.StrangeRegistryKeys;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.mixin.KeyBindAccessor;
+import embin.strangeitems.tracker.Tracker;
+import embin.strangeitems.tracker.TrackerTags;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 public class TrackerUtil {
 
@@ -32,7 +45,7 @@ public class TrackerUtil {
         List<String> unsorted = nbtCompound.getKeys().stream().toList();
         for (String key : unsorted) {
            sorted.add(key);
-           int value = nbtCompound.getInt(key);
+           int value = nbtCompound.getInt(key).get();
            if (sorted.size() > 1) {
                while (true) {
                    int index = sorted.indexOf(key);
@@ -42,7 +55,7 @@ public class TrackerUtil {
                    } catch (IndexOutOfBoundsException e) {
                        break;
                    }
-                   int value_ahead = nbtCompound.getInt(key_ahead);
+                   int value_ahead = nbtCompound.getInt(key_ahead).get();
                    if (value > value_ahead) {
                        sorted.remove(index);
                        sorted.add(index - 1, key);
@@ -67,9 +80,9 @@ public class TrackerUtil {
         return InputUtil.isKeyPressed(handle, key_code);
     }
 
-    public static void add_item_id_to_tooltip(ItemStack stack, List<Text> tooltip, TooltipType type) {
+    public static void add_item_id_to_tooltip(ItemStack stack, Consumer<Text> tooltip, TooltipType type) {
         if (type.isAdvanced()) {
-            tooltip.add(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
+            tooltip.accept(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
         }
     }
 
@@ -89,5 +102,37 @@ public class TrackerUtil {
             return !result;
         }
         return result;
+    }
+
+    public static List<Tracker> get_list_of_trackers() {
+        return StrangeRegistries.TRACKER.stream().toList();
+    }
+
+    public static List<Identifier> get_list_of_ids() {
+        return StrangeRegistries.TRACKER.getIds().stream().toList();
+    }
+
+    public static void add_all_tracker_tooltips(Item.TooltipContext context, Consumer<Text> textConsumer, ItemStack stack) {
+        textConsumer.accept(Text.translatable("tooltip.strangeitems.strange_trackers").append(":").formatted(Formatting.GRAY));
+        RegistryEntryList<Tracker> entryList = get_tooltip_order(context.getRegistryLookup(), StrangeRegistryKeys.TRACKER, TrackerTags.TOOLTIP_ORDER);
+        for (RegistryEntry<Tracker> registryEntry : entryList) {
+            registryEntry.value().append_tooltip(stack, textConsumer);
+        }
+
+        for (Tracker tracker : get_list_of_trackers()) {
+            if (!entryList.contains(StrangeRegistries.TRACKER.getEntry(tracker))) {
+                tracker.append_tooltip(stack, textConsumer);
+            }
+        }
+    }
+
+    public static RegistryEntryList<Tracker> get_tooltip_order(@Nullable RegistryWrapper.WrapperLookup registries, RegistryKey<Registry<Tracker>> key, TagKey<Tracker> tag) {
+        if (registries != null) {
+            Optional<RegistryEntryList.Named<Tracker>> optional = registries.getOrThrow(key).getOptional(tag);
+            if (optional.isPresent()) {
+                return optional.get();
+            }
+        }
+        return RegistryEntryList.of();
     }
 }
