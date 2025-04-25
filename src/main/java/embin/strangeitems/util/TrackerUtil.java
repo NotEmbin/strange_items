@@ -83,6 +83,9 @@ public class TrackerUtil {
     public static void add_item_id_to_tooltip(ItemStack stack, Consumer<Text> tooltip, TooltipType type) {
         if (type.isAdvanced()) {
             tooltip.accept(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
+            if (StrangeItems.componentless_installed) {
+                tooltip.accept(Text.literal("stop it, componentless"));
+            }
         }
     }
 

@@ -10,6 +10,7 @@ public class StrangeItems implements ModInitializer {
 	public static final String MOD_ID = "strangeitems";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final boolean tooltipscroll_installed = FabricLoader.getInstance().isModLoaded("tooltipscroll");
+	public static final boolean componentless_installed = FabricLoader.getInstance().isModLoaded("componentless");
 
 	@Override
 	public void onInitialize() {

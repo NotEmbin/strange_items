@@ -2,8 +2,9 @@ package embin.strangeitems.config;
 
 import com.google.gson.stream.JsonReader;
 import embin.strangeitems.client.StrangeItemsClient;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 public class StrangeConfig {
+    public static final Logger LOGGER = LoggerFactory.getLogger(StrangeConfig.class);
     private StrangeConfig() {}
 
     public static boolean in_depth_tracking = true;
@@ -24,13 +26,14 @@ public class StrangeConfig {
             ", \"key.show_blocks_mined\":\""+ StrangeItemsClient.show_blocks_mined.getBoundKeyTranslationKey() +
             "\", \"key.show_times_dropped\":\""+ StrangeItemsClient.show_times_dropped.getBoundKeyTranslationKey() +
             "\", \"key.show_mobs_killed\":\""+ StrangeItemsClient.show_mobs_killed.getBoundKeyTranslationKey() +
+            "\", \"key.show_tracker_ids\":\""+ StrangeItemsClient.show_tracker_ids.getBoundKeyTranslationKey() +
             "\", \"key.show_time_in_dimensions\":\""+ StrangeItemsClient.show_time_in_dimensions.getBoundKeyTranslationKey() + "\"}";
         try {
             FileWriter writer = new FileWriter("config/strange_items.json");
             writer.write(json);
             writer.close();
         } catch (Exception e) {
-            StrangeItemsClient.LOGGER.error("Encountered error whilst trying to save config JSON.", e);
+            LOGGER.error("Encountered an error whilst trying to save config JSON.", e);
         }
     }
 
@@ -59,6 +62,9 @@ public class StrangeConfig {
                 if (key.equals("key.show_mobs_killed")) {
                     StrangeItemsClient.show_mobs_killed.setBoundKey(InputUtil.fromTranslationKey(parser.nextString()));
                 }
+                if (key.equals("key.show_tracker_ids")) {
+                    StrangeItemsClient.show_tracker_ids.setBoundKey(InputUtil.fromTranslationKey(parser.nextString()));
+                }
                 if (key.equals("key.show_time_in_dimensions")) {
                     StrangeItemsClient.show_time_in_dimensions.setBoundKey(InputUtil.fromTranslationKey(parser.nextString()));
                 }
@@ -68,7 +74,11 @@ public class StrangeConfig {
             try {
                 (new File("config")).mkdirs();
                 save_json();
-            } catch (Exception ex) {}
-        } catch (Exception e) {}
+            } catch (Exception ex) {
+                LOGGER.error("Exception when trying to create config file.", ex);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Unknown exception when trying to read config file.", e);
+        }
     }
 }

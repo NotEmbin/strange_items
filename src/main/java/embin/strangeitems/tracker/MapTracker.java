@@ -1,5 +1,6 @@
 package embin.strangeitems.tracker;
 
+import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.config.StrangeConfig;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.client.option.KeyBinding;
@@ -78,7 +79,7 @@ public class MapTracker extends Tracker {
 
     public void append_tooltip_map(ItemStack stack, Consumer<Text> tooltip, CallbackInfo ci, TooltipType type) {
         if (this.should_track(stack) && should_show_tooltip(stack)) {
-            this.append_tooltip_no_space(stack, tooltip);
+            this.append_tooltip_no_space(stack, tooltip, type);
             NbtCompound nbtCompound = this.get_tracker_value_nbt(stack);
             int index = 1;
             for (String key : TrackerUtil.get_sorted_keys(nbtCompound)) {
@@ -86,10 +87,13 @@ public class MapTracker extends Tracker {
                     String translation_key = Identifier.of(key).toTranslationKey(this.translation_prefix);
                     Text stat_text = Text.literal(this.get_formatted_tracker_value_nbt(stack, key)).formatted(Formatting.YELLOW);
                     MutableText tooltip_text = Text.literal(key);
-                    if (Language.getInstance().hasTranslation(translation_key)) {
-                        tooltip_text = Text.translatable(translation_key);
+                    if (Language.getInstance().hasTranslation(translation_key) && !TrackerUtil.is_key_down(StrangeItemsClient.show_tracker_ids)) {
+                        tooltip_text = Text.translatable(translation_key).formatted(Formatting.GRAY);
                     }
-                    tooltip_text.append(": ").formatted(Formatting.GRAY);
+                    if (TrackerUtil.is_key_down(StrangeItemsClient.show_tracker_ids)) {
+                        tooltip_text.formatted(Formatting.DARK_GRAY);
+                    }
+                    tooltip_text.append(Text.literal(": ").formatted(Formatting.GRAY));
                     tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text));
                 }
                 index++;
@@ -115,7 +119,7 @@ public class MapTracker extends Tracker {
         if (this.should_track(stack)) {
             if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking && this.stack_has_map_tracker(stack)) {
                 Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
-                Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
+                Text tooltip_text = this.get_name_for_tooltip().append(Text.literal(": ").formatted(Formatting.GRAY));
                 Text control_text = Text.literal(" [").append(this.get_key().getBoundKeyLocalizedText()).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
                 tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
             } else {

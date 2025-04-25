@@ -53,9 +53,16 @@
 	"key.strangeitems.show_times_dropped": "Show Times Dropped (If Available)",
 	"key.strangeitems.show_mobs_killed": "Show Mobs Killed (If Available)",
 	"key.strangeitems.show_time_in_dimension": "Show Time Spent in Dimensions (If Available)",
+	"key.strangeitems.show_tracker_ids": "Show Tracker IDs",
 	"category.strangeitems.keys": "In-Depth Item Tracker Controls",
 
 	"dimension.minecraft.overworld": "Overworld",
 	"dimension.minecraft.the_nether": "The Nether",
-	"dimension.minecraft.the_end": "The End"
+	"dimension.minecraft.the_end": "The End",
+
+	"tag.item.strangeitems.can_track_stats": "Can Track Stats",
+	"tag.item.strangeitems.trackers.time_in_lava": "Can Track \"Time Spent in Lava\"",
+	"tag.item.strangeitems.trackers.distance_fallen": "Can Track \"Distance Fallen\"",
+	"tag.item.strangeitems.trackers.logs_stripped": "Can Track \"Blocks Stripped\"",
+	"tag.item.strangeitems.trackers.sheep+sheared": "Can Track \"Sheep Sheared\""
 }

@@ -2,12 +2,15 @@ package embin.strangeitems.tracker;
 
 import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.StrangeRegistries;
+import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.util.ConvertNamespace;
+import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.tag.TagKey;
@@ -17,12 +20,16 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.function.Consumer;
 
 /**
  * Base Tracker class
  */
 public class Tracker {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Tracker.class);
     public String id;
 
     /**
@@ -134,20 +141,34 @@ public class Tracker {
     public void append_tooltip(ItemStack stack, Consumer<Text> tooltip) {
         if (this.should_track(stack)) {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
-            Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
+            Text tooltip_text = this.get_name_for_tooltip().append(Text.literal(": ").formatted(Formatting.GRAY));
             tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text));
         }
     }
 
-    public void append_tooltip_no_space(ItemStack stack, Consumer<Text> tooltip) {
+    protected MutableText get_name_for_tooltip() {
+        if (TrackerUtil.is_key_down(StrangeItemsClient.show_tracker_ids)) {
+            Identifier id = StrangeRegistries.TRACKER.getId(this);
+            if (id != null) {
+                return Text.literal(id.toString()).formatted(Formatting.DARK_GRAY);
+            } else {
+                return Text.translatable(this.get_translation_key()).formatted(Formatting.GRAY);
+            }
+        } else {
+            return Text.translatable(this.get_translation_key()).formatted(Formatting.GRAY);
+        }
+    }
+
+    public void append_tooltip_no_space(ItemStack stack, Consumer<Text> tooltip, TooltipType type) {
         if (this.should_track(stack)) {
             Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
             MutableText tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
+            //MutableText tooltip_text = this.get_name_for_tooltip().append(Text.literal(": ").formatted(Formatting.GRAY));
             tooltip.accept(tooltip_text.append(stat_text));
         }
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component, boolean rarity_fix) {
         if (stack.contains(legacy_component)) {
             if (rarity_fix) {
@@ -164,7 +185,7 @@ public class Tracker {
      * @param stack Item stack to check for.
      * @param legacy_component The tracker component to convert.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component) {
         this.convert_legacy_tracker(stack, legacy_component, false);
     }

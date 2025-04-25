@@ -53,7 +53,7 @@ public class TimestampTracker extends Tracker {
 
     public void append_tooltip_map(ItemStack stack, Consumer<Text> tooltip, CallbackInfo ci, TooltipType type) {
         if (this.should_track(stack) && should_show_tooltip(stack)) {
-            this.append_tooltip_no_space(stack, tooltip);
+            this.append_tooltip_no_space(stack, tooltip, type);
             int size = this.get_tracker_value_int(stack) - 1;
             for (int i = size; i >= 0; i--) {
                 String key = String.valueOf(i + 1);
@@ -98,7 +98,7 @@ public class TimestampTracker extends Tracker {
         if (this.should_track(stack)) {
             if (this.stack_has_tracker(stack) && StrangeConfig.in_depth_tracking && this.stack_has_map_tracker(stack)) {
                 Text stat_text = Text.literal(this.get_formatted_tracker_value(stack)).formatted(Formatting.YELLOW);
-                Text tooltip_text = Text.translatable(this.get_translation_key()).append(": ").formatted(Formatting.GRAY);
+                Text tooltip_text = this.get_name_for_tooltip().append(Text.literal(": ").formatted(Formatting.GRAY));
                 Text control_text = Text.literal(" [").append(this.get_key().getBoundKeyLocalizedText()).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
                 tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
             } else {

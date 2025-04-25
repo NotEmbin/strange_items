@@ -66,6 +66,7 @@ public class ConfigScreen {
         add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_times_dropped);
         add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_mobs_killed);
         add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_time_in_dimensions);
+        add_keybinding(strangeitems, entry_builder, StrangeItemsClient.show_tracker_ids);
 
         builder.transparentBackground();
         builder.setSavingRunnable(StrangeConfig::save_json);
