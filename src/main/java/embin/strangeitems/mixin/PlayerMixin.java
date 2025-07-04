@@ -56,7 +56,7 @@ public abstract class PlayerMixin {
     @Inject(method = "tick", at = @At(value = "TAIL"))
     public void onTick(CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object) this;
-        String dimension = player.getEntityWorld().getDimensionEntry().getIdAsString();
+        String dimension = player.getWorld().getDimensionEntry().getIdAsString();
 
         ItemStack head_stack = player.getEquippedStack(EquipmentSlot.HEAD);
         ItemStack chest_stack = player.getEquippedStack(EquipmentSlot.CHEST);
