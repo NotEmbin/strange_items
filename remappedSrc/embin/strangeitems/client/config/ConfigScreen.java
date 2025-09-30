@@ -1,25 +1,31 @@
-package embin.strangeitems.config;
+package embin.strangeitems.client.config;
 
 import embin.strangeitems.client.StrangeItemsClient;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
-import me.shedaniel.clothconfig2.api.ConfigCategory;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+//import me.shedaniel.clothconfig2.api.ConfigBuilder;
+//import me.shedaniel.clothconfig2.api.ConfigCategory;
+//import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+//import me.shedaniel.clothconfig2.impl.builders.KeyCodeBuilder;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
-import org.lwjgl.glfw.GLFW;
+import net.minecraft.util.Language;
 
 public class ConfigScreen {
     private ConfigScreen() {}
 
+    /*
     private static void add_keybinding(ConfigCategory configCategory, ConfigEntryBuilder entryBuilder, KeyBinding keyBinding) {
-        configCategory.addEntry(entryBuilder.fillKeybindingField(Text.translatable(keyBinding.getTranslationKey()), keyBinding)
+        KeyCodeBuilder builder = entryBuilder.fillKeybindingField(KeyBinding.getLocalizedName(keyBinding.getId()).get(), keyBinding)
                 .setAllowMouse(true)
                 .setAllowModifiers(true)
                 .setAllowKey(true)
                 .setDefaultValue(keyBinding.getDefaultKey())
-                .build()
-        );
+                .setTooltip();
+        String tooltip_translation = keyBinding.getId() + ".desc";
+        if (Language.getInstance().hasTranslation(tooltip_translation)) {
+            builder.setTooltip(Text.translatable(tooltip_translation));
+        }
+        configCategory.addEntry(builder.build());
     }
 
     public static ConfigBuilder configBuilder(final Screen parent) {
@@ -72,4 +78,5 @@ public class ConfigScreen {
         builder.setSavingRunnable(StrangeConfig::save_json);
         return builder;
     }
+     */
 }

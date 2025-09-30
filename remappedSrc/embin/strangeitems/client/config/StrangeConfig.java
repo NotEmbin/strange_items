@@ -1,4 +1,4 @@
-package embin.strangeitems.config;
+package embin.strangeitems.client.config;
 
 import com.google.gson.stream.JsonReader;
 import embin.strangeitems.client.StrangeItemsClient;

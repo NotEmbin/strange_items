@@ -3,7 +3,8 @@ package embin.strangeitems.util;
 import embin.strangeitems.StrangeItems;
 import net.minecraft.util.Identifier;
 
-public class ConvertNamespace {
+public class Id {
+    @Deprecated
     public Identifier convertNamespace(String namespace) {
         String[] splitted = namespace.split(":");
         if (splitted.length == 1) {
@@ -12,7 +13,7 @@ public class ConvertNamespace {
         return Identifier.of(splitted[0],splitted[1]);
     }
 
-    public static Identifier convert(String namespace) {
+    public static Identifier of(String namespace) {
         String[] splitted = namespace.split(":");
         if (splitted.length == 1) {
             return Identifier.of(StrangeItems.MOD_ID, namespace);

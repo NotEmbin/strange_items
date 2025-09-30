@@ -55,6 +55,7 @@
 	"key.strangeitems.show_time_in_dimension": "Show Time Spent in Dimensions (If Available)",
 	"key.strangeitems.show_tracker_ids": "Show Tracker IDs",
 	"category.strangeitems.keys": "In-Depth Item Tracker Controls",
+	"category.strangeitems.debug_keys": "Strange Items: Debug Controls",
 
 	"dimension.minecraft.overworld": "Overworld",
 	"dimension.minecraft.the_nether": "The Nether",
