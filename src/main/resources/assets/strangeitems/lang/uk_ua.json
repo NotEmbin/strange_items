@@ -1,0 +1,66 @@
+{
+  "component.strangeitems.blocks_mined":"Блоків добуто",
+  "component.strangeitems.blocks_mined.info":"Блоків добуто: %1$s",
+  "component.strangeitems.logs_stripped":"Блоків обтесано",
+  "component.strangeitems.paths_created":"Стежок створено",
+  "component.strangeitems.campfires_put_out":"Багать погашено",
+  "component.strangeitems.farmland_created":"Блоків зорано",
+  "component.strangeitems.time_flown_with_elytra":"Час у польоті",
+  "component.strangeitems.shots_fired":"Вистрілів",
+  "component.strangeitems.shot_hit":"Улучань",
+  "component.strangeitems.times_dropped":"Разів викинуто",
+  "component.strangeitems.mobs_hit":"Мобів ударено",
+  "component.strangeitems.sheep_sheared":"Овець пострижено",
+  "component.strangeitems.plants_trimmed":"Рослин обрізано",
+  "component.strangeitems.fires_ignited":"Вогню запалено",
+  "component.strangeitems.campfires_lit":"Багать запалено",
+
+  "tooltip.strangeitems.strange":"Незвичний",
+  "tooltip.strangeitems.strange.item_name":"%1$s (незвичний)",
+
+  "item.strangeitems.diamond_pickaxe":"Незвичне діамантове кайло",
+  "item.strangeitems.iron_pickaxe":"Незвичне залізне кайло",
+  "item.strangeitems.netherite_pickaxe":"Незвичне незеритове кайло",
+  "item.strangeitems.golden_pickaxe":"Незвичне золоте кайло",
+  "item.strangeitems.stone_pickaxe":"Незвичне кам'яне кайло",
+  "item.strangeitems.wooden_pickaxe":"Незвичне дерев'яне кайло",
+
+  "item.strangeitems.netherite_axe":"Незвична незеритова сокира",
+  "item.strangeitems.diamond_axe":"Незвична діамантова сокира",
+  "item.strangeitems.golden_axe":"Незвична золота сокира",
+  "item.strangeitems.iron_axe":"Незвична залізна сокира",
+  "item.strangeitems.stone_axe":"Незвична кам'яна сокира",
+  "item.strangeitems.wooden_axe":"Незвична дерев'яна сокира",
+
+  "item.strangeitems.netherite_shovel":"Незвична незеритова лопата",
+  "item.strangeitems.diamond_shovel":"Незвична діамантова лопата",
+  "item.strangeitems.golden_shovel":"Незвична золота лопата",
+  "item.strangeitems.iron_shovel":"Незвична залізна лопата",
+  "item.strangeitems.stone_shovel":"Незвична кам'яна лопата",
+  "item.strangeitems.wooden_shovel":"Незвична дерев'яна лопата",
+
+  "item.strangeitems.netherite_hoe":"Незвична незеритова мотика",
+  "item.strangeitems.diamond_hoe":"Незвична діамантова мотика",
+  "item.strangeitems.golden_hoe":"Незвична золота мотика",
+  "item.strangeitems.iron_hoe":"Незвична залізна мотика",
+  "item.strangeitems.stone_hoe":"Незвична кам'яна мотика",
+  "item.strangeitems.wooden_hoe":"Незвична дерев'яна мотика",
+
+  "item.strangeitems.netherite_sword":"Незвичний незеритовий меч",
+  "item.strangeitems.diamond_sword":"Незвичний діамантовий меч",
+  "item.strangeitems.golden_sword":"Незвичний золотий меч",
+  "item.strangeitems.iron_sword":"Незвичний залізний меч",
+  "item.strangeitems.stone_sword":"Незвичний кам'яний меч",
+  "item.strangeitems.wooden_sword":"Незвичний дерев'яний меч",
+
+
+  "item.strangeitems.smithing_template.strange_upgrade.applies_to":"Інструменти",
+  "item.strangeitems.smithing_template.strange_upgrade.ingredients":"Незеритовий уламок",
+  "item.strangeitems.smithing_template.strange_upgrade.base_slot_description":"Розмістіть інструмент",
+  "item.strangeitems.smithing_template.strange_upgrade.additions_slot_description":"Розмістіть незеритовий уламок",
+  "upgrade.strangeitems.strange_upgrade":"Покращення знезвичнення інструмента",
+  "item.strangeitems.strange_upgrade_smithing_template":"Ковальський шаблон",
+  "itemGroup.strangeitems.strange_items_group": "Strange Items",
+
+  "modmenu.descriptionTranslation.strangeitems": "Дозволяє інструментам та іншим предметам показувати певну статистику окремо для кожного стоса"
+}
