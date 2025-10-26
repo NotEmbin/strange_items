@@ -124,12 +124,16 @@ public class TrackerUtil {
         textConsumer.accept(Text.translatable("tooltip.strangeitems.strange_trackers").append(":").formatted(Formatting.GRAY));
         RegistryEntryList<Tracker> entryList = getTooltipOrder(context.getRegistryLookup(), StrangeRegistryKeys.TRACKER, TrackerTags.TOOLTIP_ORDER);
         for (RegistryEntry<Tracker> registryEntry : entryList) {
-            registryEntry.value().appendTooltip(stack, textConsumer);
+            if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack.getRegistryEntry(), registryEntry)) {
+                registryEntry.value().appendTooltip(stack, textConsumer);
+            }
         }
 
         for (Tracker tracker : getListOfTrackers()) {
             if (!entryList.contains(StrangeRegistries.TRACKER.getEntry(tracker))) {
-                tracker.appendTooltip(stack, textConsumer);
+                if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack, tracker)) {
+                    tracker.appendTooltip(stack, textConsumer);
+                }
             }
         }
     }

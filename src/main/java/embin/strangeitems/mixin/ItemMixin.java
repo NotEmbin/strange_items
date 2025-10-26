@@ -1,7 +1,9 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
+import embin.strangeitems.StrangeRegistries;
 import embin.strangeitems.StrangeRegistryKeys;
+import embin.strangeitems.client.config.StrangeConfig;
 import embin.strangeitems.tracker.*;
 import embin.strangeitems.util.TrackerUtil;
 import net.minecraft.block.BlockState;
@@ -44,16 +46,18 @@ public abstract class ItemMixin {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.isIn(TrackerItemTags.CAN_TRACK_STATS) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
             for (RegistryEntry<Tracker> registryEntry : TrackerUtil.getTooltipOrder(context.getRegistryLookup(), StrangeRegistryKeys.TRACKER, TrackerTags.HAS_SPECIAL_TOOLTIP)) {
-                if (registryEntry.value() instanceof MapTracker mapTracker) {
-                    if (mapTracker.shouldShowTooltip(stack)) {
-                        mapTracker.appendTooltipMap(stack, list, ci, type);
-                        return;
+                if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack.getRegistryEntry(), registryEntry)) {
+                    if (registryEntry.value() instanceof MapTracker mapTracker) {
+                        if (mapTracker.shouldShowTooltip(stack)) {
+                            mapTracker.appendTooltipMap(stack, list, ci, type);
+                            return;
+                        }
                     }
-                }
-                if (registryEntry.value() instanceof TimestampTracker tsTracker) {
-                    if (tsTracker.should_show_tooltip(stack)) {
-                        tsTracker.append_tooltip_map(stack, list, ci, type);
-                        return;
+                    if (registryEntry.value() instanceof TimestampTracker tsTracker) {
+                        if (tsTracker.should_show_tooltip(stack)) {
+                            tsTracker.append_tooltip_map(stack, list, ci, type);
+                            return;
+                        }
                     }
                 }
             }

@@ -14,15 +14,15 @@ import org.slf4j.LoggerFactory;
 
 public class StrangeItemsClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("strangeitems/client");
-    public static final KeyBinding.Category STRANGEKEYS = KeyBinding.Category.create(Id.of("strangeitems"));
-    public static final KeyBinding.Category STRANGEKEYS_DEBUG = KeyBinding.Category.create(Id.of("strangeitems_debug"));
+    public static final KeyBinding.Category STRANGEKEYS = KeyBinding.Category.create(Id.of("keys"));
+    public static final KeyBinding.Category STRANGEKEYS_DEBUG = KeyBinding.Category.create(Id.of("debug"));
 
     private static KeyBinding keybind(String translation, int key) {
         return new KeyBinding(
             "key.strangeitems." + translation,
             InputUtil.Type.KEYSYM,
             key,
-                STRANGEKEYS
+            STRANGEKEYS
         );
     }
 
@@ -44,18 +44,18 @@ public class StrangeItemsClient implements ClientModInitializer {
         ));
     }
 
-    public static KeyBinding show_blocks_mined = keybind("show_blocks_mined", GLFW.GLFW_KEY_Z);
-    public static KeyBinding show_times_dropped = keybind("show_times_dropped", GLFW.GLFW_KEY_RIGHT_ALT);
-    public static KeyBinding show_mobs_killed = keybind("show_mobs_killed", GLFW.GLFW_KEY_LEFT_ALT);
-    public static KeyBinding show_time_in_dimensions = keybind("show_time_in_dimension", GLFW.GLFW_KEY_GRAVE_ACCENT);
-    public static KeyBinding show_tracker_ids = keybind("show_tracker_ids", GLFW.GLFW_KEY_COMMA);
+    public static KeyBinding show_tracker_ids = vanillaKeybind("show_tracker_ids", GLFW.GLFW_KEY_COMMA);
+    public static KeyBinding show_blocks_mined = vanillaKeybind("show_blocks_mined", GLFW.GLFW_KEY_Z);
+    public static KeyBinding show_times_dropped = vanillaKeybind("show_times_dropped", GLFW.GLFW_KEY_RIGHT_ALT);
+    public static KeyBinding show_mobs_killed = vanillaKeybind("show_mobs_killed", GLFW.GLFW_KEY_LEFT_ALT);
+    public static KeyBinding show_time_in_dimensions = vanillaKeybind("show_time_in_dimension", GLFW.GLFW_KEY_GRAVE_ACCENT);
 
-    public static KeyBinding DEBUG_LIST_TRACKERS = debugKeybind("debug_list_trackers", GLFW.GLFW_KEY_KP_DIVIDE);
+    public static KeyBinding DEBUG_LIST_TRACKERS = vanillaKeybind("debug_list_trackers", GLFW.GLFW_KEY_KP_DIVIDE);
 
     @Override
     public void onInitializeClient() {
         LOGGER.info("Reading config...");
-        StrangeConfig.read_json();
+        StrangeConfig.readConfig();
 
         ClientTickEvents.END_CLIENT_TICK.register(Id.of("debug_list_trackers"), client -> {
             while (DEBUG_LIST_TRACKERS.wasPressed()) {

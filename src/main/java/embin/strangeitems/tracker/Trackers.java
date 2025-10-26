@@ -31,7 +31,7 @@ public class Trackers {
     public static final Tracker TRIDENT_THROWN = register("trident_thrown", TrackerItemTags.TRACKER_TRIDENT_THROWN);
     public static final Tracker BLOCKS_BRUSHED = register("blocks_brushed", TrackerItemTags.TRACKER_BLOCKS_BRUSHED);
     public static final Tracker ARMADILLOS_BRUSHED = register("armadillos_brushed", TrackerItemTags.TRACKER_ARMADILLOS_BRUSHED);
-    public static final MapTracker MOBS_KILLED = registerMap("mobs_killed", "entity");
+    public static final MapTracker MOBS_KILLED = registerMap("mobs_killed", "entity", TrackerItemTags.TRACKER_MOBS_KILLED);
     public static final Tracker FISH_CAUGHT = register("fish_caught", TrackerItemTags.TRACKER_FISH_CAUGHT);
     public static final Tracker DAMAGE_TAKEN = register("damage_taken", TrackerItemTags.TRACKER_DAMAGE_TAKEN, StatFormatter.DIVIDE_BY_TEN, 1);
     public static final Tracker TIMES_EQUIPPED = register("times_equipped", TrackerItemTags.TRACKER_TIMES_EQUIPPED);

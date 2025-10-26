@@ -7,7 +7,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
@@ -22,12 +21,11 @@ public class TrackerListWidget extends ElementListWidget<TrackerListWidget.Track
         for (Tracker tracker : StrangeRegistries.TRACKER) {
             this.addEntry(new TrackerEntry(tracker));
         }
-        //this.setX(240);
     }
 
     @Override
     public int getRowWidth() {
-        return 180;
+        return 200;
     }
 
     public class TrackerEntry extends ElementListWidget.Entry<TrackerListWidget.TrackerEntry> {
@@ -37,6 +35,8 @@ public class TrackerListWidget extends ElementListWidget<TrackerListWidget.Track
         TrackerEntry(Tracker tracker) {
             this.tracker = tracker;
             this.textRenderer = TrackerListWidget.this.client.textRenderer;
+            this.setWidth(150);
+            this.setHeight(50);
         }
 
         @Override
@@ -60,21 +60,13 @@ public class TrackerListWidget extends ElementListWidget<TrackerListWidget.Track
             }
         }
 
-        //@Override
-        //public SelectionType getType() {
-        //    return SelectionType.HOVERED;
-        //}
-
         public Tracker getTracker() {
             return tracker;
         }
 
-        //@Override
-        //public void appendNarrations(NarrationMessageBuilder builder) {}
-
         @Override
         public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
-            this.render(context, 0, 0, 100, 50, mouseX, mouseY, hovered);
+            this.render(context, this.getContentY(), this.getX(), this.getContentWidth(), this.getContentHeight(), mouseX, mouseY, hovered);
         }
     }
 }

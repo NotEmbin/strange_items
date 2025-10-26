@@ -16,7 +16,8 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": ["embin.strangeitems.StrangeItems"],
-		"client": ["embin.strangeitems.client.StrangeItemsClient"]
+		"client": ["embin.strangeitems.client.StrangeItemsClient"],
+		"modmenu": ["embin.strangeitems.ModMenuIntegration"]
 	},
 	"accessWidener": "strangeitems.accesswidener",
 	"mixins": [

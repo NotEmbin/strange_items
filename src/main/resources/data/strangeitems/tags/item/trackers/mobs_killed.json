@@ -5,6 +5,9 @@
 		"minecraft:trident",
 		"minecraft:bow",
 		"#minecraft:axes",
-		"minecraft:crossbow"
+		"minecraft:crossbow",
+		"#minecraft:pickaxes",
+		"#minecraft:shovels",
+		"#minecraft:hoes"
 	]
 }
