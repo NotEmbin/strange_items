@@ -44,7 +44,7 @@
 	"setting.strangeitems.check_for_tooltipscroll_mod": "Перевіряти наявність «Tooltip Scroll»",
 	"setting.strangeitems.check_for_tooltipscroll_mod.desc": "Якщо вимкнено, перевірка «Tooltip Scroll» виконання",
 	"setting.strangeitems.check_for_tooltipscroll_mod.desc2": "завжди повертатиме false, навіть якщо мод встановлено.",
-	"setting.strangeitems.invert_tooltipscroll_check_value": "Інвертувати перевірку «Tooltip Scroll»,
+	"setting.strangeitems.invert_tooltipscroll_check_value": "Інвертувати перевірку «Tooltip Scroll»",
 	"setting.strangeitems.invert_tooltipscroll_check_value.desc": "Інвертує перевірку мода, тому якщо мод",
 	"setting.strangeitems.invert_tooltipscroll_check_value.desc2": "установлено, повертає false, але якщо",
 	"setting.strangeitems.invert_tooltipscroll_check_value.desc3": "мод не встановлено, він повертає true.",
