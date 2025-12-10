@@ -14,19 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
-    @Inject(method = "drop*", at = @At(value = "HEAD"))
+    @Inject(method = "drop*", at = @At(value = "HEAD"), cancellable = true)
     public void dropItemMixin(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
-        if (!stack.isEmpty()) {
-            Trackers.TIMES_DROPPED.appendTracker(stack);
-        }
-    }
-
-    @Inject(method = "doTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;awardStat(Lnet/minecraft/resources/Identifier;)V", ordinal = 3))
-    public void whenSneaking(CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer)(Object) this;
-        InteractionResult result = ServerPlayerEvents.WHEN_CROUCHING.invoker().whenCrouching(player);
+        InteractionResult result = ServerPlayerEvents.ON_DROP_ITEM.invoker().onDrop(player, stack);
         if (result == InteractionResult.FAIL) {
-            ci.cancel();
+            cir.cancel();
         }
     }
 

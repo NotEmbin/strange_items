@@ -11,6 +11,7 @@ public class TrackerItemTags {
     }
 
     public static final TagKey<Item> CAN_TRACK_STATS = createTag("can_track_stats");
+    public static final TagKey<Item> TRACKER_BLOCKS_MINED = createTag("trackers/blocks_mined");
     public static final TagKey<Item> TRACKER_SHEEP_SHEARED = createTag("trackers/sheep_sheared");
     public static final TagKey<Item> TRACKER_PLANTS_TRIMMED = createTag("trackers/plants_trimmed");
     public static final TagKey<Item> TRACKER_SHOTS_FIRED = createTag("trackers/shots_fired");

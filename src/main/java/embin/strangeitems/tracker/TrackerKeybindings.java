@@ -1,6 +1,5 @@
 package embin.strangeitems.tracker;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.InputConstants;
 import embin.strangeitems.StrangeItems;
 import embin.strangeitems.client.StrangeItemsClient;
@@ -9,6 +8,7 @@ import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +24,14 @@ public final class TrackerKeybindings {
 
     public static final List<Tracker> WARNED_KEYBINDINGS = new ArrayList<>(99);
 
-    public static final Map<MapTracker, KeyMapping> MAP_TRACKER_KEYBINDINGS = Util.make(Maps.newHashMap(), (map) -> {
+    public static final Map<MapTracker, KeyMapping> MAP_TRACKER_KEYBINDINGS = Util.make(HashMap.newHashMap(8), (map) -> {
         map.put(Trackers.BLOCKS_MINED, StrangeItemsClient.show_blocks_mined);
         map.put(Trackers.MOBS_KILLED, StrangeItemsClient.show_mobs_killed);
         map.put(Trackers.TIME_IN_DIMENSIONS, StrangeItemsClient.show_time_in_dimensions);
+        map.put(Trackers.SHOTS_HIT, StrangeItemsClient.SHOW_SHOTS_HIT);
     });
 
-    public static final Map<TimestampTracker, KeyMapping> TIMESTAMP_TRACKER_KEYBINDINGS = Util.make(Maps.newHashMap(), (map) -> {
+    public static final Map<TimestampTracker, KeyMapping> TIMESTAMP_TRACKER_KEYBINDINGS = Util.make(HashMap.newHashMap(8), (map) -> {
         map.put(Trackers.TIMES_DROPPED, StrangeItemsClient.show_times_dropped);
     });
 

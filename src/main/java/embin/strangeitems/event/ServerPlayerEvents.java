@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public final class ServerPlayerEvents {
@@ -19,9 +20,9 @@ public final class ServerPlayerEvents {
         return InteractionResult.PASS;
     });
 
-    public static final Event<@NotNull WhenCrouching> WHEN_CROUCHING = EventFactory.createArrayBacked(WhenCrouching.class, listeners -> player -> {
-        for (WhenCrouching listener : listeners) {
-            InteractionResult result = listener.whenCrouching(player);
+    public static final Event<@NotNull DropItem> ON_DROP_ITEM = EventFactory.createArrayBacked(DropItem.class, listeners -> (player, itemStack) -> {
+        for (DropItem listener : listeners) {
+            InteractionResult result = listener.onDrop(player, itemStack);
             if (result != InteractionResult.PASS) {
                 return result;
             }
@@ -33,7 +34,7 @@ public final class ServerPlayerEvents {
         InteractionResult tick(ServerPlayer player);
     }
 
-    public interface WhenCrouching {
-        InteractionResult whenCrouching(ServerPlayer player);
+    public interface DropItem {
+        InteractionResult onDrop(ServerPlayer player, ItemStack itemStack);
     }
 }
