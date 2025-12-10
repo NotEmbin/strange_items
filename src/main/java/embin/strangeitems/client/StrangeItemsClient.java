@@ -54,13 +54,14 @@ public class StrangeItemsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        LOGGER.info("Reading config...");
-        StrangeConfig.readConfig();
 
         ClientTickEvents.END_CLIENT_TICK.register(Id.of("debug_list_trackers"), client -> {
             while (DEBUG_LIST_TRACKERS.wasPressed()) {
                 client.setScreen(new TrackerListScreen(client.currentScreen));
             }
         });
+
+        LOGGER.info("Reading config...");
+        StrangeConfig.readConfig();
     }
 }

@@ -1,5 +1,6 @@
 package embin.strangeitems.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import embin.strangeitems.StrangeItemsComponents;
 import embin.strangeitems.StrangeRegistries;
 import embin.strangeitems.StrangeRegistryKeys;
@@ -41,7 +42,7 @@ public abstract class ItemMixin {
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendComponentTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Lnet/minecraft/component/type/TooltipDisplayComponent;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
-        ordinal = 0, shift = At.Shift.BEFORE), method = "appendTooltip", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+        ordinal = 0, shift = At.Shift.AFTER), method = "appendTooltip", cancellable = true)
     public void appendTooltipMixin(Item.TooltipContext context, TooltipDisplayComponent displayComponent, PlayerEntity player, TooltipType type, Consumer<Text> list, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.isIn(TrackerItemTags.CAN_TRACK_STATS) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
@@ -65,8 +66,8 @@ public abstract class ItemMixin {
         }
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
-    public void nameColorMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, TooltipDisplayComponent tooltipDisplayComponent, List<Text> list) {
+    @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltip")
+    public void nameColorMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, @Local List<Text> list) {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.contains(StrangeItemsComponents.COLLECTORS_ITEM)) {
             list.removeLast();
@@ -112,7 +113,7 @@ public abstract class ItemMixin {
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendComponentTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Lnet/minecraft/component/type/TooltipDisplayComponent;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
-        ordinal = 15, shift = At.Shift.BEFORE), method = "appendTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
+            ordinal = 15, shift = At.Shift.BEFORE), method = "appendTooltip")
     public void enchantTooltipMixin(Item.TooltipContext context, TooltipDisplayComponent displayComponent, PlayerEntity player, TooltipType type, Consumer<Text> textConsumer, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
         if (stack.hasEnchantments() || !stack.getOrDefault(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT).isEmpty()) {

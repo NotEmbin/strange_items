@@ -56,7 +56,7 @@ public class TrackerUtil {
                    } catch (IndexOutOfBoundsException e) {
                        break;
                    }
-                   int value_ahead = nbtCompound.getInt(key_ahead).get();
+                   int value_ahead = nbtCompound.getInt(key_ahead).orElseThrow();
                    if (value > value_ahead) {
                        sorted.remove(index);
                        sorted.add(index - 1, key);

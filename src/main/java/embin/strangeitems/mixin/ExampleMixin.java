@@ -1,15 +1,28 @@
 package embin.strangeitems.mixin;
 
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(MinecraftServer.class)
+@Mixin(World.class)
 public class ExampleMixin {
-	@Inject(at = @At("HEAD"), method = "loadWorld")
-	private void init(CallbackInfo info) {
-		// This code is injected into the start of MinecraftServer.loadWorld()V
+
+	/**
+	 * @author Embin
+	 * @reason Test
+	 */
+	@Overwrite
+	private static boolean isValidHorizontally(BlockPos pos) {
+		return true;
+	}
+
+	/**
+	 * @author Embin
+	 * @reason Test
+	 */
+	@Overwrite
+	private static boolean isInvalidVertically(int y) {
+		return false;
 	}
 }

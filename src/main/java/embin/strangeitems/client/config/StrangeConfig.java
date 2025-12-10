@@ -6,9 +6,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import embin.strangeitems.StrangeRegistries;
-import embin.strangeitems.tracker.Tracker;
-import net.minecraft.util.Identifier;
+import embin.strangeitems.client.StrangeItemsClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,11 +68,15 @@ public class StrangeConfig {
                 DataResult<HiddenTrackers> result = HiddenTrackers.CODEC.parse(JsonOps.INSTANCE, hiddenJson);
                 if (result.isSuccess()) {
                     StrangeConfig.HIDDEN_TRACKERS = result.getOrThrow();
+                    StrangeItemsClient.LOGGER.info(StrangeConfig.HIDDEN_TRACKERS.toString());
                     return;
+                }
+                if (result.error().isPresent()) {
+                    StrangeConfig.LOGGER.error(String.valueOf(result.error().get()));
                 }
                 throw new JsonParseException("strange_items_hidden.json is not valid");
             } catch (Exception e) {
-                StrangeConfig.LOGGER.error("Failed to get config for hidden trackers!");
+                StrangeConfig.LOGGER.error("Failed to get config for hidden trackers!", e);
                 createAndWriteFile("config/strange_items_hidden.json", toFancyJsonString(HiddenTrackers.CODEC.encodeStart(JsonOps.INSTANCE, HIDDEN_TRACKERS).getOrThrow()));
             }
         } catch (FileNotFoundException e) {

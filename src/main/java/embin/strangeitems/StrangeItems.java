@@ -19,9 +19,11 @@ public class StrangeItems implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		StrangeRegistries.acknowledgeRegistries();
+        Trackers.init();
 		StrangeItemsComponents.init();
-		Trackers.init();
 
 		LOGGER.info("These items... they're strange...");
+		//StrangeItems.LOGGER.info("Reading config...");
+		//StrangeConfig.readConfig();
 	}
 }

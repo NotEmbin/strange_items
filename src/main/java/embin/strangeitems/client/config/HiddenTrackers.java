@@ -32,11 +32,26 @@ public record HiddenTrackers(List<Condition> conditions) {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "HiddenTrackers{" +
+                "conditions=" + conditions +
+                '}';
+    }
+
     public record Condition(List<RegistryEntry<Item>> affectedItems, List<RegistryEntry<Tracker>> trackers) {
         public static final Codec<Condition> CODEC = RecordCodecBuilder.create(c -> c.group(
                 Registries.ITEM.getEntryCodec().listOf().fieldOf("items").forGetter(Condition::affectedItems),
                 StrangeRegistries.TRACKER.getEntryCodec().listOf().fieldOf("trackers").forGetter(Condition::trackers)
             ).apply(c, Condition::new)
         );
+
+        @Override
+        public String toString() {
+            return "Condition{" +
+                    "affectedItems=" + affectedItems +
+                    ", trackers=" + trackers +
+                    '}';
+        }
     }
 }
