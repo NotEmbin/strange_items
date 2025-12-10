@@ -27,7 +27,7 @@ public class TrackerItemTags {
     public static final TagKey<Item> TRACKER_TRIDENT_THROWN = createTag("trackers/trident_thrown");
     public static final TagKey<Item> TRACKER_BLOCKS_BRUSHED = createTag("trackers/blocks_brushed");
     public static final TagKey<Item> TRACKER_ARMADILLOS_BRUSHED = createTag("trackers/armadillos_brushed");
-    @Deprecated public static final TagKey<Item> TRACKER_MOBS_KILLED = createTag("trackers/mobs_killed");
+    public static final TagKey<Item> TRACKER_MOBS_KILLED = createTag("trackers/mobs_killed");
     public static final TagKey<Item> TRACKER_FISH_CAUGHT = createTag("trackers/fish_caught");
     public static final TagKey<Item> TRACKER_DAMAGE_TAKEN = createTag("trackers/damage_taken");
     public static final TagKey<Item> TRACKER_TIMES_EQUIPPED = createTag("trackers/times_equipped");
