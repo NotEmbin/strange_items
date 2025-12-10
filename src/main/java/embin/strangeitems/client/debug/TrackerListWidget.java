@@ -2,21 +2,20 @@ package embin.strangeitems.client.debug;
 
 import embin.strangeitems.StrangeRegistries;
 import embin.strangeitems.tracker.Tracker;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
-import net.minecraft.util.Formatting;
-
 import java.util.List;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.CommonColors;
 
-public class TrackerListWidget extends ElementListWidget<TrackerListWidget.TrackerEntry> {
+public class TrackerListWidget extends ContainerObjectSelectionList<TrackerListWidget.TrackerEntry> {
 
-    public TrackerListWidget(MinecraftClient minecraftClient, TrackerListScreen screen) {
+    public TrackerListWidget(Minecraft minecraftClient, TrackerListScreen screen) {
         super(minecraftClient, screen.width, screen.height - 67, 16, 24);
         for (Tracker tracker : StrangeRegistries.TRACKER) {
             this.addEntry(new TrackerEntry(tracker));
@@ -28,35 +27,35 @@ public class TrackerListWidget extends ElementListWidget<TrackerListWidget.Track
         return 200;
     }
 
-    public class TrackerEntry extends ElementListWidget.Entry<TrackerListWidget.TrackerEntry> {
+    public class TrackerEntry extends ContainerObjectSelectionList.Entry<TrackerListWidget.TrackerEntry> {
         public final Tracker tracker;
-        public final TextRenderer textRenderer;
+        public final Font textRenderer;
 
         TrackerEntry(Tracker tracker) {
             this.tracker = tracker;
-            this.textRenderer = TrackerListWidget.this.client.textRenderer;
+            this.textRenderer = TrackerListWidget.this.minecraft.font;
             this.setWidth(150);
             this.setHeight(50);
         }
 
         @Override
-        public List<? extends Selectable> selectableChildren() {
+        public List<? extends NarratableEntry> narratables() {
             return List.of();
         }
 
         @Override
-        public List<? extends Element> children() {
+        public List<? extends GuiEventListener> children() {
             return List.of();
         }
 
-        public void render(DrawContext context, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered) {
-            Text name = Text.translatable(tracker.getTranslationKey());
+        public void render(GuiGraphics context, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered) {
+            Component name = Component.translatable(tracker.getTranslationKey());
             context.fillGradient(x, y, x + entryWidth, y + entryHeight, 1615855616, -1602211792);
-            context.drawCenteredTextWithShadow(this.textRenderer, name, x + (entryWidth / 2), y + (entryHeight / 4) + 1, Colors.WHITE);
+            context.drawCenteredString(this.textRenderer, name, x + (entryWidth / 2), y + (entryHeight / 4) + 1, CommonColors.WHITE);
             if (hovered) {
-                Text id = Text.literal(tracker.toString()).formatted(Formatting.DARK_GRAY);
-                List<Text> tooltip = List.of(name, id);
-                context.drawTooltip(this.textRenderer, tooltip, mouseX, mouseY);
+                Component id = Component.literal(tracker.toString()).withStyle(ChatFormatting.DARK_GRAY);
+                List<Component> tooltip = List.of(name, id);
+                context.setComponentTooltipForNextFrame(this.textRenderer, tooltip, mouseX, mouseY);
             }
         }
 
@@ -65,7 +64,7 @@ public class TrackerListWidget extends ElementListWidget<TrackerListWidget.Track
         }
 
         @Override
-        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+        public void renderContent(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
             this.render(context, this.getContentY(), this.getX(), this.getContentWidth(), this.getContentHeight(), mouseX, mouseY, hovered);
         }
     }

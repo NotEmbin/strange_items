@@ -1,10 +1,10 @@
 package embin.strangeitems.tracker;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.platform.InputConstants;
 import embin.strangeitems.StrangeItems;
 import embin.strangeitems.client.StrangeItemsClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 
@@ -12,54 +12,56 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TrackerKeybindings {
-    public static KeyBinding unknown_keybinding = new KeyBinding(
+public final class TrackerKeybindings {
+    private TrackerKeybindings() {}
+
+    public static final KeyMapping FALLBACK_KEYBINDING = new KeyMapping(
         "key.strangeitems.unknown",
-        InputUtil.Type.KEYSYM,
+        InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_UNKNOWN,
         StrangeItemsClient.STRANGEKEYS
     );
 
-    public static final List<Tracker> warned_keybindings = new ArrayList<>(99);
+    public static final List<Tracker> WARNED_KEYBINDINGS = new ArrayList<>(99);
 
-    public static final Map<MapTracker, KeyBinding> map_tracker_keybindings = Util.make(Maps.newHashMap(), (map) -> {
+    public static final Map<MapTracker, KeyMapping> MAP_TRACKER_KEYBINDINGS = Util.make(Maps.newHashMap(), (map) -> {
         map.put(Trackers.BLOCKS_MINED, StrangeItemsClient.show_blocks_mined);
         map.put(Trackers.MOBS_KILLED, StrangeItemsClient.show_mobs_killed);
         map.put(Trackers.TIME_IN_DIMENSIONS, StrangeItemsClient.show_time_in_dimensions);
     });
 
-    public static final Map<TimestampTracker, KeyBinding> timestamp_tracker_keybindings = Util.make(Maps.newHashMap(), (map) -> {
+    public static final Map<TimestampTracker, KeyMapping> TIMESTAMP_TRACKER_KEYBINDINGS = Util.make(Maps.newHashMap(), (map) -> {
         map.put(Trackers.TIMES_DROPPED, StrangeItemsClient.show_times_dropped);
     });
 
 
-    public static void define_map_keybind(MapTracker tracker, KeyBinding key) {
-        map_tracker_keybindings.put(tracker, key);
+    public static void define_map_keybind(MapTracker tracker, KeyMapping key) {
+        MAP_TRACKER_KEYBINDINGS.put(tracker, key);
     }
 
-    public static void define_timestamp_keybind(TimestampTracker tracker, KeyBinding key) {
-        timestamp_tracker_keybindings.put(tracker, key);
+    public static void define_timestamp_keybind(TimestampTracker tracker, KeyMapping key) {
+        TIMESTAMP_TRACKER_KEYBINDINGS.put(tracker, key);
     }
 
-    public static KeyBinding get_map_keybind(MapTracker tracker) {
-        if (map_tracker_keybindings.containsKey(tracker)) {
-            return map_tracker_keybindings.get(tracker);
+    public static KeyMapping get_map_keybind(MapTracker tracker) {
+        if (MAP_TRACKER_KEYBINDINGS.containsKey(tracker)) {
+            return MAP_TRACKER_KEYBINDINGS.get(tracker);
         }
-        if (!warned_keybindings.contains(tracker)) {
+        if (!WARNED_KEYBINDINGS.contains(tracker)) {
             StrangeItems.LOGGER.warn("Tracker " + tracker.getId().toString() + " does not have an assigned key binding!");
-            warned_keybindings.add(tracker);
+            WARNED_KEYBINDINGS.add(tracker);
         }
-        return unknown_keybinding;
+        return FALLBACK_KEYBINDING;
     }
 
-    public static KeyBinding get_timestamp_keybind(TimestampTracker tracker) {
-        if (timestamp_tracker_keybindings.containsKey(tracker)) {
-            return timestamp_tracker_keybindings.get(tracker);
+    public static KeyMapping get_timestamp_keybind(TimestampTracker tracker) {
+        if (TIMESTAMP_TRACKER_KEYBINDINGS.containsKey(tracker)) {
+            return TIMESTAMP_TRACKER_KEYBINDINGS.get(tracker);
         }
-        if (!warned_keybindings.contains(tracker)) {
+        if (!WARNED_KEYBINDINGS.contains(tracker)) {
             StrangeItems.LOGGER.warn("Tracker " + tracker.getId().toString() + " does not have an assigned key binding!");
-            warned_keybindings.add(tracker);
+            WARNED_KEYBINDINGS.add(tracker);
         }
-        return unknown_keybinding;
+        return FALLBACK_KEYBINDING;
     }
 }

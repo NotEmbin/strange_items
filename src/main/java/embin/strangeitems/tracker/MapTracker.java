@@ -3,24 +3,24 @@ package embin.strangeitems.tracker;
 import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.client.config.StrangeConfig;
 import embin.strangeitems.util.TrackerUtil;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.stat.StatFormatter;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Language;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.locale.Language;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.stats.StatFormatter;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 
 public class MapTracker extends Tracker {
     public String map_id;
@@ -57,7 +57,7 @@ public class MapTracker extends Tracker {
         if (this.shouldTrack(stack) || this.stackHasTracker(stack)) {
             if (StrangeConfig.in_depth_tracking) {
                 int tracker_count = this.getTrackerValueNbt(stack).getInt(key).orElse(0) + 1;
-                NbtCompound nbt = this.getTrackerValueNbt(stack).copy();
+                CompoundTag nbt = this.getTrackerValueNbt(stack).copy();
                 nbt.putInt(key, tracker_count);
                 this.setTrackerValueNbt(stack, nbt);
             }
@@ -65,41 +65,41 @@ public class MapTracker extends Tracker {
     }
 
     @Override
-    public void setTrackerValueNbt(ItemStack stack, NbtElement value) {
-        stack.apply(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT, comp -> comp.apply(currentnbt -> currentnbt.put(this.map_id, value)));
+    public void setTrackerValueNbt(ItemStack stack, Tag value) {
+        stack.update(DataComponents.CUSTOM_DATA, CustomData.EMPTY, comp -> comp.update(currentnbt -> currentnbt.put(this.map_id, value)));
     }
 
     @Override
-    public NbtCompound getTrackerValueNbt(ItemStack stack) {
+    public CompoundTag getTrackerValueNbt(ItemStack stack) {
         if (!this.stackHasTracker(stack)) {
-            return new NbtCompound();
+            return new CompoundTag();
         }
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.map_id).orElse(new NbtCompound());
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getCompound(this.map_id).orElse(new CompoundTag());
     }
 
-    public void appendTooltipMap(ItemStack stack, Consumer<Text> tooltip, CallbackInfo ci, TooltipType type) {
+    public void appendTooltipMap(ItemStack stack, Consumer<Component> tooltip, CallbackInfo ci, TooltipFlag type) {
         if (this.shouldTrack(stack) && shouldShowTooltip(stack)) {
             this.appendTooltipNoSpace(stack, tooltip, type);
-            NbtCompound nbtCompound = this.getTrackerValueNbt(stack);
+            CompoundTag nbtCompound = this.getTrackerValueNbt(stack);
             int index = 1;
             for (String key : TrackerUtil.getSortedKeys(nbtCompound)) {
                 if (index <= this.max_maps_shown || TrackerUtil.isTooltipScrollInstalled()) {
-                    String translation_key = Identifier.of(key).toTranslationKey(this.translation_prefix);
-                    Text stat_text = Text.literal(this.getFormattedTrackerValueNbt(stack, key)).formatted(Formatting.YELLOW);
-                    MutableText tooltip_text = Text.literal(key);
-                    if (Language.getInstance().hasTranslation(translation_key) && !TrackerUtil.isKeyDown(StrangeItemsClient.show_tracker_ids)) {
-                        tooltip_text = Text.translatable(translation_key).formatted(Formatting.GRAY);
+                    String translation_key = Identifier.parse(key).toLanguageKey(this.translation_prefix);
+                    Component stat_text = Component.literal(this.getFormattedTrackerValueNbt(stack, key)).withStyle(ChatFormatting.YELLOW);
+                    MutableComponent tooltip_text = Component.literal(key);
+                    if (Language.getInstance().has(translation_key) && !TrackerUtil.isKeyDown(StrangeItemsClient.show_tracker_ids)) {
+                        tooltip_text = Component.translatable(translation_key).withStyle(ChatFormatting.GRAY);
                     }
                     if (TrackerUtil.isKeyDown(StrangeItemsClient.show_tracker_ids)) {
-                        tooltip_text.formatted(Formatting.DARK_GRAY);
+                        tooltip_text.withStyle(ChatFormatting.DARK_GRAY);
                     }
-                    tooltip_text.append(Text.literal(": ").formatted(Formatting.GRAY));
-                    tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text));
+                    tooltip_text.append(Component.literal(": ").withStyle(ChatFormatting.GRAY));
+                    tooltip.accept(Component.literal(" ").append(tooltip_text).append(stat_text));
                 }
                 index++;
             }
             if (index > (this.max_maps_shown + 1) && !TrackerUtil.isTooltipScrollInstalled()) {
-                tooltip.accept(Text.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)).formatted(Formatting.ITALIC));
+                tooltip.accept(Component.translatable("tooltip.strangeitems.map_cutoff", index - (this.max_maps_shown + 1)).withStyle(ChatFormatting.ITALIC));
             }
             TrackerUtil.addItemIdToTooltip(stack, tooltip, type);
             ci.cancel();
@@ -115,13 +115,13 @@ public class MapTracker extends Tracker {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Consumer<Text> tooltip) {
+    public void appendTooltip(ItemStack stack, Consumer<Component> tooltip) {
         if (this.shouldTrack(stack)) {
             if (this.stackHasTracker(stack) && StrangeConfig.in_depth_tracking && this.stackHasMapTracker(stack)) {
-                Text stat_text = Text.literal(this.getFormattedTrackerValue(stack)).formatted(Formatting.YELLOW);
-                Text tooltip_text = this.getNameForTooltip().append(Text.literal(": ").formatted(Formatting.GRAY));
-                Text control_text = Text.literal(" [").append(this.getKeybinding().getBoundKeyLocalizedText()).append("]").formatted(Formatting.DARK_GRAY, Formatting.ITALIC);
-                tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
+                Component stat_text = Component.literal(this.getFormattedTrackerValue(stack)).withStyle(ChatFormatting.YELLOW);
+                Component tooltip_text = this.getNameForTooltip().append(Component.literal(": ").withStyle(ChatFormatting.GRAY));
+                Component control_text = Component.literal(" [").append(this.getKeybinding().getTranslatedKeyMessage()).append("]").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC);
+                tooltip.accept(Component.literal(" ").append(tooltip_text).append(stat_text).append(control_text));
             } else {
                 super.appendTooltip(stack, tooltip);
             }
@@ -129,10 +129,10 @@ public class MapTracker extends Tracker {
     }
 
     public boolean stackHasMapTracker(ItemStack stack) {
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().contains(this.map_id);
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().contains(this.map_id);
     }
 
-    public KeyBinding getKeybinding() {
+    public KeyMapping getKeybinding() {
         return TrackerKeybindings.get_map_keybind(this);
     }
 }

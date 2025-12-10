@@ -5,21 +5,21 @@ import embin.strangeitems.StrangeRegistries;
 import embin.strangeitems.client.StrangeItemsClient;
 import embin.strangeitems.util.Id;
 import embin.strangeitems.util.TrackerUtil;
-import net.minecraft.component.ComponentType;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.stat.StatFormatter;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.stats.StatFormatter;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Util;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,11 +61,11 @@ public class Tracker {
     }
 
     public void setTrackerValueInt(ItemStack stack, int value) {
-        stack.apply(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT, comp -> comp.apply(currentnbt -> currentnbt.putInt(this.toString(), value)));
+        stack.update(DataComponents.CUSTOM_DATA, CustomData.EMPTY, comp -> comp.update(currentnbt -> currentnbt.putInt(this.toString(), value)));
     }
 
-    public void setTrackerValueNbt(ItemStack stack, NbtElement value) {
-        stack.apply(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT, comp -> comp.apply(currentnbt -> currentnbt.put(this.toString(), value)));
+    public void setTrackerValueNbt(ItemStack stack, Tag value) {
+        stack.update(DataComponents.CUSTOM_DATA, CustomData.EMPTY, comp -> comp.update(currentnbt -> currentnbt.put(this.toString(), value)));
     }
 
     public StatFormatter getStatFormatter() {
@@ -82,13 +82,13 @@ public class Tracker {
     }
 
     public Identifier getId() {
-        Identifier id = StrangeRegistries.TRACKER.getId(this);
+        Identifier id = StrangeRegistries.TRACKER.getKey(this);
         if (id != null) return id;
         return Id.of(this.id);
     }
 
     public String getTranslationKey() {
-        return Util.createTranslationKey("tracker", this.getId());
+        return Util.makeDescriptionId("tracker", this.getId());
     }
 
     /**
@@ -98,21 +98,21 @@ public class Tracker {
      * <code>false</code> if it doesn't
      */
     public boolean stackHasTracker(ItemStack stack) {
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().contains(this.toString());
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().contains(this.toString());
     }
 
     public int getTrackerValueInt(ItemStack stack) {
         if (!this.stackHasTracker(stack)) {
             return this.default_value;
         }
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getInt(this.toString()).orElse(0);
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt(this.toString()).orElse(0);
     }
 
-    public NbtCompound getTrackerValueNbt(ItemStack stack) {
+    public CompoundTag getTrackerValueNbt(ItemStack stack) {
         if (!this.stackHasTracker(stack)) {
-            return new NbtCompound();
+            return new CompoundTag();
         }
-        return stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().getCompound(this.toString()).orElse(new NbtCompound());
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getCompound(this.toString()).orElse(new CompoundTag());
     }
 
     /**
@@ -139,41 +139,41 @@ public class Tracker {
         return this.getStatFormatter().format(this.getTrackerValueInt(stack) * this.formatted_value_multiplier);
     }
 
-    public void appendTooltip(ItemStack stack, Consumer<Text> tooltip) {
+    public void appendTooltip(ItemStack stack, Consumer<Component> tooltip) {
         if (this.shouldTrack(stack)) {
-            Text stat_text = Text.literal(this.getFormattedTrackerValue(stack)).formatted(Formatting.YELLOW);
-            Text tooltip_text = this.getNameForTooltip().append(Text.literal(": ").formatted(Formatting.GRAY));
-            tooltip.accept(Text.literal(" ").append(tooltip_text).append(stat_text));
+            Component stat_text = Component.literal(this.getFormattedTrackerValue(stack)).withStyle(ChatFormatting.YELLOW);
+            Component tooltip_text = this.getNameForTooltip().append(Component.literal(": ").withStyle(ChatFormatting.GRAY));
+            tooltip.accept(Component.literal(" ").append(tooltip_text).append(stat_text));
         }
     }
 
-    protected MutableText getNameForTooltip() {
+    protected MutableComponent getNameForTooltip() {
         if (TrackerUtil.isKeyDown(StrangeItemsClient.show_tracker_ids)) {
-            Identifier id = StrangeRegistries.TRACKER.getId(this);
+            Identifier id = StrangeRegistries.TRACKER.getKey(this);
             if (id != null) {
-                return Text.literal(id.toString()).formatted(Formatting.DARK_GRAY);
+                return Component.literal(id.toString()).withStyle(ChatFormatting.DARK_GRAY);
             } else {
-                return Text.translatable(this.getTranslationKey()).formatted(Formatting.GRAY);
+                return Component.translatable(this.getTranslationKey()).withStyle(ChatFormatting.GRAY);
             }
         } else {
-            return Text.translatable(this.getTranslationKey()).formatted(Formatting.GRAY);
+            return Component.translatable(this.getTranslationKey()).withStyle(ChatFormatting.GRAY);
         }
     }
 
-    public void appendTooltipNoSpace(ItemStack stack, Consumer<Text> tooltip, TooltipType type) {
+    public void appendTooltipNoSpace(ItemStack stack, Consumer<Component> tooltip, TooltipFlag type) {
         if (this.shouldTrack(stack)) {
-            Text stat_text = Text.literal(this.getFormattedTrackerValue(stack)).formatted(Formatting.YELLOW);
-            MutableText tooltip_text = Text.translatable(this.getTranslationKey()).append(": ").formatted(Formatting.GRAY);
+            Component stat_text = Component.literal(this.getFormattedTrackerValue(stack)).withStyle(ChatFormatting.YELLOW);
+            MutableComponent tooltip_text = Component.translatable(this.getTranslationKey()).append(": ").withStyle(ChatFormatting.GRAY);
             //MutableText tooltip_text = this.get_name_for_tooltip().append(Text.literal(": ").formatted(Formatting.GRAY));
             tooltip.accept(tooltip_text.append(stat_text));
         }
     }
 
     @Deprecated(forRemoval = true)
-    public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component, boolean rarity_fix) {
-        if (stack.contains(legacy_component)) {
+    public void convert_legacy_tracker(ItemStack stack, DataComponentType<Integer> legacy_component, boolean rarity_fix) {
+        if (stack.has(legacy_component)) {
             if (rarity_fix) {
-                stack.set(DataComponentTypes.RARITY, stack.getItem().getComponents().get(DataComponentTypes.RARITY));
+                stack.set(DataComponents.RARITY, stack.getItem().components().get(DataComponents.RARITY));
             }
             int legacy_data = stack.getOrDefault(legacy_component, 0);
             this.setTrackerValueInt(stack, this.getTrackerValueInt(stack) + legacy_data);
@@ -187,15 +187,15 @@ public class Tracker {
      * @param legacy_component The tracker component to convert.
      */
     @Deprecated(forRemoval = true)
-    public void convert_legacy_tracker(ItemStack stack, ComponentType<Integer> legacy_component) {
+    public void convert_legacy_tracker(ItemStack stack, DataComponentType<Integer> legacy_component) {
         this.convert_legacy_tracker(stack, legacy_component, false);
     }
 
     public boolean shouldTrack(ItemStack stack) {
-        return stack.isIn(this.item_tag) || this.stackHasTracker(stack) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS);
+        return stack.is(this.item_tag) || this.stackHasTracker(stack) || stack.has(StrangeItemsComponents.HAS_ALL_TRACKERS);
     }
 
     public boolean isIn(TagKey<Tracker> tag) {
-        return StrangeRegistries.TRACKER.getEntry(this).isIn(tag);
+        return StrangeRegistries.TRACKER.wrapAsHolder(this).is(tag);
     }
 }

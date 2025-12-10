@@ -1,19 +1,10 @@
 package embin.strangeitems.client.config;
 
 import embin.strangeitems.client.StrangeItemsClient;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
-import me.shedaniel.clothconfig2.api.ConfigCategory;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
-import me.shedaniel.clothconfig2.impl.builders.KeyCodeBuilder;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.text.Text;
-import net.minecraft.util.Language;
-
 import java.util.List;
 
 public class ConfigScreen {
+    /*
     private ConfigScreen() {}
 
     private static void add_keybinding(ConfigCategory configCategory, ConfigEntryBuilder entryBuilder, KeyBinding keyBinding) {
@@ -82,4 +73,5 @@ public class ConfigScreen {
         builder.setSavingRunnable(StrangeConfig::saveConfig);
         return builder;
     }
+    */
 }

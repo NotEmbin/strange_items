@@ -1,8 +1,16 @@
 package embin.strangeitems;
 
 import embin.strangeitems.tracker.Trackers;
+import embin.strangeitems.util.Id;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.*;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.event.player.PlayerPickItemEvents;
+import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +29,8 @@ public class StrangeItems implements ModInitializer {
 		StrangeRegistries.acknowledgeRegistries();
         Trackers.init();
 		StrangeItemsComponents.init();
+
+        SIRegisteredEvents.registerEvents();
 
 		LOGGER.info("These items... they're strange...");
 		//StrangeItems.LOGGER.info("Reading config...");

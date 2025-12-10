@@ -7,21 +7,6 @@ import embin.strangeitems.StrangeRegistryKeys;
 import embin.strangeitems.client.config.StrangeConfig;
 import embin.strangeitems.tracker.*;
 import embin.strangeitems.util.TrackerUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,22 +17,31 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(ItemStack.class)
 public abstract class ItemMixin {
-    @Inject(at = @At(value = "HEAD"), method = "postMine")
-    public void postMineMixin(World world, BlockState state, BlockPos pos, PlayerEntity miner, CallbackInfo ci) {
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;addToTooltip(Lnet/minecraft/core/component/DataComponentType;Lnet/minecraft/world/item/Item$TooltipContext;Lnet/minecraft/world/item/component/TooltipDisplay;Ljava/util/function/Consumer;Lnet/minecraft/world/item/TooltipFlag;)V",
+        ordinal = 0, shift = At.Shift.AFTER), method = "addDetailsToTooltip", cancellable = true)
+    public void appendTooltipMixin(Item.TooltipContext context, TooltipDisplay displayComponent, Player player, TooltipFlag type, Consumer<Component> list, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
-        Trackers.BLOCKS_MINED.appendTracker(stack, Registries.BLOCK.getId(state.getBlock()).toString());
-    }
-
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendComponentTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Lnet/minecraft/component/type/TooltipDisplayComponent;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
-        ordinal = 0, shift = At.Shift.AFTER), method = "appendTooltip", cancellable = true)
-    public void appendTooltipMixin(Item.TooltipContext context, TooltipDisplayComponent displayComponent, PlayerEntity player, TooltipType type, Consumer<Text> list, CallbackInfo ci) {
-        ItemStack stack = (ItemStack)(Object) this;
-        if (stack.isIn(TrackerItemTags.CAN_TRACK_STATS) || stack.contains(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
-            for (RegistryEntry<Tracker> registryEntry : TrackerUtil.getTooltipOrder(context.getRegistryLookup(), StrangeRegistryKeys.TRACKER, TrackerTags.HAS_SPECIAL_TOOLTIP)) {
-                if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack.getRegistryEntry(), registryEntry)) {
+        if (stack.is(TrackerItemTags.CAN_TRACK_STATS) || stack.has(StrangeItemsComponents.HAS_ALL_TRACKERS)) {
+            for (Holder<Tracker> registryEntry : TrackerUtil.getTooltipOrder(context.registries(), StrangeRegistryKeys.TRACKER, TrackerTags.HAS_SPECIAL_TOOLTIP)) {
+                if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack.getItemHolder(), registryEntry)) {
                     if (registryEntry.value() instanceof MapTracker mapTracker) {
                         if (mapTracker.shouldShowTooltip(stack)) {
                             mapTracker.appendTooltipMap(stack, list, ci, type);
@@ -66,25 +60,25 @@ public abstract class ItemMixin {
         }
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltip")
-    public void nameColorMixin(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, @Local List<Text> list) {
+    @Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.AFTER), method = "getTooltipLines")
+    public void nameColorMixin(Item.TooltipContext context, Player player, TooltipFlag type, CallbackInfoReturnable<List<Component>> cir, @Local List<Component> list) {
         ItemStack stack = (ItemStack)(Object) this;
-        if (stack.contains(StrangeItemsComponents.COLLECTORS_ITEM)) {
+        if (stack.has(StrangeItemsComponents.COLLECTORS_ITEM)) {
             list.removeLast();
-            MutableText item_name = (MutableText) stack.getName();
-            MutableText name = Text.empty();
+            MutableComponent item_name = (MutableComponent) stack.getHoverName();
+            MutableComponent name = Component.empty();
             name.append(item_name);
-            if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
-                name.formatted(Formatting.ITALIC);
+            if (stack.has(DataComponents.CUSTOM_NAME)) {
+                name.withStyle(ChatFormatting.ITALIC);
             }
-            name.formatted(Formatting.DARK_RED);
+            name.withStyle(ChatFormatting.DARK_RED);
             list.add(name);
-            if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
+            if (stack.has(DataComponents.CUSTOM_NAME)) {
                 ItemStack stack2 = stack.copy();
-                stack2.remove(DataComponentTypes.CUSTOM_NAME);
+                stack2.remove(DataComponents.CUSTOM_NAME);
 
-                MutableText name2 = Text.empty().append(stack2.getName());
-                name2.formatted(Formatting.DARK_RED);
+                MutableComponent name2 = Component.empty().append(stack2.getHoverName());
+                name2.withStyle(ChatFormatting.DARK_RED);
                 list.add(name2);
             }
         } /*else {
@@ -112,12 +106,12 @@ public abstract class ItemMixin {
         */
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendComponentTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Lnet/minecraft/component/type/TooltipDisplayComponent;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V",
-            ordinal = 15, shift = At.Shift.BEFORE), method = "appendTooltip")
-    public void enchantTooltipMixin(Item.TooltipContext context, TooltipDisplayComponent displayComponent, PlayerEntity player, TooltipType type, Consumer<Text> textConsumer, CallbackInfo ci) {
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;addToTooltip(Lnet/minecraft/core/component/DataComponentType;Lnet/minecraft/world/item/Item$TooltipContext;Lnet/minecraft/world/item/component/TooltipDisplay;Ljava/util/function/Consumer;Lnet/minecraft/world/item/TooltipFlag;)V",
+            ordinal = 15, shift = At.Shift.BEFORE), method = "addDetailsToTooltip")
+    public void enchantTooltipMixin(Item.TooltipContext context, TooltipDisplay displayComponent, Player player, TooltipFlag type, Consumer<Component> textConsumer, CallbackInfo ci) {
         ItemStack stack = (ItemStack)(Object) this;
-        if (stack.hasEnchantments() || !stack.getOrDefault(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT).isEmpty()) {
-            textConsumer.accept(Text.translatable("tooltip.strangeitems.enchantments").append(":").formatted(Formatting.GRAY));
+        if (stack.isEnchanted() || !stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY).isEmpty()) {
+            textConsumer.accept(Component.translatable("tooltip.strangeitems.enchantments").append(":").withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -126,15 +120,15 @@ public abstract class ItemMixin {
      * @reason bleh
      */
     @Overwrite()
-    public Text getName() {
+    public Component getHoverName() {
         ItemStack stack = (ItemStack)(Object) this;
 
-        Text text = stack.getCustomName();
+        Component text = stack.getCustomName();
         if (text != null) {
             return text;
         }
-        if (stack.contains(StrangeItemsComponents.COLLECTORS_ITEM)) {
-            return Text.translatable("tooltip.strangeitems.collectors_item.item_name", stack.getItemName());
+        if (stack.has(StrangeItemsComponents.COLLECTORS_ITEM)) {
+            return Component.translatable("tooltip.strangeitems.collectors_item.item_name", stack.getItemName());
         }
         return stack.getItemName();
     }

@@ -2,11 +2,11 @@ package embin.strangeitems.tracker;
 
 import embin.strangeitems.StrangeRegistryKeys;
 import embin.strangeitems.util.Id;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tags.TagKey;
 
 public class TrackerTags {
     private static TagKey<Tracker> createTag(String name) {
-        return TagKey.of(StrangeRegistryKeys.TRACKER, Id.of(name));
+        return TagKey.create(StrangeRegistryKeys.TRACKER, Id.of(name));
     }
 
     public static final TagKey<Tracker> HAS_SPECIAL_TOOLTIP = createTag("has_special_tooltip");

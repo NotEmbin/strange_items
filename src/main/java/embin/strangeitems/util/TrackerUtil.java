@@ -1,5 +1,7 @@
 package embin.strangeitems.util;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
 import embin.strangeitems.StrangeItems;
 import embin.strangeitems.StrangeRegistries;
 import embin.strangeitems.StrangeRegistryKeys;
@@ -7,32 +9,30 @@ import embin.strangeitems.client.config.StrangeConfig;
 import embin.strangeitems.mixin.KeyBindAccessor;
 import embin.strangeitems.tracker.Tracker;
 import embin.strangeitems.tracker.TrackerTags;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.Window;
-import net.minecraft.component.EnchantmentEffectComponentTypes;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 public class TrackerUtil {
 
@@ -41,12 +41,12 @@ public class TrackerUtil {
      * @param nbtCompound An NBT Compound where each value is an integer.
      * @return The sorted keys of the given NBT Compound.
      */
-    public static List<String> getSortedKeys(NbtCompound nbtCompound) {
+    public static List<String> getSortedKeys(CompoundTag nbtCompound) {
         List<String> sorted = new java.util.ArrayList<>(List.of());
-        List<String> unsorted = nbtCompound.getKeys().stream().toList();
+        List<String> unsorted = nbtCompound.keySet().stream().toList();
         for (String key : unsorted) {
            sorted.add(key);
-           int value = nbtCompound.getInt(key, 0);
+           int value = nbtCompound.getIntOr(key, 0);
            if (sorted.size() > 1) {
                while (true) {
                    int index = sorted.indexOf(key);
@@ -75,26 +75,26 @@ public class TrackerUtil {
      * @return <code>true</code> if the given key is currently held down;
      * <code>false</code> if it isn't.
      */
-    public static boolean isKeyDown(KeyBinding key) {
-        Window handle = MinecraftClient.getInstance().getWindow();
-        int key_code = ((KeyBindAccessor)key).getBoundKey().getCode();
-        return InputUtil.isKeyPressed(handle, key_code);
+    public static boolean isKeyDown(KeyMapping key) {
+        Window handle = Minecraft.getInstance().getWindow();
+        int key_code = ((KeyBindAccessor)key).getKey().getValue();
+        return InputConstants.isKeyDown(handle, key_code);
     }
 
-    public static void addItemIdToTooltip(ItemStack stack, Consumer<Text> tooltip, TooltipType type) {
+    public static void addItemIdToTooltip(ItemStack stack, Consumer<Component> tooltip, TooltipFlag type) {
         if (type.isAdvanced()) {
-            tooltip.accept(Text.literal(Registries.ITEM.getId(stack.getItem()).toString()).formatted(Formatting.DARK_GRAY));
+            tooltip.accept(Component.literal(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()).withStyle(ChatFormatting.DARK_GRAY));
             if (StrangeItems.componentless_installed) {
-                tooltip.accept(Text.literal("stop it, componentless"));
+                tooltip.accept(Component.literal("stop it, componentless"));
             }
         }
     }
 
-    public static boolean canSwap(ItemStack stack, ItemStack stack_wearing, PlayerEntity player) {
+    public static boolean canSwap(ItemStack stack, ItemStack stack_wearing, Player player) {
         return (
-        !EnchantmentHelper.hasAnyEnchantmentsWith(stack_wearing, EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE)
+        !EnchantmentHelper.has(stack_wearing, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)
             || player.isCreative()
-        ) && !ItemStack.areItemsAndComponentsEqual(stack, stack_wearing);
+        ) && !ItemStack.isSameItemSameComponents(stack, stack_wearing);
     }
 
     /**
@@ -117,20 +117,20 @@ public class TrackerUtil {
 
     @Deprecated
     public static List<Identifier> get_list_of_ids() {
-        return StrangeRegistries.TRACKER.getIds().stream().toList();
+        return StrangeRegistries.TRACKER.keySet().stream().toList();
     }
 
-    public static void addAllTrackerTooltips(Item.TooltipContext context, Consumer<Text> textConsumer, ItemStack stack) {
-        textConsumer.accept(Text.translatable("tooltip.strangeitems.strange_trackers").append(":").formatted(Formatting.GRAY));
-        RegistryEntryList<Tracker> entryList = getTooltipOrder(context.getRegistryLookup(), StrangeRegistryKeys.TRACKER, TrackerTags.TOOLTIP_ORDER);
-        for (RegistryEntry<Tracker> registryEntry : entryList) {
-            if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack.getRegistryEntry(), registryEntry)) {
+    public static void addAllTrackerTooltips(Item.TooltipContext context, Consumer<Component> textConsumer, ItemStack stack) {
+        textConsumer.accept(Component.translatable("tooltip.strangeitems.strange_trackers").append(":").withStyle(ChatFormatting.GRAY));
+        HolderSet<Tracker> entryList = getTooltipOrder(context.registries(), StrangeRegistryKeys.TRACKER, TrackerTags.TOOLTIP_ORDER);
+        for (Holder<Tracker> registryEntry : entryList) {
+            if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack.getItemHolder(), registryEntry)) {
                 registryEntry.value().appendTooltip(stack, textConsumer);
             }
         }
 
         for (Tracker tracker : getListOfTrackers()) {
-            if (!entryList.contains(StrangeRegistries.TRACKER.getEntry(tracker))) {
+            if (!entryList.contains(StrangeRegistries.TRACKER.wrapAsHolder(tracker))) {
                 if (StrangeConfig.HIDDEN_TRACKERS.shouldShowForItem(stack, tracker)) {
                     tracker.appendTooltip(stack, textConsumer);
                 }
@@ -138,13 +138,13 @@ public class TrackerUtil {
         }
     }
 
-    public static RegistryEntryList<Tracker> getTooltipOrder(@Nullable RegistryWrapper.WrapperLookup registries, RegistryKey<Registry<Tracker>> key, TagKey<Tracker> tag) {
+    public static HolderSet<Tracker> getTooltipOrder(@Nullable HolderLookup.Provider registries, ResourceKey<Registry<Tracker>> key, TagKey<Tracker> tag) {
         if (registries != null) {
-            Optional<RegistryEntryList.Named<Tracker>> optional = registries.getOrThrow(key).getOptional(tag);
+            Optional<HolderSet.Named<Tracker>> optional = registries.lookupOrThrow(key).get(tag);
             if (optional.isPresent()) {
                 return optional.get();
             }
         }
-        return RegistryEntryList.of();
+        return HolderSet.direct();
     }
 }

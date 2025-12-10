@@ -1,11 +1,11 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.StrangeItemsComponents;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.MutableText;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,17 +13,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public class CollectorsMixin {
-	@Shadow private ItemStack currentStack;
+	@Shadow private ItemStack lastToolHighlight;
 
 	@Inject(at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/client/font/TextRenderer;getWidth(Lnet/minecraft/text/StringVisitable;)I",
+			target = "Lnet/minecraft/client/gui/Font;width(Lnet/minecraft/network/chat/FormattedText;)I",
 			shift = At.Shift.BEFORE
-	), method = "renderHeldItemTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
-	private void adjust_color_for_collectors(DrawContext context, CallbackInfo ci, MutableText mutableText) {
-		if (this.currentStack.contains(StrangeItemsComponents.COLLECTORS_ITEM)) {
-			mutableText.formatted(Formatting.DARK_RED);
+	), method = "renderSelectedItemName", locals = LocalCapture.CAPTURE_FAILHARD)
+	private void adjust_color_for_collectors(GuiGraphics context, CallbackInfo ci, MutableComponent mutableText) {
+		if (this.lastToolHighlight.has(StrangeItemsComponents.COLLECTORS_ITEM)) {
+			mutableText.withStyle(ChatFormatting.DARK_RED);
 		}
 	}
 }

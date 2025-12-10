@@ -1,16 +1,16 @@
 package embin.strangeitems.mixin;
 
 import embin.strangeitems.tracker.Trackers;
-import net.minecraft.block.AbstractPlantStemBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.ShearsItem;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,9 +19,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ShearsItem.class)
 public abstract class ShearsMixin {
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;damage(ILnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/EquipmentSlot;)V"),
-        method = "useOnBlock", locals = LocalCapture.CAPTURE_FAILHARD)
-    public void shearMixin(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir, World world, BlockPos blockPos, BlockState blockState, Block block, AbstractPlantStemBlock abstractPlantStemBlock, PlayerEntity playerEntity, ItemStack itemStack, BlockState blockState2) {
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;hurtAndBreak(ILnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;)V"),
+        method = "useOn", locals = LocalCapture.CAPTURE_FAILHARD)
+    public void shearMixin(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir, Level world, BlockPos blockPos, BlockState blockState, Block block, GrowingPlantHeadBlock abstractPlantStemBlock, Player playerEntity, ItemStack itemStack, BlockState blockState2) {
         Trackers.PLANTS_TRIMMED.appendTracker(itemStack);
     }
 }

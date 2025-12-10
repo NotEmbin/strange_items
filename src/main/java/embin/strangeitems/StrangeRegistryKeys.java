@@ -4,18 +4,18 @@ import embin.strangeitems.tracker.MapTracker;
 import embin.strangeitems.tracker.TimestampTracker;
 import embin.strangeitems.tracker.Tracker;
 import embin.strangeitems.util.Id;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 
 public class StrangeRegistryKeys {
     /**
      * Registry key for the tracker registry.
      */
-    public static final RegistryKey<Registry<Tracker>> TRACKER = RegistryKey.ofRegistry(Id.of("tracker"));
+    public static final ResourceKey<Registry<Tracker>> TRACKER = ResourceKey.createRegistryKey(Id.of("tracker"));
 
     @Deprecated(forRemoval = true)
-    public static final RegistryKey<Registry<TimestampTracker>> TIMESTAMP_TRACKER = RegistryKey.ofRegistry(Id.of("timestamp_tracker"));
+    public static final ResourceKey<Registry<TimestampTracker>> TIMESTAMP_TRACKER = ResourceKey.createRegistryKey(Id.of("timestamp_tracker"));
 
     @Deprecated(forRemoval = true)
-    public static final RegistryKey<Registry<MapTracker>> MAP_TRACKER = RegistryKey.ofRegistry(Id.of("map_tracker"));
+    public static final ResourceKey<Registry<MapTracker>> MAP_TRACKER = ResourceKey.createRegistryKey(Id.of("map_tracker"));
 }

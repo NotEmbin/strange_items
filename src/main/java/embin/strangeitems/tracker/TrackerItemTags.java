@@ -1,13 +1,13 @@
 package embin.strangeitems.tracker;
 
 import embin.strangeitems.util.Id;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 public class TrackerItemTags {
     private static TagKey<Item> createTag(String name) {
-        return TagKey.of(RegistryKeys.ITEM, Id.of(name));
+        return TagKey.create(Registries.ITEM, Id.of(name));
     }
 
     public static final TagKey<Item> CAN_TRACK_STATS = createTag("can_track_stats");

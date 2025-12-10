@@ -1,9 +1,9 @@
 package embin.strangeitems;
 
 import embin.strangeitems.util.Id;
-import net.minecraft.component.ComponentType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 
 public class StrangeItemsComponents {
@@ -16,19 +16,19 @@ public class StrangeItemsComponents {
     );
     */
 
-    public static final ComponentType<Unit> COLLECTORS_ITEM = Registry.register(
-        Registries.DATA_COMPONENT_TYPE,
+    public static final DataComponentType<Unit> COLLECTORS_ITEM = Registry.register(
+        BuiltInRegistries.DATA_COMPONENT_TYPE,
         Id.of("strangeitems:collectors_item"),
-        ComponentType.<Unit>builder().codec(Unit.CODEC).build()
+        DataComponentType.<Unit>builder().persistent(Unit.CODEC).build()
     );
 
     /**
      * Items with this component will have every registered tracker on them and will increment them accordingly if they're capable of doing so.
      */
-    public static final ComponentType<Unit> HAS_ALL_TRACKERS = Registry.register(
-        Registries.DATA_COMPONENT_TYPE,
+    public static final DataComponentType<Unit> HAS_ALL_TRACKERS = Registry.register(
+        BuiltInRegistries.DATA_COMPONENT_TYPE,
         Id.of("strangeitems:has_all_trackers"),
-        ComponentType.<Unit>builder().codec(Unit.CODEC).build()
+        DataComponentType.<Unit>builder().persistent(Unit.CODEC).build()
     );
 
     protected static void init() {

@@ -3,10 +3,10 @@ package embin.strangeitems.tracker;
 import embin.strangeitems.StrangeItems;
 import embin.strangeitems.StrangeRegistries;
 import embin.strangeitems.util.Id;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.stat.StatFormatter;
+import net.minecraft.core.Registry;
+import net.minecraft.stats.StatFormatter;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 /**
  * Class containing all default registered trackers.
@@ -26,7 +26,7 @@ public class Trackers {
     public static final Tracker SHEEP_SHEARED = register("sheep_sheared", TrackerItemTags.TRACKER_SHEEP_SHEARED);
     public static final Tracker PLANTS_TRIMMED = register("plants_trimmed", TrackerItemTags.TRACKER_PLANTS_TRIMMED);
     public static final Tracker SHOTS_FIRED = register("shots_fired", TrackerItemTags.TRACKER_SHOTS_FIRED);
-    public static final Tracker SHOTS_HIT = register("shots_hit", TrackerItemTags.TRACKER_SHOTS_HIT);
+    public static final MapTracker SHOTS_HIT = registerMap("shots_hit", "entity", TrackerItemTags.TRACKER_SHOTS_HIT);
     public static final Tracker DAMAGE_DEALT = register("damage_dealt", TrackerItemTags.TRACKER_DAMAGE_DEALT, StatFormatter.DIVIDE_BY_TEN, 1);
     public static final Tracker TRIDENT_THROWN = register("trident_thrown", TrackerItemTags.TRACKER_TRIDENT_THROWN);
     public static final Tracker BLOCKS_BRUSHED = register("blocks_brushed", TrackerItemTags.TRACKER_BLOCKS_BRUSHED);

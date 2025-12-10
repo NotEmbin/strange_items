@@ -1,11 +1,11 @@
 package embin.strangeitems.mixin;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(World.class)
+@Mixin(Level.class)
 public class ExampleMixin {
 
 	/**
@@ -13,7 +13,7 @@ public class ExampleMixin {
 	 * @reason Test
 	 */
 	@Overwrite
-	private static boolean isValidHorizontally(BlockPos pos) {
+	private static boolean isInWorldBoundsHorizontal(BlockPos pos) {
 		return true;
 	}
 
@@ -22,7 +22,7 @@ public class ExampleMixin {
 	 * @reason Test
 	 */
 	@Overwrite
-	private static boolean isInvalidVertically(int y) {
+	private static boolean isOutsideSpawnableHeight(int y) {
 		return false;
 	}
 }

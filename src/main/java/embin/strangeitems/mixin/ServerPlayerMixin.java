@@ -1,32 +1,41 @@
 package embin.strangeitems.mixin;
 
+import embin.strangeitems.event.ServerPlayerEvents;
 import embin.strangeitems.tracker.Trackers;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ServerPlayerEntity.class)
+@Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
-    @Inject(method = "dropItem", at = @At(value = "RETURN"))
+    @Inject(method = "drop*", at = @At(value = "HEAD"))
     public void dropItemMixin(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
         if (!stack.isEmpty()) {
             Trackers.TIMES_DROPPED.appendTracker(stack);
         }
     }
 
-    @Inject(method = "playerTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;incrementStat(Lnet/minecraft/util/Identifier;)V", ordinal = 3))
+    @Inject(method = "doTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;awardStat(Lnet/minecraft/resources/Identifier;)V", ordinal = 3))
     public void whenSneaking(CallbackInfo ci) {
-        PlayerEntity player = (PlayerEntity)(Object) this;
-        ItemStack legs_stack = player.getEquippedStack(EquipmentSlot.LEGS);
-        if (!legs_stack.isEmpty()) {
-            Trackers.TIME_SNEAKING.appendTracker(legs_stack);
+        ServerPlayer player = (ServerPlayer)(Object) this;
+        InteractionResult result = ServerPlayerEvents.WHEN_CROUCHING.invoker().whenCrouching(player);
+        if (result == InteractionResult.FAIL) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "doTick", at = @At(value = "HEAD"), cancellable = true)
+    public void tickEvents(CallbackInfo ci) {
+        ServerPlayer player = (ServerPlayer)(Object) this;
+        InteractionResult result = ServerPlayerEvents.ON_TICK.invoker().tick(player);
+        if (result == InteractionResult.FAIL) {
+            ci.cancel();
         }
     }
 }
