@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 public class StrangeItemsClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("strangeitems/client");
     public static final KeyMapping.Category STRANGEKEYS = KeyMapping.Category.register(Id.of("keys"));
-    public static final KeyMapping.Category STRANGEKEYS_DEBUG = KeyMapping.Category.register(Id.of("debug"));
 
     private static KeyMapping keybind(String translation, int key) {
         return new KeyMapping(
@@ -32,15 +31,6 @@ public class StrangeItemsClient implements ClientModInitializer {
                 InputConstants.Type.KEYSYM,
                 key,
                 STRANGEKEYS
-        ));
-    }
-
-    private static KeyMapping debugKeybind(String translation, int key) {
-        return KeyBindingHelper.registerKeyBinding(new KeyMapping(
-                "key.strangeitems." + translation,
-                InputConstants.Type.KEYSYM,
-                key,
-                STRANGEKEYS_DEBUG
         ));
     }
 
